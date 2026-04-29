@@ -1,0 +1,618 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from pixner.net/bankio/main/card.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Apr 2026 15:45:32 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bankio - HTML Template</title>
+
+    <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/plugin/nice-select.css">
+    <link rel="stylesheet" href="assets/css/plugin/slick.css">
+    <link rel="stylesheet" href="assets/css/arafat-font.css">
+    <link rel="stylesheet" href="assets/css/plugin/animate.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
+    <link rel="stylesheet" href="assets/css/style-rtl.min.css" disabled id="rtl-stylesheet">
+</head>
+
+<body>
+
+    <!-- start LTR to RTL -->
+    <div class="position-fixed d-flex flex-column text-center" id="draggableDiv">
+        <button id="btn-ltr" class="cmn-btn rounded-2 py-2 px-3">LTR</button>
+        <span class="draggable py-2"><i class="fas fa-arrows-alt xxlr m-0"></i></span>
+        <button id="btn-rtl" class="cmn-btn rounded-2 py-2 px-3">RTL</button>
+    </div>
+    <!-- end LTR to RTL -->
+
+    <!-- start preloader -->
+    <div class="preloader" id="preloader"></div>
+    <!-- end preloader -->
+
+    <!-- Scroll To Top Start-->
+    <a href="javascript:void(0)" class="scrollToTop"><i class="fas fa-angle-double-up"></i></a>
+    <!-- Scroll To Top End -->
+
+    <!-- header-section start -->
+    <header class="header-section">
+        <div class="overlay">
+          <div class="container">
+            <div class="row d-flex header-area">
+              <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="index.html">
+                  <img src="assets/images/logo.png" class="logo" alt="logo">
+                </a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#navbar-content">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar-content">
+                  <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item dropdown main-navbar">
+                      <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside">Product</a>
+                      <ul class="dropdown-menu main-menu shadow">
+                        <li class="dropend sub-navbar">
+                            <a href="javascript:void(0)" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+                              data-bs-auto-close="outside">Account</a>
+                            <ul class="dropdown-menu sub-menu shadow">
+                              <li><a class="nav-link" href="account.html">Account</a></li>
+                              <li><a class="nav-link" href="account-details.html">Account Details</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="nav-link" href="product.html">Product</a></li>
+                        <li class="dropend sub-navbar">
+                          <a href="javascript:void(0)" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside">Loan</a>
+                          <ul class="dropdown-menu sub-menu shadow">
+                            <li><a class="nav-link" href="business-loan.html">Business Loans</a></li>
+                            <li><a class="nav-link" href="educations-loan.html">Educations Loans</a></li>
+                            <li><a class="nav-link" href="home-loan.html">Home Loans</a></li>
+                            <li><a class="nav-link" href="car-loan.html">Car Loans</a></li>
+                            <li><a class="nav-link" href="personal-loan.html">Personal Loans</a></li>
+                          </ul>
+                        </li>
+                        <li><a class="nav-link" href="card.html">Card</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown main-navbar">
+                      <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside">Pages</a>
+                      <ul class="dropdown-menu main-menu shadow">
+                        <li><a class="nav-link" href="affiliate.html">Affiliate</a></li>
+                        <li class="dropend sub-navbar">
+                          <a href="javascript:void(0)" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside">Blog</a>
+                          <ul class="dropdown-menu sub-menu shadow">
+                            <li><a class="nav-link" href="blog-list.html">Blog List</a></li>
+                            <li><a class="nav-link" href="blog-grid.html">Blog Grid</a></li>
+                            <li><a class="nav-link" href="blog-single.html">Blog Single</a></li>
+                          </ul>
+                        </li>
+                        <li><a class="nav-link" href="remittance.html">Remittance</a></li>
+                        <li><a class="nav-link" href="career-single.html">Career Single</a></li>
+                        <li><a class="nav-link" href="faqs.html">Faqs</a></li>
+                        <li><a class="nav-link" href="login.html">Login</a></li>
+                        <li><a class="nav-link" href="password-set.html">Password Set</a></li>
+                        <li><a class="nav-link" href="varify-number.html">Varify Number</a></li>
+                        <li><a class="nav-link" href="otp.html">OTP</a></li>
+                        
+                        <li><a class="nav-link" href="terms-conditions.html">Terms Conditions</a></li>
+                        <li><a class="nav-link" href="privacy-policy.html">Privacy Policy</a></li>
+                        
+                      </ul>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                  </ul>
+                  <div class="right-area header-action d-flex align-items-center">
+                    <a href="register.html" class="cmn-btn">Open Account</a>
+                </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+    <!-- header-section end -->
+
+    <!-- banner-section start -->
+    <section class="banner-section inner-banner card-banner">
+        <div class="overlay">
+            <div class="banner-content d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-lg-7 col-md-10">
+                            <div class="main-content banner-mar">
+                                <div class="section-text">
+                                    <h5 class="sub-title">Add value to your life</h5>
+                                    <h2 class="title">Global Expansion Made Easy</h2>
+                                    <p>Accelerate your ambitions with the Bankio Debit and Credit Cards that comes with no annual fee, a high credit limit.</p>
+                                </div>
+                                <a href="register.html" class="cmn-btn">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- banner-section end -->
+
+    <!-- Feature In start -->
+    <section class="account-feature features">
+        <div class="overlay pt-120 pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="section-header text-center">
+                            <h5 class="sub-title">Boost your savings with the right credit card</h5>
+                            <h2 class="title">Access Endless Possibilities With Bankio Card</h2>
+                            <p>All your needs covered with a full range of credit and debit cards.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cus-mar">
+                    <div class="col-md-4">
+                        <div class="single-box">
+                            <div class="icon-box">
+                                <img src="assets/images/icon/card-feature-1.png" alt="icon">
+                            </div>
+                            <h5>No annual fees</h5>
+                            <p>Most good things in life are free. We value your hard-earned money too much to charge an annual fee.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="single-box">
+                            <div class="icon-box">
+                                <img src="assets/images/icon/account-feature-2.png" alt="icon">
+                            </div>
+                            <h5>No foreign exchange fees</h5>
+                            <p>You may be in the different country, but part of you will always be home. Save as you swipe in two countries</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="single-box">
+                            <div class="icon-box">
+                                <img src="assets/images/icon/account-feature-3.png" alt="icon">
+                            </div>
+                            <h5>No SSN Needed</h5>
+                            <p>Good credit is for everyone. We just need your basic personal information, visa and passport for identification .</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature In end -->
+
+    <!-- Call to action In start -->
+    <section class="call-action card-page">
+        <div class="overlay pt-120">
+            <div class="container wow fadeInUp">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="section-header text-center">
+                            <h2 class="title">Rewards So Awesome, You'll be Spoiled for Choice</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="main-content">
+                            <div class="row mb-60">
+                                <div class="col-sm-4">
+                                    <div class="single">
+                                        <h3>5%-10%</h3>
+                                        <p class="xlr">Cashback</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="single">
+                                        <h3>10k+</h3>
+                                        <p class="xlr">Merchants</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="single">
+                                        <h3>Giftcards</h3>
+                                        <p class="xlr">For your friends & family</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom-area text-center">
+                                <a href="register.html" class="cmn-btn">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Call to action In end -->
+
+    <!-- Card Feature In start -->
+    <section class="card-feature pt-120">
+        <div class="overlay">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <div class="img-area">
+                            <img src="assets/images/card-left-Illus.png" class="max-un" alt="Images">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card-carousel">
+                            <div class="single-item">
+                                <div class="single">
+                                    <div class="text-areas">
+                                        <h2 class="title">Feel Great When You Spend</h2>
+                                        <p>The Bankio Card offers amazing rewards and benefits on our partner stores.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-item">
+                                <div class="single">
+                                    <div class="text-areas">
+                                        <h2 class="title">No Security Deposit needed</h2>
+                                        <p>For us trust is not just a word but action. you don’t need a security deposit to get a high credit limit with Bankio.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-item">
+                                <div class="single">
+                                    <div class="text-areas">
+                                        <h2 class="title">A Credit Limit that Feels Unlimited</h2>
+                                        <p>Your journey to greatness shouldn’t be confined by credit limits! Which is why we provide a high credit limit.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Card Feature In end -->
+
+    <!-- Choose Your card In start -->
+    <section class="choose-card">
+        <div class="overlay pt-120 pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="section-header text-center">
+                            <h5 class="sub-title">Grow Your Confidence</h5>
+                            <h2 class="title">Choose the Card that Matches Your Needs</h2>
+                            <p>We have a fine range of accounts to help you manage your finances seamlessly</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center cus-mar">
+                    <div class="col-lg-12 text-center">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="credit-tab" data-bs-toggle="tab" data-bs-target="#credit" type="button" role="tab" aria-controls="credit" aria-selected="true">Credit Card</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="debit-tab" data-bs-toggle="tab" data-bs-target="#debit" type="button" role="tab" aria-controls="debit" aria-selected="false">Debit Card</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="credit" role="tabpanel" aria-labelledby="credit-tab">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-1.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-2.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-3.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="debit" role="tabpanel" aria-labelledby="debit-tab">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-2.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-1.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="single-card">
+                                            <img src="assets/images/card-3.png" alt="images">
+                                            <div class="btn-area">
+                                                <a href="register.html" class="cmn-btn">Get Started Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Choose Your Card In end -->
+
+    <!-- Call to action In start -->
+    <section class="call-action card-page second">
+        <div class="overlay pt-120 pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="section-text text-center">
+                            <h2 class="title">Now it's time to switch old ways to track expenses smarter</h2>
+                            <p>What are you waiting for? It's time to get started.</p>
+                        </div>
+                        <div class="btn-area text-center">
+                            <a href="register.html" class="cmn-btn">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Call to action In end -->
+
+    <!-- FAQs In start -->
+    <section class="faqs-section account">
+        <div class="overlay pt-120 pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="section-header text-center">
+                            <h5 class="sub-title">If you have question,we have answer</h5>
+                            <h2 class="title">Frequently asked questions</h2>
+                            <p>Get answers to all questions you have and boost your knowledge so you can save, invest and spend smarter. <a href="faqs.html">See all questions here!</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-8">
+                        <div class="faq-box wow fadeInUp">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            How do I locate the nearesty branch or ATM?
+                                        </button>
+                                    </h5>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            What do I do if I lose my card or it gets stolen?
+                                        </button>
+                                    </h5>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            What is your customer service number?
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            How do I reset my pin?
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingsix">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesix" aria-expanded="false" aria-controls="collapsesix">
+                                            What is required to use Digital Banking?
+                                        </button>
+                                    </h5>
+                                    <div id="collapsesix" class="accordion-collapse collapse" aria-labelledby="headingsix" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h5 class="accordion-header" id="headingsaven">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesaven" aria-expanded="false" aria-controls="collapsesaven">
+                                            Is digital banking secure?
+                                        </button>
+                                    </h5>
+                                    <div id="collapsesaven" class="accordion-collapse collapse" aria-labelledby="headingsaven" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>If your card is missing, let us know immediately. We’ll block your card right away send over a new one on the same day.To report a lost or stolen card, call us at (406) 555-0120.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQs In end -->
+
+    <!-- Get Start In start -->
+    <section class="get-start wow fadeInUp">
+        <div class="overlay">
+            <div class="container">
+                <div class="col-12">
+                    <div class="get-content">
+                        <div class="section-text">
+                            <h3 class="title">Ready to get started?</h3>
+                            <p>It only takes a few minutes to register your FREE Bankio account.</p>
+                        </div>
+                        <a href="register.html" class="cmn-btn">Open an Account</a>
+                        <img src="assets/images/get-start.png" alt="images">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Get Start In end -->
+
+    <!-- Footer Area Start -->
+    <div class="footer-section">
+        <div class="container pt-120">
+            <div class="row cus-mar pt-120 pb-120 justify-content-between wow fadeInUp">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-6">
+                    <div class="footer-box">
+                        <a href="index.html" class="logo">
+                            <img src="assets/images/logo.png" alt="logo">
+                        </a>
+                        <p>A modern, technology-first bank built for you and your growing business.</p>
+                        <div class="social-link d-flex align-items-center">
+                            <a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
+                            <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
+                            <a href="javascript:void(0)"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-6">
+                    <div class="footer-box">
+                        <h5>Company</h5>
+                        <ul class="footer-link">
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="about.html">Awards</a></li>
+                            <li><a href="career-single.html">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-6">
+                    <div class="footer-box">
+                        <h5>Useful Links</h5>
+                        <ul class="footer-link">
+                            <li><a href="product.html">Products</a></li>
+                            <li><a href="business-loan.html">Business Loan</a></li>
+                            <li><a href="affiliate.html">Affiliate Program</a></li>
+                            <li><a href="blog-list.html">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-6">
+                    <div class="footer-box">
+                        <h5>Support</h5>
+                        <ul class="footer-link">
+                            <li><a href="https://pixner.net/cdn-cgi/l/email-protection#82f1f7f2f2edf0f6c2e0e3ece9ebed">Support@bankio</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="faqs.html">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-8">
+                    <div class="footer-box">
+                        <h5>Subscribe</h5>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" placeholder="Enter Your Email address">
+                                <button class="cmn-btn">Subscribe</button>
+                            </div>
+                        </form>
+                        <p>Get the latest updates via email. Any time you may unsubscribe</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-bottom">
+                        <div class="left">
+                            <p> Copyright © <a href="index.html">Bankio</a> | Designed by
+                                <a href="https://themeforest.net/user/pixelaxis">PIXELAXIS</a>
+                            </p>
+                        </div>
+                        <div class="right">
+                            <a href="privacy-policy.html" class="cus-bor">Privacy </a>
+                            <a href="terms-conditions.html">Terms &amp; Condition </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="img-area">
+            <img src="assets/images/footer-Illu-left.png" class="left" alt="Images">
+            <img src="assets/images/footer-Illu-right.png" class="right" alt="Images">
+        </div>
+    </div>
+    <!-- Footer Area End -->
+
+    <!--==================================================================-->
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/fontawesome.js"></script>
+    <script src="assets/js/plugin/slick.js"></script>
+    <script src="assets/js/plugin/apexcharts.min.js"></script>
+    <script src="assets/js/plugin/waypoint.min.js"></script>
+    <script src="assets/js/plugin/counter.js"></script>
+    <script src="assets/js/plugin/jquery.nice-select.min.js"></script>
+    <script src="assets/js/plugin/wow.min.js"></script>
+    <script src="assets/js/plugin/plugin.js"></script>
+    <script src="assets/js/main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6e6444122ed94892b6dff27396bb5627","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+
+<!-- Mirrored from pixner.net/bankio/main/card.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Apr 2026 15:45:35 GMT -->
+</html>
