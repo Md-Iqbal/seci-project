@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bankio - Bank Account Opening Form</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4461f2;
+            --primary-hover: #3651d4;
+            --secondary-color: #1e2a4a;
+            --accent-color: #f4a81b;
+            --bg-gradient-start: #1e2a4a;
+            --bg-gradient-end: #0f172a;
+            --text-primary: #1e2a4a;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header-section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-section .overlay {
+            background: linear-gradient(135deg, rgba(30, 42, 74, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4461f2 0%, #7c3aed 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon i {
+            color: white;
+            font-size: 22px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .cmn-btn {
+            background: linear-gradient(135deg, #4461f2 0%, #5b3ae8 100%);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cmn-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(68, 97, 242, 0.35);
+        }
+
+        .cmn-btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            padding: 12px 28px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cmn-btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Main Section */
+        .main-section {
+            padding: 50px 0 80px;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Step Progress */
+        .step-progress {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-number {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            background: #e5e7eb;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+
+        .step-item.active .step-number {
+            background: linear-gradient(135deg, #4461f2 0%, #5b3ae8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(68, 97, 242, 0.35);
+        }
+
+        .step-item.completed .step-number {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .step-item.active .step-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .step-connector {
+            width: 80px;
+            height: 3px;
+            background: #e5e7eb;
+            margin: 0 20px;
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        .step-connector.completed {
+            background: var(--success-color);
+        }
+
+        /* Form Content */
+        .form-content {
+            padding: 50px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header .sub-title {
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .section-header .title {
+            color: var(--text-primary);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Section Title */
+        .form-section-title {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-section-title i {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        /* Form Fields */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .single-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .single-input label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .single-input label .required {
+            color: var(--error-color);
+            margin-left: 2px;
+        }
+
+        .single-input input,
+        .single-input select,
+        .single-input textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            color: var(--text-primary);
+            background: var(--input-bg);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .single-input input:focus,
+        .single-input select:focus,
+        .single-input textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(68, 97, 242, 0.1);
+        }
+
+        .single-input input::placeholder,
+        .single-input textarea::placeholder {
+            color: var(--text-light);
+        }
+
+        .single-input textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Radio & Checkbox Groups */
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .radio-label,
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            background: var(--input-bg);
+        }
+
+        .radio-label:hover,
+        .checkbox-label:hover {
+            border-color: var(--primary-color);
+            background: white;
+        }
+
+        .radio-label input,
+        .checkbox-label input {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-label:has(input:checked),
+        .checkbox-label:has(input:checked) {
+            border-color: var(--primary-color);
+            background: rgba(68, 97, 242, 0.05);
+        }
+
+        /* File Upload */
+        .photo-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            background: var(--input-bg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-upload:hover {
+            border-color: var(--primary-color);
+            background: white;
+        }
+
+        .photo-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            background: rgba(68, 97, 242, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-icon i {
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+
+        .upload-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(68, 97, 242, 0.3);
+        }
+
+        .upload-hint {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .file-name {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Declaration Box */
+        .declaration-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fcd34d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .declaration-box label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .declaration-box input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            margin-top: 2px;
+            accent-color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        /* Button Area */
+        .btn-area {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-area .cmn-btn,
+        .btn-area .cmn-btn-outline {
+            padding: 16px 40px;
+            font-size: 16px;
+        }
+
+        /* Success Page */
+        .success-content {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon i {
+            font-size: 45px;
+            color: var(--success-color);
+        }
+
+        .success-content h2 {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .success-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .application-id {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 10px;
+            padding: 20px 30px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .application-id span {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .application-id strong {
+            font-size: 22px;
+            color: var(--success-color);
+            margin-left: 10px;
+        }
+
+        .next-steps {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .next-steps h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+        }
+
+        .next-steps li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .next-steps li i {
+            color: var(--success-color);
+            margin-top: 2px;
+        }
+
+        /* Step Navigation */
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-content {
+                padding: 30px 20px;
+            }
+
+            .section-header .title {
+                font-size: 26px;
+            }
+
+            .step-progress {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 20px;
+            }
+
+            .step-connector {
+                display: none;
+            }
+
+            .step-item {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .step-number {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .step-label {
+                font-size: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+            }
+
+            .btn-area,
+            .nav-buttons {
+                flex-direction: column-reverse;
+            }
+
+            .cmn-btn,
+            .cmn-btn-outline {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header-text {
+                display: none;
+            }
+        }
+
+        /* Error State */
+        .input-error {
+            border-color: var(--error-color) !important;
+            background: #fef2f2 !important;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-content.active {
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header-section">
+        <div class="overlay">
+            <div class="container">
+                <nav class="navbar">
+                    <a href="#" class="navbar-brand">
+                        <div class="logo-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <span class="logo-text">Bankio</span>
+                    </a>
+                    <div class="header-right">
+                        <span class="header-text">Already have an account?</span>
+                        <a href="#" class="cmn-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login Now
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Form Section -->
+    <section class="main-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-card">
+                    <!-- Step Progress -->
+                    <div class="step-progress">
+                        <div class="step-item active" data-step="1">
+                            <div class="step-number">1</div>
+                            <span class="step-label">Personal</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item" data-step="2">
+                            <div class="step-number">2</div>
+                            <span class="step-label">Contact</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item" data-step="3">
+                            <div class="step-number">3</div>
+                            <span class="step-label">ID & Account</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item" data-step="4">
+                            <div class="step-number">4</div>
+                            <span class="step-label">Nominee</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item" data-step="5">
+                            <div class="step-number">5</div>
+                            <span class="step-label">Documents</span>
+                        </div>
+                    </div>
+
+                    <!-- Form Content -->
+                    <div class="form-content">
+                        <form id="accountForm">
+                            <!-- Step 1: Personal Information -->
+                            <div class="step-content active" id="step1">
+                                <div class="section-header">
+                                    <h5 class="sub-title">Step 1 of 5</h5>
+                                    <h2 class="title">Personal Information</h2>
+                                    <p>Please provide your personal details accurately</p>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-user"></i>
+                                    Basic Details
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>First Name <span class="required">*</span></label>
+                                        <input type="text" name="firstName" placeholder="Enter your first name"
+                                            required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Last Name <span class="required">*</span></label>
+                                        <input type="text" name="lastName" placeholder="Enter your last name" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Date of Birth <span class="required">*</span></label>
+                                        <input type="date" name="dob" required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Marital Status</label>
+                                        <select name="maritalStatus">
+                                            <option value="">Select Status</option>
+                                            <option value="single">Single</option>
+                                            <option value="married">Married</option>
+                                            <option value="divorced">Divorced</option>
+                                            <option value="widowed">Widowed</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="single-input">
+                                    <label>Gender <span class="required">*</span></label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="gender" value="male" required>
+                                            Male
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="gender" value="female">
+                                            Female
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="gender" value="other">
+                                            Other
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Nationality <span class="required">*</span></label>
+                                        <input type="text" name="nationality" placeholder="Enter your nationality"
+                                            required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Occupation</label>
+                                        <input type="text" name="occupation" placeholder="Enter your occupation">
+                                    </div>
+                                </div>
+
+                                <div class="btn-area">
+                                    <button type="button" class="cmn-btn" onclick="nextStep(1)">
+                                        Continue to Contact Info
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Contact Information -->
+                            <div class="step-content" id="step2">
+                                <div class="section-header">
+                                    <h5 class="sub-title">Step 2 of 5</h5>
+                                    <h2 class="title">Contact Information</h2>
+                                    <p>How can we reach you?</p>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact Details
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Email Address <span class="required">*</span></label>
+                                        <input type="email" name="email" placeholder="example@email.com" required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Phone Number <span class="required">*</span></label>
+                                        <input type="tel" name="phone" placeholder="+1 234 567 8900" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Residential Address
+                                </div>
+
+                                <div class="single-input">
+                                    <label>Full Address <span class="required">*</span></label>
+                                    <textarea name="address" placeholder="Enter your complete address"
+                                        required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>City <span class="required">*</span></label>
+                                        <input type="text" name="city" placeholder="Enter city" required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>State/Province <span class="required">*</span></label>
+                                        <input type="text" name="state" placeholder="Enter state" required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>ZIP/Postal Code <span class="required">*</span></label>
+                                        <input type="text" name="zip" placeholder="Enter ZIP" required>
+                                    </div>
+                                </div>
+
+                                <div class="nav-buttons">
+                                    <button type="button" class="cmn-btn-outline" onclick="prevStep(2)">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Previous
+                                    </button>
+                                    <button type="button" class="cmn-btn" onclick="nextStep(2)">
+                                        Continue to ID Details
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: ID & Account Details -->
+                            <div class="step-content" id="step3">
+                                <div class="section-header">
+                                    <h5 class="sub-title">Step 3 of 5</h5>
+                                    <h2 class="title">ID & Account Details</h2>
+                                    <p>Verify your identity and choose your account type</p>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-id-card"></i>
+                                    Identification Details
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>ID Type <span class="required">*</span></label>
+                                        <select name="idType" required>
+                                            <option value="">Select ID Type</option>
+                                            <option value="passport">Passport</option>
+                                            <option value="driving-license">Driving License</option>
+                                            <option value="national-id">National ID Card</option>
+                                            <option value="ssn">Social Security Number</option>
+                                        </select>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>ID Number <span class="required">*</span></label>
+                                        <input type="text" name="idNumber" placeholder="Enter ID number" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Issue Date</label>
+                                        <input type="date" name="issueDate">
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Expiry Date</label>
+                                        <input type="date" name="expiryDate">
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-university"></i>
+                                    Account Details
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Account Type <span class="required">*</span></label>
+                                        <select name="accountType" required>
+                                            <option value="">Select Account Type</option>
+                                            <option value="savings">Savings Account</option>
+                                            <option value="current">Current Account</option>
+                                            <option value="fixed-deposit">Fixed Deposit</option>
+                                            <option value="salary">Salary Account</option>
+                                        </select>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Initial Deposit Amount <span class="required">*</span></label>
+                                        <input type="number" name="deposit" placeholder="$0.00" min="0" step="0.01"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="single-input">
+                                    <label>Purpose of Account</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="purpose" value="personal">
+                                            Personal Use
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="purpose" value="business">
+                                            Business
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="purpose" value="savings">
+                                            Savings
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="purpose" value="investment">
+                                            Investment
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="nav-buttons">
+                                    <button type="button" class="cmn-btn-outline" onclick="prevStep(3)">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Previous
+                                    </button>
+                                    <button type="button" class="cmn-btn" onclick="nextStep(3)">
+                                        Continue to Nominee
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Nominee Information -->
+                            <div class="step-content" id="step4">
+                                <div class="section-header">
+                                    <h5 class="sub-title">Step 4 of 5</h5>
+                                    <h2 class="title">Nominee Information</h2>
+                                    <p>This section is optional but recommended</p>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-user-friends"></i>
+                                    Nominee Details (Optional)
+                                </div>
+
+                                <div
+                                    style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 20px; margin-bottom: 30px;">
+                                    <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                        <i class="fas fa-info-circle"
+                                            style="color: #0284c7; font-size: 24px; margin-top: 2px;"></i>
+                                        <div>
+                                            <h4
+                                                style="font-size: 15px; font-weight: 600; color: #0369a1; margin-bottom: 5px;">
+                                                Why add a nominee?</h4>
+                                            <p style="font-size: 14px; color: #0369a1; line-height: 1.6;">
+                                                A nominee ensures that in case of any unfortunate event, your account
+                                                balance
+                                                and assets are smoothly transferred to the person you trust.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Nominee Name</label>
+                                        <input type="text" name="nomineeName" placeholder="Enter nominee name">
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Relationship</label>
+                                        <input type="text" name="relationship"
+                                            placeholder="e.g., Spouse, Parent, Sibling">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="single-input">
+                                        <label>Nominee Phone</label>
+                                        <input type="tel" name="nomineePhone" placeholder="+1 234 567 8900">
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Nominee Date of Birth</label>
+                                        <input type="date" name="nomineeDob">
+                                    </div>
+                                </div>
+
+                                <div class="nav-buttons">
+                                    <button type="button" class="cmn-btn-outline" onclick="prevStep(4)">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Previous
+                                    </button>
+                                    <button type="button" class="cmn-btn" onclick="nextStep(4)">
+                                        Continue to Documents
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Document Upload -->
+                            <div class="step-content" id="step5">
+                                <div class="section-header">
+                                    <h5 class="sub-title">Step 5 of 5</h5>
+                                    <h2 class="title">Document Upload</h2>
+                                    <p>Upload required documents to complete your application</p>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-camera"></i>
+                                    Upload Photograph
+                                </div>
+
+                                <div class="single-input">
+                                    <label>Your Photograph <span class="required">*</span></label>
+                                    <div class="photo-upload" onclick="document.getElementById('photo').click()">
+                                        <input type="file" id="photo" name="photo" accept="image/*" required>
+                                        <div class="upload-icon">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                        <span class="upload-btn">Choose Photo</span>
+                                        <p class="upload-hint">Accepted formats: JPG, PNG (Max 2MB)</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-file-alt"></i>
+                                    Upload ID Document
+                                </div>
+
+                                <div class="single-input">
+                                    <label>ID Document <span class="required">*</span></label>
+                                    <div class="photo-upload" onclick="document.getElementById('idDocument').click()">
+                                        <input type="file" id="idDocument" name="idDocument" accept=".pdf,.jpg,.png"
+                                            required>
+                                        <div class="upload-icon">
+                                            <i class="fas fa-file-upload"></i>
+                                        </div>
+                                        <span class="upload-btn">Choose Document</span>
+                                        <p class="upload-hint">Accepted formats: PDF, JPG, PNG (Max 5MB)</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-section-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    Declaration
+                                </div>
+
+                                <div class="declaration-box">
+                                    <label>
+                                        <input type="checkbox" name="declaration" required>
+                                        <span>I hereby declare that the information provided above is true and correct
+                                            to the best of my knowledge. I agree to the terms and conditions of the bank
+                                            and authorize the bank to verify the information provided.</span>
+                                    </label>
+                                </div>
+
+                                <div class="nav-buttons">
+                                    <button type="button" class="cmn-btn-outline" onclick="prevStep(5)">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Previous
+                                    </button>
+                                    <button type="submit" class="cmn-btn">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Submit Application
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Success Page -->
+                            <div class="step-content" id="successPage">
+                                <div class="success-content">
+                                    <div class="success-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <h2>Application Submitted Successfully!</h2>
+                                    <p>Thank you for your application. Our team will review your details and get back to
+                                        you within 2-3 business days.</p>
+
+                                    <div class="application-id">
+                                        <span>Your Application ID:</span>
+                                        <strong id="generatedAppId">BANK-2024-001</strong>
+                                    </div>
+
+                                    <div class="next-steps">
+                                        <h4>What happens next?</h4>
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-check-circle"></i>
+                                                Our team will verify your documents and information
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-check-circle"></i>
+                                                You will receive an email confirmation within 24 hours
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-check-circle"></i>
+                                                Once approved, you can activate your account at any branch
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-area" style="margin-top: 30px;">
+                                        <button type="button" class="cmn-btn-outline" onclick="window.print()">
+                                            <i class="fas fa-print"></i>
+                                            Print Confirmation
+                                        </button>
+                                        <button type="button" class="cmn-btn" onclick="resetForm()">
+                                            <i class="fas fa-plus"></i>
+                                            New Application
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function updateStepProgress() {
+            document.querySelectorAll('.step-item').forEach((item, index) => {
+                const stepNum = index + 1;
+                item.classList.remove('active', 'completed');
+
+                if (stepNum === currentStep) {
+                    item.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    item.classList.add('completed');
+                }
+            });
+
+            document.querySelectorAll('.step-connector').forEach((connector, index) => {
+                connector.classList.toggle('completed', index + 1 < currentStep);
+            });
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            if (step === 'success') {
+                document.getElementById('successPage').classList.add('active');
+            } else {
+                document.getElementById('step' + step).classList.add('active');
+            }
+        }
+
+        function validateStep(step) {
+            const stepElement = document.getElementById('step' + step);
+            const requiredFields = stepElement.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    isValid = false;
+                    field.classList.add('input-error');
+                } else {
+                    field.classList.remove('input-error');
+                }
+            });
+
+            return isValid;
+        }
+
+        function nextStep(current) {
+            if (!validateStep(current)) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (current < totalSteps) {
+                currentStep = current + 1;
+                showStep(currentStep);
+                updateStepProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevStep(current) {
+            if (current > 1) {
+                currentStep = current - 1;
+                showStep(currentStep);
+                updateStepProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function generateApplicationId() {
+            const year = new Date().getFullYear();
+            const random = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+            return `BANK-${year}-${random}`;
+        }
+
+        function resetForm() {
+            document.getElementById('accountForm').reset();
+            currentStep = 1;
+            showStep(1);
+            updateStepProgress();
+
+            // Reset file upload displays
+            document.querySelectorAll('.file-name').forEach(el => el.remove());
+
+            // Reset error states
+            document.querySelectorAll('.input-error').forEach(el => {
+                el.classList.remove('input-error');
+            });
+        }
+
+        // Form submission
+        document.getElementById('accountForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!validateStep(5)) {
+                alert('Please fill in all required fields and accept the declaration.');
+                return;
+            }
+
+            // Generate application ID
+            const appId = generateApplicationId();
+            document.getElementById('generatedAppId').textContent = appId;
+
+            // Show success page
+            showStep('success');
+
+            // Hide step progress on success
+            document.querySelector('.step-progress').style.display = 'none';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // File upload feedback
+        document.getElementById('photo').addEventListener('change', function () {
+            const fileName = this.files[0]?.name;
+            const container = this.closest('.photo-upload');
+            const existingFileName = container.querySelector('.file-name');
+
+            if (existingFileName) {
+                existingFileName.remove();
+            }
+
+            if (fileName) {
+                const fileNameEl = document.createElement('p');
+                fileNameEl.className = 'file-name';
+                fileNameEl.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981; margin-right: 5px;"></i>' + fileName;
+                container.appendChild(fileNameEl);
+            }
+        });
+
+        document.getElementById('idDocument').addEventListener('change', function () {
+            const fileName = this.files[0]?.name;
+            const container = this.closest('.photo-upload');
+            const existingFileName = container.querySelector('.file-name');
+
+            if (existingFileName) {
+                existingFileName.remove();
+            }
+
+            if (fileName) {
+                const fileNameEl = document.createElement('p');
+                fileNameEl.className = 'file-name';
+                fileNameEl.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981; margin-right: 5px;"></i>' + fileName;
+                container.appendChild(fileNameEl);
+            }
+        });
+
+        // Remove error state on input
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function () {
+                this.classList.remove('input-error');
+            });
+        });
+    </script>
+</body>
+
+</html>
