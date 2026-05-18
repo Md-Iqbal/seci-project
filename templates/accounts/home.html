@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">Welcome to Sonali Bank</h1>
+            <p class="lead">Open your account online in just a few minutes!</p>
+            <hr class="my-4">
+            <p>Join millions of satisfied customers and experience world-class banking services.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'apply_account' %}" role="button">
+                <i class="bi bi-file-earmark-text"></i> Apply Now
+            </a>
+            <a class="btn btn-outline-secondary btn-lg" href="{% url 'search_application' %}" role="button">
+                <i class="bi bi-search"></i> Track Application
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-clock-history" style="font-size: 3rem; color: #2c5f2d;"></i>
+                <h5 class="card-title mt-3">Quick Process</h5>
+                <p class="card-text">Get your account opened within 24-48 hours after approval</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-shield-check" style="font-size: 3rem; color: #2c5f2d;"></i>
+                <h5 class="card-title mt-3">Secure Banking</h5>
+                <p class="card-text">Your money is safe with us with advanced security measures</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-globe" style="font-size: 3rem; color: #2c5f2d;"></i>
+                <h5 class="card-title mt-3">Nationwide Network</h5>
+                <p class="card-text">Access your account from any of our 1200+ branches</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

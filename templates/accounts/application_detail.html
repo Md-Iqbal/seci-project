@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static bengali_filters %}
+
+{% block title %}আবেদনের বিস্তারিত - {{ application.application_number }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h2 class="bn-text mb-0">
+        <i class="bi bi-file-earmark-text text-gold"></i> আবেদনের বিস্তারিত
+    </h2>
+    <div class="btn-group" role="group">
+        <a href="{% url 'application_list' %}" class="btn btn-secondary bn-text">
+            <i class="bi bi-arrow-left"></i> তালিকায় ফিরুন
+        </a>
+        <a href="{% url 'print_application' application.application_number %}" class="btn btn-info bn-text"
+            target="_blank">
+            <i class="bi bi-printer"></i> প্রিন্ট করুন
+        </a>
+        {% if application.status == 'PENDING' %}
+        <a href="{% url 'process_application' application.application_number %}" class="btn btn-success bn-text">
+            <i class="bi bi-check-circle"></i> প্রক্রিয়া করুন
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- Main Information -->
+    <div class="col-md-8">
+        <!-- Application Overview -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-info-circle"></i> আবেদনের সারসংক্ষেপ
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 bg-gold-pale rounded">
+                            <small class="text-muted bn-text">আবেদন নম্বর</small>
+                            <h4 class="mb-0" style="color: var(--gold); font-weight: 700;">
+                                {{ application.application_number }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 bg-gold-pale rounded">
+                            <small class="text-muted bn-text">আবেদনের তারিখ</small>
+                            <h5 class="mb-0 bn-text">
+                                {{ application.application_date|bengali_datetime }}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-borderless bn-text">
+                    <tr>
+                        <th width="40%">অবস্থা:</th>
+                        <td>
+                            {% if application.status == 'PENDING' %}
+                            <span class="badge bg-warning">{{ application.status|status_bengali }}</span>
+                            {% elif application.status == 'APPROVED' %}
+                            <span class="badge bg-success">{{ application.status|status_bengali }}</span>
+                            {% else %}
+                            <span class="badge bg-danger">{{ application.status|status_bengali }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if application.account_number %}
+                    <tr>
+                        <th>হিসাব নম্বর:</th>
+                        <td>
+                            <strong style="color: var(--gold); font-size: 1.1em;">
+                                {{ application.account_number }}
+                            </strong>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% if application.approved_by %}
+                    <tr>
+                        <th>প্রক্রিয়াকারী:</th>
+                        <td>{{ application.approved_by.get_full_name|default:application.approved_by.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>প্রক্রিয়ার তারিখ:</th>
+                        <td>{{ application.approval_date|bengali_datetime }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if application.rejection_reason %}
+                    <tr>
+                        <th>প্রত্যাখ্যানের কারণ:</th>
+                        <td>
+                            <div class="alert alert-danger mb-0">
+                                {{ application.rejection_reason }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-person"></i> ব্যক্তিগত তথ্য
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless bn-text">
+                    <tr>
+                        <th width="40%">পূর্ণ নাম:</th>
+                        <td>{{ application.full_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>পিতার নাম:</th>
+                        <td>{{ application.father_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>মাতার নাম:</th>
+                        <td>{{ application.mother_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>জন্ম তারিখ:</th>
+                        <td>{{ application.date_of_birth|bengali_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>লিঙ্গ:</th>
+                        <td>{{ application.gender|gender_bengali }}</td>
+                    </tr>
+                    <tr>
+                        <th>জাতীয় পরিচয়পত্র:</th>
+                        <td><strong>{{ application.nid_number }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>মোবাইল নম্বর:</th>
+                        <td>{{ application.mobile_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>ই-মেইল:</th>
+                        <td>{{ application.email|default:"প্রদান করা হয়নি" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Address Information -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-geo-alt"></i> ঠিকানা তথ্য
+                </h5>
+            </div>
+            <div class="card-body bn-text">
+                <h6 class="text-gold">বর্তমান ঠিকানা:</h6>
+                <p class="mb-2">{{ application.present_address }}</p>
+                <p class="mb-3">
+                    <strong>শহর:</strong> {{ application.city }} |
+                    <strong>পোস্ট কোড:</strong> {{ application.postal_code }}
+                </p>
+
+                <h6 class="text-gold mt-3">স্থায়ী ঠিকানা:</h6>
+                <p class="mb-0">{{ application.permanent_address }}</p>
+            </div>
+        </div>
+
+        <!-- Account Details -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-bank2"></i> হিসাব তথ্য
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless bn-text">
+                    <tr>
+                        <th width="40%">হিসাবের ধরন:</th>
+                        <td>{{ application.account_type|account_type_bengali }}</td>
+                    </tr>
+                    <tr>
+                        <th>প্রাথমিক জমা:</th>
+                        <td>{{ application.initial_deposit|bengali_currency }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nominee Information -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-people"></i> নমিনি তথ্য
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless bn-text">
+                    <tr>
+                        <th width="40%">নমিনির নাম:</th>
+                        <td>{{ application.nominee_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>সম্পর্ক:</th>
+                        <td>{{ application.nominee_relation }}</td>
+                    </tr>
+                    <tr>
+                        <th>নমিনির এনআইডি:</th>
+                        <td>{{ application.nominee_nid }}</td>
+                    </tr>
+                    <tr>
+                        <th>নমিনির মোবাইল:</th>
+                        <td>{{ application.nominee_mobile }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+        <!-- Documents -->
+        <div class="card mb-3 border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-file-earmark-arrow-up"></i> নথিপত্র
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label bn-text"><strong>ছবি:</strong></label><br>
+                    <img src="{{ application.photograph.url }}" class="img-thumbnail" style="max-width: 200px;"
+                        alt="Photograph">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label bn-text"><strong>স্বাক্ষর:</strong></label><br>
+                    <img src="{{ application.signature.url }}" class="img-thumbnail" style="max-width: 200px;"
+                        alt="Signature">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label bn-text"><strong>এনআইডি কপি:</strong></label><br>
+                    <a href="{{ application.nid_copy.url }}" target="_blank" class="btn btn-sm btn-primary bn-text">
+                        <i class="bi bi-download"></i> ডাউনলোড/দেখুন
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="card border-gold">
+            <div class="card-header">
+                <h5 class="mb-0 bn-text">
+                    <i class="bi bi-clock-history"></i> কার্যক্রম লগ
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% for log in logs %}
+                    <div class="list-group-item px-0 bn-text">
+                        <small class="text-muted">
+                            {{ log.timestamp|bengali_datetime }}
+                        </small>
+                        <p class="mb-1">
+                            <strong>
+                                {% if log.action == 'APPLICATION_CREATED' %}
+                                <i class="bi bi-plus-circle text-info"></i> আবেদন তৈরি
+                                {% elif log.action == 'APPLICATION_APPROVED' %}
+                                <i class="bi bi-check-circle text-success"></i> অনুমোদিত
+                                {% elif log.action == 'APPLICATION_REJECTED' %}
+                                <i class="bi bi-x-circle text-danger"></i> প্রত্যাখ্যাত
+                                {% elif log.action == 'APPLICATION_PRINTED' %}
+                                <i class="bi bi-printer text-info"></i> প্রিন্ট করা হয়েছে
+                                {% else %}
+                                {{ log.action }}
+                                {% endif %}
+                            </strong>
+                        </p>
+                        {% if log.performed_by %}
+                        <small class="text-muted">
+                            কর্মী: {{ log.performed_by.get_full_name|default:log.performed_by.username }}
+                        </small><br>
+                        {% endif %}
+                        {% if log.details %}
+                        <small class="text-muted">{{ log.details }}</small>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p class="text-muted bn-text">কোনো কার্যক্রম লগ নেই</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

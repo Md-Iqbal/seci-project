@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}আবেদন সফল - সোনালী ব্যাংক{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-success shadow-gold">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-check-circle-fill"></i> আবেদন সফলভাবে জমা হয়েছে!
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <i class="bi bi-check-circle" style="font-size: 5rem; color: var(--success);"></i>
+                    </div>
+                    <h5 class="bn-text">ধন্যবাদ, {{ application.full_name }}!</h5>
+                    <p class="bn-text">আপনার হিসাব খোলার আবেদন সফলভাবে জমা দেওয়া হয়েছে।</p>
+                </div>
+
+                <div class="alert alert-info border-gold">
+                    <h6 class="bn-text"><strong>আপনার আবেদন নম্বর:</strong></h6>
+                    <h2 class="mb-0 text-center" style="color: var(--gold); font-weight: 700; letter-spacing: 2px;">
+                        {{ application.application_number }}
+                    </h2>
+                </div>
+
+                <div class="alert alert-warning bn-text">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <strong>গুরুত্বপূর্ণ:</strong> এই আবেদন নম্বরটি সংরক্ষণ করুন। ভবিষ্যতে আবেদন খুঁজতে এটি প্রয়োজন
+                    হবে।
+                </div>
+
+                <div class="card bg-gold-pale border-gold mb-4">
+                    <div class="card-body">
+                        <h6 class="bn-text text-gold"><i class="bi bi-file-earmark-check"></i> আবেদনের বিস্তারিত:</h6>
+                        <table class="table table-borderless mb-0 bn-text">
+                            <tr>
+                                <td width="40%"><strong>আবেদন নম্বর:</strong></td>
+                                <td>{{ application.application_number }}</td>
+                            </tr>
+                            <tr>
+                                <td width="40%"><strong>আবেদনের তারিখ:</strong></td>
+                                <td>{{ application.application_date|date:"d F, Y h:i A" }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>হিসাবের ধরন:</strong></td>
+                                <td>{{ application.get_account_type_display }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>প্রাথমিক জমা:</strong></td>
+                                <td>{{ application.initial_deposit }} টাকা</td>
+                            </tr>
+                            <tr>
+                                <td><strong>অবস্থা:</strong></td>
+                                <td>
+                                    <span class="badge bg-warning">{{ application.get_status_display }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>মোবাইল নম্বর:</strong></td>
+                                <td>{{ application.mobile_number }}</td>
+                            </tr>
+                            {% if application.email %}
+                            <tr>
+                                <td><strong>ই-মেইল:</strong></td>
+                                <td>{{ application.email }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+
+                <div class="alert alert-info bn-text">
+                    <h6><i class="bi bi-clock-history"></i> পরবর্তী পদক্ষেপ:</h6>
+                    <ol class="mb-0">
+                        <li>আপনার আবেদন ২-৩ কর্মদিবসের মধ্যে পর্যালোচনা করা হবে।</li>
+                        <li>অনুমোদিত হলে আপনার মোবাইল নম্বরে এসএমএস পাঠানো হবে।</li>
+                        <li>আবেদন অনুমোদন না হলে ২০ দিন পর স্বয়ংক্রিয়ভাবে বাতিল হবে।</li>
+                        <li>আপনার এনআইডি নম্বর ব্যবহার করে আবেদনের অবস্থা যাচাই করতে পারবেন।</li>
+                    </ol>
+                </div>
+
+                <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                    <a href="{% url 'search_application' %}" class="btn btn-primary bn-text">
+                        <i class="bi bi-search"></i> আবেদন খুঁজুন
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-secondary bn-text">
+                        <i class="bi bi-house-door"></i> হোম পেজে ফিরুন
+                    </a>
+                    <button onclick="window.print()" class="btn btn-info bn-text no-print">
+                        <i class="bi bi-printer"></i> প্রিন্ট করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-gold mt-4">
+            <div class="card-header">
+                <h6 class="mb-0 bn-text">
+                    <i class="bi bi-telephone-fill"></i> যোগাযোগ তথ্য
+                </h6>
+            </div>
+            <div class="card-body bn-text">
+                <p class="mb-2">
+                    <i class="bi bi-headset text-gold"></i>
+                    <strong>হেল্পলাইন:</strong> ১৬২৩৬ (সকাল ৯টা - সন্ধ্যা ৬টা)
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-envelope text-gold"></i>
+                    <strong>ই-মেইল:</strong> support@sonalibank.com.bd
+                </p>
+                <p class="mb-0">
+                    <i class="bi bi-globe text-gold"></i>
+                    <strong>ওয়েবসাইট:</strong> www.sonalibank.com.bd
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

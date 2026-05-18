@@ -1,0 +1,695 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}হিসাব খোলার আবেদন - সোনালী ব্যাংক{% endblock %}
+
+{% block extra_css %}
+<style>
+    .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        display: none;
+        border: 2px solid var(--gold);
+        border-radius: 6px;
+    }
+
+    .form-step {
+        display: none;
+    }
+
+    .form-step.active {
+        display: block;
+    }
+
+    .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .step-indicator::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #d4b860;
+        z-index: 0;
+    }
+
+    .step {
+        background: var(--white);
+        border: 2px solid #d4b860;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+        color: #999;
+    }
+
+    .step.active {
+        background: linear-gradient(135deg, #c8960c, #f0c430);
+        border-color: var(--gold);
+        color: var(--dark);
+    }
+
+    .step.completed {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+    }
+
+    .file-upload-box {
+        border: 2px dashed var(--gold);
+        border-radius: 6px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: var(--gold-pale);
+    }
+
+    .file-upload-box:hover {
+        background: #fff8e1;
+        border-color: var(--gold-light);
+    }
+
+    .file-upload-box i {
+        font-size: 2rem;
+        color: var(--gold);
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-gold shadow-gold">
+            <div class="card-header">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-file-earmark-text"></i> হিসাব খোলার আবেদন ফরম
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted bn-text">অনুগ্রহ করে সকল তথ্য সাবধানে পূরণ করুন</p>
+
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">১</div>
+                    <div class="step" data-step="2">২</div>
+                    <div class="step" data-step="3">৩</div>
+                    <div class="step" data-step="4">৪</div>
+                </div>
+
+                <div id="messageContainer"></div>
+
+                <form id="applicationForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="step1">
+                        <div class="section-title bn-text">ব্যক্তিগত তথ্য</div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="full_name" class="form-label bn-text">
+                                    পূর্ণ নাম (ইংরেজিতে) <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" required
+                                    placeholder="IN CAPITAL LETTERS">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nid_number" class="form-label bn-text">
+                                    জাতীয় পরিচয়পত্র নম্বর <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nid_number" name="nid_number"
+                                    pattern="^\d{10}$|^\d{13}$|^\d{17}$" required placeholder="১০, ১৩ অথবা ১৭ ডিজিট">
+                                <small class="text-muted bn-text">১০, ১৩ অথবা ১৭ সংখ্যার এনআইডি</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="father_name" class="form-label bn-text">
+                                    পিতার নাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="father_name" name="father_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="mother_name" class="form-label bn-text">
+                                    মাতার নাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="mother_name" name="mother_name" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="date_of_birth" class="form-label bn-text">
+                                    জন্ম তারিখ <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
+                                    required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="gender" class="form-label bn-text">
+                                    লিঙ্গ <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="M">পুরুষ</option>
+                                    <option value="F">মহিলা</option>
+                                    <option value="O">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="mobile_number" class="form-label bn-text">
+                                    মোবাইল নম্বর <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" class="form-control" id="mobile_number" name="mobile_number"
+                                    pattern="^01[3-9]\d{8}$" required placeholder="০১৭১২৩৪৫৬৭৮">
+                                <small class="text-muted bn-text">উদাহরণ: ০১৭১২৩৪৫৬৭৮</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="email" class="form-label bn-text">ই-মেইল (ঐচ্ছিক)</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(2)">
+                                পরবর্তী <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Address Information -->
+                    <div class="form-step" id="step2">
+                        <div class="section-title bn-text">ঠিকানা তথ্য</div>
+
+                        <h6 class="bn-text text-gold mb-3">বর্তমান ঠিকানা</h6>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="present_address" class="form-label bn-text">
+                                    বর্তমান ঠিকানা <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="present_address" name="present_address" rows="3"
+                                    required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label bn-text">
+                                    শহর/জেলা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="city" name="city" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="postal_code" class="form-label bn-text">
+                                    পোস্ট কোড <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="postal_code" name="postal_code" required>
+                            </div>
+                        </div>
+
+                        <h6 class="bn-text text-gold mb-3 mt-4">স্থায়ী ঠিকানা</h6>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="permanent_address" class="form-label bn-text">
+                                    স্থায়ী ঠিকানা <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="permanent_address" name="permanent_address" rows="3"
+                                    required></textarea>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="sameAsPresent"
+                                        onchange="copyAddress()">
+                                    <label class="form-check-label bn-text" for="sameAsPresent">
+                                        বর্তমান ঠিকানার মতো একই
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(1)">
+                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+                            </button>
+                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(3)">
+                                পরবর্তী <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Account & Documents -->
+                    <div class="form-step" id="step3">
+                        <div class="section-title bn-text">হিসাব তথ্য ও নথিপত্র</div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="account_type" class="form-label bn-text">
+                                    হিসাবের ধরন <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="account_type" name="account_type" required>
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="SAVINGS">সঞ্চয়ী হিসাব</option>
+                                    <option value="CURRENT">চলতি হিসাব</option>
+                                    <option value="FD">স্থায়ী আমানত</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="initial_deposit" class="form-label bn-text">
+                                    প্রাথমিক জমা (টাকা) <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control" id="initial_deposit" name="initial_deposit"
+                                    min="500" step="0.01" required placeholder="৫০০">
+                                <small class="text-muted bn-text">সর্বনিম্ন: ৫০০ টাকা</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label bn-text">
+                                    ছবি (পাসপোর্ট সাইজ) <span class="text-danger">*</span>
+                                </label>
+                                <div class="file-upload-box" onclick="document.getElementById('photograph').click()">
+                                    <i class="bi bi-image"></i>
+                                    <p class="mb-0 bn-text small">ক্লিক করে ছবি আপলোড করুন</p>
+                                </div>
+                                <input type="file" class="d-none" id="photograph" name="photograph" accept="image/*"
+                                    required onchange="previewImage(this, 'photoPreview')">
+                                <img id="photoPreview" class="preview-image">
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label bn-text">
+                                    এনআইডি কপি <span class="text-danger">*</span>
+                                </label>
+                                <div class="file-upload-box" onclick="document.getElementById('nid_copy').click()">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                    <p class="mb-0 bn-text small">ক্লিক করে এনআইডি আপলোড করুন</p>
+                                </div>
+                                <input type="file" class="d-none" id="nid_copy" name="nid_copy"
+                                    accept="image/*,application/pdf" required
+                                    onchange="previewImage(this, 'nidPreview')">
+                                <img id="nidPreview" class="preview-image">
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label bn-text">
+                                    স্বাক্ষর <span class="text-danger">*</span>
+                                </label>
+                                <div class="file-upload-box" onclick="document.getElementById('signature').click()">
+                                    <i class="bi bi-pen"></i>
+                                    <p class="mb-0 bn-text small">ক্লিক করে স্বাক্ষর আপলোড করুন</p>
+                                </div>
+                                <input type="file" class="d-none" id="signature" name="signature" accept="image/*"
+                                    required onchange="previewImage(this, 'signaturePreview')">
+                                <img id="signaturePreview" class="preview-image">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(2)">
+                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+                            </button>
+                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(4)">
+                                পরবর্তী <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Nominee Information -->
+                    <div class="form-step" id="step4">
+                        <div class="section-title bn-text">নমিনি তথ্য</div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_name" class="form-label bn-text">
+                                    নমিনির নাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_name" name="nominee_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_relation" class="form-label bn-text">
+                                    সম্পর্ক <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_relation" name="nominee_relation"
+                                    required placeholder="যেমন: পিতা, মাতা, স্বামী, স্ত্রী">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_nid" class="form-label bn-text">
+                                    নমিনির এনআইডি <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_nid" name="nominee_nid"
+                                    pattern="^\d{10}$|^\d{13}$|^\d{17}$" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_mobile" class="form-label bn-text">
+                                    নমিনির মোবাইল <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" class="form-control" id="nominee_mobile" name="nominee_mobile"
+                                    pattern="^01[3-9]\d{8}$" required>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="terms_accepted" required>
+                            <label class="form-check-label bn-text" for="terms_accepted">
+                                আমি ঘোষণা করছি যে, প্রদত্ত সকল তথ্য সত্য এবং সঠিক। আমি সোনালী ব্যাংকের সকল নিয়মকানুন
+                                মেনে চলতে সম্মত।
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(3)">
+                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-lg bn-text" id="submitBtn">
+                                <i class="bi bi-send"></i> আবেদন জমা দিন
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Autosave Indicator -->
+<div id="autosave-indicator" class="bn-text"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+    let currentStep = 1;
+
+    function nextStep(step) {
+        const currentForm = document.getElementById(`step${currentStep}`);
+        const inputs = currentForm.querySelectorAll('input[required], select[required], textarea[required]');
+        let valid = true;
+
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+
+        if (!valid) return;
+
+        // Update step indicators
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+        // Show/hide steps
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        document.getElementById(`step${step}`).classList.add('active');
+        currentStep = step;
+        window.scrollTo(0, 0);
+    }
+
+    function prevStep(step) {
+        // Update step indicators
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+        document.querySelector(`.step[data-step="${step}"]`).classList.remove('completed');
+        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+        // Show/hide steps
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        document.getElementById(`step${step}`).classList.add('active');
+        currentStep = step;
+        window.scrollTo(0, 0);
+    }
+
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function copyAddress() {
+        const checkbox = document.getElementById('sameAsPresent');
+        if (checkbox.checked) {
+            document.getElementById('permanent_address').value =
+                document.getElementById('present_address').value;
+        }
+    }
+
+    // Form submission with proper file handling
+    document.getElementById('applicationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const messageContainer = document.getElementById('messageContainer');
+
+            // Check if files are selected
+            const photograph = document.getElementById('photograph').files[0];
+            const nid_copy = document.getElementById('nid_copy').files[0];
+            const signature = document.getElementById('signature').files[0];
+
+            if (!photograph || !nid_copy || !signature) {
+                showError(messageContainer, 'অনুগ্রহ করে সকল নথিপত্র আপলোড করুন।');
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> জমা হচ্ছে...';
+
+            try {
+                // Create FormData object
+                const formData = new FormData(this);
+
+                // Submit using fetch with FormData
+                const response = await fetch('/api/applications/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    credentials: 'same-origin',
+                    body: formData
+                });
+                // Debug log the raw response
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
+                const data = await response.json();
+                console.log('Response data:', JSON.stringify(data, null, 2));
+
+                if (!response.ok) {
+                    console.error('Error response:', data);
+                    throw { status: response.status, data };
+                }
+
+                // Check if application_number exists
+                if (!data.application_number) {
+                    console.error('No application_number in response:', data);
+                    throw new Error('আবেদন নম্বর পাওয়া যায়নি');
+                }
+
+                // Show success message
+                showSuccess(messageContainer,
+                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর: <strong>${data.application_number}</strong>`
+                );
+
+                // Reset form
+                this.reset();
+                document.querySelectorAll('.preview-image').forEach(img => img.style.display = 'none');
+
+                // Redirect to success page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = `/success/${data.application_number}/`;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Submission error:', error); // Debug log
+
+                let errorMessage = 'আবেদন জমা দিতে সমস্যা হয়েছে।';
+
+                if (error.data) {
+                    if (typeof error.data === 'object') {
+                        errorMessage = Object.entries(error.data)
+                            .map(([key, value]) => {
+                                const banglaKey = getBanglaFieldName(key);
+                                const errorText = Array.isArray(value) ? value.join(', ') : value;
+                                return `${banglaKey}: ${errorText}`;
+                            })
+                            .join('<br>');
+                    } else if (error.data.detail) {
+                        errorMessage = error.data.detail;
+                    } else {
+                        errorMessage = error.data;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                showError(messageContainer, errorMessage);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send"></i> আবেদন জমা দিন';
+                window.scrollTo(0, 0);
+            }
+        });
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Helper function to translate field names to Bengali
+    function getBanglaFieldName(fieldName) {
+        const fieldMap = {
+            'full_name': 'পূর্ণ নাম',
+            'nid_number': 'এনআইডি নম্বর',
+            'father_name': 'পিতার নাম',
+            'mother_name': 'মাতার নাম',
+            'date_of_birth': 'জন্ম তারিখ',
+            'gender': 'লিঙ্গ',
+            'mobile_number': 'মোবাইল নম্বর',
+            'email': 'ই-মেইল',
+            'present_address': 'বর্তমান ঠিকানা',
+            'permanent_address': 'স্থায়ী ঠিকানা',
+            'city': 'শহর',
+            'postal_code': 'পোস্ট কোড',
+            'account_type': 'হিসাবের ধরন',
+            'initial_deposit': 'প্রাথমিক জমা',
+            'photograph': 'ছবি',
+            'nid_copy': 'এনআইডি কপি',
+            'signature': 'স্বাক্ষর',
+            'nominee_name': 'নমিনির নাম',
+            'nominee_relation': 'সম্পর্ক',
+            'nominee_nid': 'নমিনির এনআইডি',
+            'nominee_mobile': 'নমিনির মোবাইল'
+        };
+        return fieldMap[fieldName] || fieldName;
+    }
+
+    // Auto-save functionality (modified to skip files)
+    class FormAutoSave {
+        constructor(formId, storageKey) {
+            this.form = document.getElementById(formId);
+            this.storageKey = storageKey;
+            this.init();
+        }
+
+        init() {
+            if (!this.form) return;
+
+            this.loadFormData();
+
+            this.form.querySelectorAll('input, select, textarea').forEach(element => {
+                if (element.type !== 'file' && element.type !== 'password') {
+                    element.addEventListener('input', () => this.saveFormData());
+                }
+            });
+        }
+
+        saveFormData() {
+            const formData = new FormData(this.form);
+            const data = {};
+
+            for (let [key, value] of formData.entries()) {
+                if (value &&
+                    key !== 'csrfmiddlewaretoken' &&
+                    key !== 'photograph' &&
+                    key !== 'nid_copy' &&
+                    key !== 'signature' &&
+                    key !== 'terms_accepted') {
+                    data[key] = value;
+                }
+            }
+
+            localStorage.setItem(this.storageKey, JSON.stringify(data));
+            this.showSaveIndicator();
+        }
+
+        loadFormData() {
+            const savedData = localStorage.getItem(this.storageKey);
+
+            if (savedData) {
+                const data = JSON.parse(savedData);
+
+                Object.keys(data).forEach(key => {
+                    const element = this.form.elements[key];
+                    if (element && element.type !== 'file') {
+                        element.value = data[key];
+                    }
+                });
+
+                this.showRestoreNotification();
+            }
+        }
+
+        showSaveIndicator() {
+            let indicator = document.getElementById('autosave-indicator');
+
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'autosave-indicator';
+                indicator.className = 'bn-text';
+                document.body.appendChild(indicator);
+            }
+
+            indicator.textContent = 'সংরক্ষিত ✓';
+            indicator.style.opacity = '1';
+
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+            }, 2000);
+        }
+
+        showRestoreNotification() {
+            const message = 'সংরক্ষিত তথ্য পাওয়া গেছে। এটি পুনরুদ্ধার করতে চান?';
+
+            if (confirm(message)) {
+                showSuccess(document.getElementById('messageContainer'),
+                    'সংরক্ষিত তথ্য পুনরুদ্ধার করা হয়েছে');
+            } else {
+                localStorage.removeItem(this.storageKey);
+                location.reload();
+            }
+        }
+    }
+
+    // Initialize auto-save
+    new FormAutoSave('applicationForm', 'sonali_bank_application');
+</script>
+{% endblock %}

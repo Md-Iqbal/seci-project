@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}আবেদন খুঁজুন - সোনালী ব্যাংক{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-gold shadow-gold">
+            <div class="card-header">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-search"></i> আপনার আবেদন খুঁজুন
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="bn-text">আপনার আবেদনের অবস্থা বা হিসাব দেখতে জাতীয় পরিচয়পত্র নম্বর লিখুন।</p>
+
+                <form id="searchForm">
+                    <div class="mb-3">
+                        <label for="nid_number" class="form-label bn-text">
+                            জাতীয় পরিচয়পত্র নম্বর <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="nid_number" name="nid_number"
+                            pattern="^\d{10}$|^\d{13}$|^\d{17}$" required placeholder="আপনার এনআইডি নম্বর লিখুন">
+                        <small class="text-muted bn-text">১০, ১৩ অথবা ১৭ সংখ্যার এনআইডি</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 bn-text" id="searchBtn">
+                        <i class="bi bi-search"></i> খুঁজুন
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="searchResults" class="mt-4"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsContainer = document.getElementById('searchResults');
+        const nidNumber = document.getElementById('nid_number').value;
+
+        searchBtn.disabled = true;
+        searchBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> খুঁজছি...';
+
+        showLoading(resultsContainer);
+
+        try {
+            const applications = await api.searchByNID(nidNumber);
+
+            if (applications.length === 0) {
+                resultsContainer.innerHTML = `
+                <div class="alert alert-info bn-text">
+                    <i class="bi bi-info-circle"></i> এই এনআইডি নম্বর দিয়ে কোনো আবেদন পাওয়া যায়নি।
+                </div>
+            `;
+            } else {
+                let html = '<h5 class="bn-text mb-3">অনুসন্ধানের ফলাফল:</h5>';
+
+                applications.forEach(app => {
+                    const statusBadge = getStatusBadgeBengali(app.status, app.status_display);
+                    const accountTypeText = getAccountTypeBengali(app.account_type);
+
+                    html += `
+                    <div class="card mb-3 border-gold">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title bn-text">${app.full_name}</h5>
+                                    <div class="bn-text">
+                                        <p class="mb-1">
+                                            <i class="bi bi-file-earmark-text text-gold"></i>
+                                            <strong>আবেদন নম্বর:</strong> ${app.application_number}
+                                        </p>
+                                        <p class="mb-1">
+                                            <i class="bi bi-calendar text-gold"></i>
+                                            <strong>আবেদনের তারিখ:</strong> ${formatBengaliDate(app.application_date)}
+                                        </p>
+                                        <p class="mb-1">
+                                            <i class="bi bi-bank text-gold"></i>
+                                            <strong>হিসাবের ধরন:</strong> ${accountTypeText}
+                                        </p>
+                                        ${app.account_number ? `
+                                        <p class="mb-1">
+                                            <i class="bi bi-credit-card text-gold"></i>
+                                            <strong>হিসাব নম্বর:</strong> 
+                                            <span style="font-weight: 700; color: var(--gold);">${app.account_number}</span>
+                                        </p>
+                                        ` : ''}
+                                        <p class="mb-1">
+                                            <i class="bi bi-info-circle text-gold"></i>
+                                            <strong>অবস্থা:</strong> ${statusBadge}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end d-flex flex-column justify-content-center">
+                                    <a href="/application/${app.application_number}/" class="btn btn-primary mb-2 bn-text">
+                                        <i class="bi bi-eye"></i> বিস্তারিত দেখুন
+                                    </a>
+                                    ${app.status === 'APPROVED' ? `
+                                    <button class="btn btn-success bn-text" onclick="downloadStatement('${app.application_number}')">
+                                        <i class="bi bi-download"></i> স্টেটমেন্ট
+                                    </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+        } catch (error) {
+            showError(resultsContainer, 'আবেদন খুঁজতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+        } finally {
+            searchBtn.disabled = false;
+            searchBtn.innerHTML = '<i class="bi bi-search"></i> খুঁজুন';
+        }
+    });
+
+    function getStatusBadgeBengali(status, statusDisplay) {
+        const statusMap = {
+            'PENDING': '<span class="badge bg-warning">অপেক্ষমাণ</span>',
+            'APPROVED': '<span class="badge bg-success">অনুমোদিত</span>',
+            'REJECTED': '<span class="badge bg-danger">প্রত্যাখ্যাত</span>'
+        };
+        return statusMap[status] || statusDisplay;
+    }
+
+    function getAccountTypeBengali(type) {
+        const typeMap = {
+            'SAVINGS': 'সঞ্চয়ী হিসাব',
+            'CURRENT': 'চলতি হিসাব',
+            'FD': 'স্থায়ী আমানত'
+        };
+        return typeMap[type] || type;
+    }
+
+    function formatBengaliDate(dateString) {
+        const bengaliMonths = [
+            'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
+            'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
+        ];
+        const date = new Date(dateString);
+        return `${date.getDate()} ${bengaliMonths[date.getMonth()]}, ${date.getFullYear()}`;
+    }
+
+    function downloadStatement(appNumber) {
+        window.open(`/applications/${appNumber}/print/`, '_blank');
+    }
+</script>
+{% endblock %}

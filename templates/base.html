@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}সোনালী ব্যাংক পিএলসি - হিসাব খোলা{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'icons/favicon.png' %}">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Bengali Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Sonali Theme CSS -->
+    <link rel="stylesheet" href="{% static 'css/sonali-theme.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand bn-text" href="{% url 'home' %}">
+                <div class="bank-icon">
+                    <!-- Sonali Bank Sun Logo SVG -->
+                    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="22" fill="#1a1a2e" />
+                        <circle cx="40" cy="40" r="14" fill="#c8960c" />
+                        <circle cx="40" cy="40" r="7" fill="#f0c430" />
+                        <!-- Rays -->
+                        <g stroke="#1a1a2e" stroke-width="2" stroke-linecap="round">
+                            <line x1="40" y1="8" x2="40" y2="14" />
+                            <line x1="40" y1="66" x2="40" y2="72" />
+                            <line x1="8" y1="40" x2="14" y2="40" />
+                            <line x1="66" y1="40" x2="72" y2="40" />
+                            <line x1="16" y1="16" x2="21" y2="21" />
+                            <line x1="59" y1="59" x2="64" y2="64" />
+                            <line x1="64" y1="16" x2="59" y2="21" />
+                            <line x1="16" y1="64" x2="21" y2="59" />
+                        </g>
+                    </svg>
+                </div>
+                সোনালী ব্যাংক পিএলসি
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto bn-text">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="bi bi-house-door"></i> প্রধান পাতা
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apply_account' %}">
+                            <i class="bi bi-file-earmark-text"></i> হিসাব খোলার আবেদন
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_application' %}">
+                            <i class="bi bi-search"></i> আবেদন খুঁজুন
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class="bi bi-speedometer2"></i> ড্যাশবোর্ড
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'application_list' %}">
+                            <i class="bi bi-list-ul"></i> সকল আবেদন
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}" onclick="return confirm('আপনি কি লগআউট করতে চান?')">
+                                    <i class="bi bi-box-arrow-right"></i> লগআউট ({{ user.username }})
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="bi bi-lock"></i> কর্মচারী লগইন
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4 mb-5">
+        <!-- Messages -->
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {% if message.tags == 'error' %}
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                {% elif message.tags == 'success' %}
+                <i class="bi bi-check-circle-fill"></i>
+                {% elif message.tags == 'warning' %}
+                <i class="bi bi-exclamation-circle-fill"></i>
+                {% else %}
+                <i class="bi bi-info-circle-fill"></i>
+                {% endif %}
+                <span class="bn-text">{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start bn-text">
+                    <p class="mb-1">
+                        <strong class="text-gold-light">সোনালী ব্যাংক পিএলসি</strong>
+                    </p>
+                    <p class="text-muted mb-0" style="font-size: 13px;">
+                        &copy; ২০২৪ সোনালী ব্যাংক লিমিটেড। সর্বস্বত্ব সংরক্ষিত।
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end bn-text">
+                    <p class="mb-1">
+                        <i class="bi bi-telephone-fill text-gold-light"></i>
+                        <span class="text-muted">১৬২৩৬</span>
+                    </p>
+                    <p class="mb-0">
+                        <i class="bi bi-envelope-fill text-gold-light"></i>
+                        <span class="text-muted">info@sonalibank.com.bd</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auto-save Indicator -->
+    <div id="autosave-indicator" class="bn-text"></div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Theme JS -->
+    <script src="{% static 'js/sonali-theme.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

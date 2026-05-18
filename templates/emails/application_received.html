@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আবেদন প্রাপ্ত - সোনালী ব্যাংক</title>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', Arial, sans-serif;
+            background-color: #f4efe0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 2px solid #c8960c;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #f0c430;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .info-box {
+            background: #fdf8e8;
+            border-left: 4px solid #c8960c;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .info-box strong {
+            color: #c8960c;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #c8960c, #f0c430);
+            color: #1a1a2e;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .footer {
+            background: #f4efe0;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table td {
+            padding: 8px;
+            border-bottom: 1px solid #e8d58a;
+        }
+
+        table td:first-child {
+            font-weight: bold;
+            color: #1a1a2e;
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>সোনালী ব্যাংক পিএলসি</h1>
+            <p style="margin: 5px 0 0 0;">আপনার বিশ্বস্ত আর্থিক সহযোগী</p>
+        </div>
+
+        <div class="content">
+            <h2 style="color: #1a1a2e;">প্রিয় {{ application.full_name }},</h2>
+
+            <p>আপনার হিসাব খোলার আবেদন সফলভাবে প্রাপ্ত হয়েছে। আমরা শীঘ্রই আপনার আবেদন পর্যালোচনা করব।</p>
+
+            <div class="info-box">
+                <strong>আপনার আবেদন নম্বর:</strong>
+                <h2 style="margin: 10px 0; color: #c8960c;">{{ application.application_number }}</h2>
+                <p style="margin: 0; font-size: 13px;">অনুগ্রহ করে এই নম্বরটি সংরক্ষণ করুন।</p>
+            </div>
+
+            <h3 style="color: #2d2d44;">আবেদনের বিস্তারিত:</h3>
+            <table>
+                <tr>
+                    <td>হিসাবের ধরন:</td>
+                    <td>{{ application.get_account_type_display }}</td>
+                </tr>
+                <tr>
+                    <td>প্রাথমিক জমা:</td>
+                    <td>{{ application.initial_deposit }} টাকা</td>
+                </tr>
+                <tr>
+                    <td>আবেদনের তারিখ:</td>
+                    <td>{{ application.application_date|date:"d F, Y" }}</td>
+                </tr>
+                <tr>
+                    <td>মোবাইল নম্বর:</td>
+                    <td>{{ application.mobile_number }}</td>
+                </tr>
+            </table>
+
+            <div style="background: #fff8e1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #c8960c;">পরবর্তী পদক্ষেপ:</h4>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>আপনার আবেদন ২-৩ কর্মদিবসের মধ্যে পর্যালোচনা করা হবে</li>
+                    <li>অনুমোদিত হলে আপনার মোবাইল নম্বরে এসএমএস পাঠানো হবে</li>
+                    <li>আবেদন অনুমোদন না হলে ২০ দিন পর স্বয়ংক্রিয়ভাবে বাতিল হবে</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{ site_url }}/search/" class="button">আবেদনের অবস্থা দেখুন</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>যোগাযোগ:</strong></p>
+            <p>হেল্পলাইন: ১৬২৩৬ (সকাল ৯টা - সন্ধ্যা ৬টা)<br>
+                ই-মেইল: support@sonalibank.com.bd<br>
+                ওয়েবসাইট: www.sonalibank.com.bd</p>
+            <p style="margin-top: 15px; font-size: 12px;">
+                &copy; ২০২৪ সোনালী ব্যাংক লিমিটেড। সর্বস্বত্ব সংরক্ষিত।
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

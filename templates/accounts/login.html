@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block title %}কর্মচারী লগইন - সোনালী ব্যাংক{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 50px auto;
+    }
+
+    .login-logo {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    .login-card {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="text-center mb-4">
+        <!-- Bank Logo -->
+        <svg class="login-logo" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="22" fill="#f0c430" />
+            <circle cx="40" cy="40" r="14" fill="#c8960c" />
+            <circle cx="40" cy="40" r="7" fill="#fff8e1" />
+            <g stroke="#1a1a2e" stroke-width="2" stroke-linecap="round">
+                <line x1="40" y1="8" x2="40" y2="14" />
+                <line x1="40" y1="66" x2="40" y2="72" />
+                <line x1="8" y1="40" x2="14" y2="40" />
+                <line x1="66" y1="40" x2="72" y2="40" />
+                <line x1="16" y1="16" x2="21" y2="21" />
+                <line x1="59" y1="59" x2="64" y2="64" />
+                <line x1="64" y1="16" x2="59" y2="21" />
+                <line x1="16" y1="64" x2="21" y2="59" />
+            </g>
+        </svg>
+        <h3 class="bn-text" style="color: var(--dark);">সোনালী ব্যাংক পিএলসি</h3>
+        <p class="text-muted bn-text">কর্মচারী প্রবেশ পাতা</p>
+    </div>
+
+    <div class="card login-card border-gold">
+        <div class="card-header text-center">
+            <h5 class="mb-0 bn-text">
+                <i class="bi bi-lock"></i> লগইন করুন
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            {% if form.errors %}
+            <div class="alert alert-danger bn-text">
+                <i class="bi bi-exclamation-triangle"></i>
+                ভুল ব্যবহারকারীর নাম অথবা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।
+            </div>
+            {% endif %}
+
+            {% if next %}
+            {% if user.is_authenticated %}
+            <div class="alert alert-warning bn-text">
+                আপনার অ্যাকাউন্টের এই পাতায় প্রবেশাধিকার নেই। অনুগ্রহ করে অন্য অ্যাকাউন্ট ব্যবহার করুন।
+            </div>
+            {% endif %}
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label bn-text">
+                        <i class="bi bi-person"></i> ব্যবহারকারীর নাম
+                    </label>
+                    <input type="text" name="username" class="form-control form-control-lg" id="id_username"
+                        placeholder="ব্যবহারকারীর নাম লিখুন" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password" class="form-label bn-text">
+                        <i class="bi bi-key"></i> পাসওয়ার্ড
+                    </label>
+                    <input type="password" name="password" class="form-control form-control-lg" id="id_password"
+                        placeholder="পাসওয়ার্ড লিখুন" required>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="remember_me">
+                    <label class="form-check-label bn-text" for="remember_me">
+                        আমাকে মনে রাখুন
+                    </label>
+                </div>
+
+                <!-- Hidden field for redirect -->
+                <input type="hidden" name="next"
+                    value="{% if next %}{{ next }}{% else %}{% url 'dashboard' %}{% endif %}" />
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg bn-text">
+                        <i class="bi bi-box-arrow-in-right"></i> লগইন করুন
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <small class="text-muted bn-text">
+                    <i class="bi bi-shield-lock"></i> সুরক্ষিত লগইন
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'home' %}" class="btn btn-link bn-text">
+            <i class="bi bi-arrow-left"></i> হোম পেজে ফিরুন
+        </a>
+    </div>
+
+    <div class="alert alert-info mt-4 bn-text">
+        <i class="bi bi-info-circle"></i>
+        <strong>দ্রষ্টব্য:</strong> এই পাতা শুধুমাত্র সোনালী ব্যাংকের কর্মচারীদের জন্য।
+        হিসাব খুলতে <a href="{% url 'apply_account' %}">এখানে ক্লিক করুন</a>।
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-focus on username field
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('id_username').focus();
+    });
+</script>
+{% endblock %}

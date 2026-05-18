@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}কর্মচারী ড্যাশবোর্ড - সোনালী ব্যাংক{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="bn-text">
+        <i class="bi bi-speedometer2 text-gold"></i> কর্মচারী ড্যাশবোর্ড
+    </h2>
+    <p class="text-muted bn-text">স্বাগতম, {{ user.get_full_name|default:user.username }}!</p>
+</div>
+
+<div id="dashboardStats">
+    <div class="row mb-4 g-4">
+        <div class="col-md-4">
+            <div class="card stat-card bg-warning text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title bn-text">
+                        <i class="bi bi-hourglass-split"></i> অপেক্ষমাণ আবেদন
+                    </h5>
+                    <h2 id="pendingCount">-</h2>
+                    <a href="{% url 'application_list' %}?status=PENDING" class="btn btn-light btn-sm mt-2 bn-text">
+                        সব দেখুন
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card bg-success text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title bn-text">
+                        <i class="bi bi-check-circle"></i> অনুমোদিত আবেদন
+                    </h5>
+                    <h2 id="approvedCount">-</h2>
+                    <a href="{% url 'application_list' %}?status=APPROVED" class="btn btn-light btn-sm mt-2 bn-text">
+                        সব দেখুন
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card bg-danger text-white h-100">
+                <div class="card-body">
+                    <h5 class="card-title bn-text">
+                        <i class="bi bi-x-circle"></i> প্রত্যাখ্যাত আবেদন
+                    </h5>
+                    <h2 id="rejectedCount">-</h2>
+                    <a href="{% url 'application_list' %}?status=REJECTED" class="btn btn-light btn-sm mt-2 bn-text">
+                        সব দেখুন
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-gold shadow-gold">
+        <div class="card-header">
+            <h5 class="mb-0 bn-text">
+                <i class="bi bi-clock-history"></i> সাম্প্রতিক আবেদনসমূহ
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" id="recentApplicationsTable">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-gold" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 bn-text">তথ্য লোড হচ্ছে...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+    async function loadDashboard() {
+        try {
+            const stats = await api.getDashboardStats();
+
+            // Update counts with Bengali numbers
+            document.getElementById('pendingCount').textContent = toBengaliNumber(stats.pending_count);
+            document.getElementById('approvedCount').textContent = toBengaliNumber(stats.approved_count);
+            document.getElementById('rejectedCount').textContent = toBengaliNumber(stats.rejected_count);
+
+            // Build recent applications table
+            let tableHTML = `
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr class="bn-text">
+                        <th>আবেদন নম্বর</th>
+                        <th>নাম</th>
+                        <th>হিসাবের ধরন</th>
+                        <th>তারিখ</th>
+                        <th>অবস্থা</th>
+                        <th>কার্যক্রম</th>
+                    </tr>
+                </thead>
+                <tbody class="bn-text">
+        `;
+
+            if (stats.recent_applications.length === 0) {
+                tableHTML += `
+                <tr>
+                    <td colspan="6" class="text-center">কোনো আবেদন পাওয়া যায়নি</td>
+                </tr>
+            `;
+            } else {
+                stats.recent_applications.forEach(app => {
+                    const statusBadge = getStatusBadgeBengali(app.status);
+                    const accountType = getAccountTypeBengali(app.account_type);
+
+                    tableHTML += `
+                    <tr>
+                        <td><code>${app.application_number}</code></td>
+                        <td>${app.full_name}</td>
+                        <td>${accountType}</td>
+                        <td>${formatDateBengali(app.application_date)}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <a href="/applications/${app.application_number}/detail/" 
+                               class="btn btn-sm btn-primary" title="বিস্তারিত দেখুন">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                });
+            }
+
+            tableHTML += `
+                </tbody>
+            </table>
+        `;
+
+            document.getElementById('recentApplicationsTable').innerHTML = tableHTML;
+
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            showError(document.getElementById('dashboardStats'), 'ড্যাশবোর্ড তথ্য লোড করতে সমস্যা হয়েছে');
+        }
+    }
+
+    function toBengaliNumber(num) {
+        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return num.toString().split('').map(d => bengaliDigits[d] || d).join('');
+    }
+
+    function getStatusBadgeBengali(status) {
+        const statusMap = {
+            'PENDING': '<span class="badge bg-warning">অপেক্ষমাণ</span>',
+            'APPROVED': '<span class="badge bg-success">অনুমোদিত</span>',
+            'REJECTED': '<span class="badge bg-danger">প্রত্যাখ্যাত</span>'
+        };
+        return statusMap[status] || status;
+    }
+
+    function getAccountTypeBengali(type) {
+        const typeMap = {
+            'SAVINGS': 'সঞ্চয়ী',
+            'CURRENT': 'চলতি',
+            'FD': 'স্থায়ী আমানত'
+        };
+        return typeMap[type] || type;
+    }
+
+    function formatDateBengali(dateString) {
+        const bengaliMonths = ['জানু', 'ফেব', 'মার্চ', 'এপ্রি', 'মে', 'জুন', 'জুলা', 'আগ', 'সেপ', 'অক্টো', 'নভে', 'ডিসে'];
+        const date = new Date(dateString);
+        return `${date.getDate()} ${bengaliMonths[date.getMonth()]}, ${date.getFullYear()}`;
+    }
+
+    // Load dashboard on page load
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+
+    // Refresh every 30 seconds
+    setInterval(loadDashboard, 30000);
+</script>
+{% endblock %}
