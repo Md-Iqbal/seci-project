@@ -31,14 +31,10 @@ def apply_account(request):
     """Account application form for public users"""
     if request.method == 'POST':
         form = AccountApplicationForm(request.POST, request.FILES)
-        
-        print('Form data:', request.POST)
-        print('Form files:', request.FILES)
 
         if form.is_valid():
             try:
                 application = form.save()
-                print(f'Application created: {application.application_number}')
                 
                 # Log the creation
                 ApplicationLog.objects.create(
@@ -56,7 +52,6 @@ def apply_account(request):
                 )
                 return redirect('application_success', app_number=application.application_number)
             except Exception as e:
-                print(f'Error creating application: {str(e)}')
                 logger.error(f'Error creating application: {str(e)}')
                 messages.error(request, 'আবেদন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।')
     else:
@@ -425,9 +420,7 @@ import base64
 @user_passes_test(lambda u: u.is_staff)
 def print_application(request, app_number):
     application = get_object_or_404(AccountApplication, application_number=app_number)
-    print(application)
     img_path = finders.find('logo/logo.png')
-    print(f'Logo path: {img_path}')
 
 
     with open(img_path, "rb") as f:

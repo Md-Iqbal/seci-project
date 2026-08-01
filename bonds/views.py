@@ -50,7 +50,7 @@ def application_success(request, application_no):
     }
     return render(request, 'bonds/success.html', context)
 def search_application(request):
-    """Search application/account by application_no"""
+    """Search application by application_no"""
     applications = None
     
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def search_application(request):
             ).order_by('-application_date')
             
             if not applications.exists():
-                messages.info(request, 'এই এনআইডি নম্বর দিয়ে কোনো আবেদন পাওয়া যায়নি।')
+                messages.info(request, 'এই নম্বর দিয়ে কোনো আবেদন পাওয়া যায়নি।')
             else:
                 logger.info(f'Application no search: {application_no}, Found: {applications.count()} bonds')
     else:
@@ -97,7 +97,7 @@ def bond_detail_public(request, application_no):
     
     context = {
         'bond': bond,
-        'page_title': 'Application Details',
+        'page_title': 'Bond Application Details',
         'status_bengali': status_bengali.get(bond.status, bond.status),
     }
     return render(request, 'bonds/bond_detail.html', context)
@@ -208,14 +208,89 @@ def process_applicationBond(request, application_no):
     }
     
     return render(request, 'bonds/process_applicationBond.html', context)
-
+from django.urls import reverse
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def print_application(request, application_no):
-    bond_type = request.GET.get("type")
+
+    pdf_url = request.build_absolute_uri(
+        reverse(
+            "print_application_html",
+            args=[application_no]
+        )
+    )
+
+    with sync_playwright() as p:
+
+        browser = p.chromium.launch(
+            headless=True,
+            args=[
+                "--font-render-hinting=medium",
+                "--disable-dev-shm-usage",
+            ]
+        )
+
+        context = browser.new_context()
+
+        # Copy login cookies so Playwright stays authenticated
+        cookies = []
+
+        for name, value in request.COOKIES.items():
+            cookies.append({
+                "name": name,
+                "value": value,
+                "domain": request.get_host().split(":")[0],
+                "path": "/",
+                "httpOnly": False,
+                "secure": request.is_secure(),
+            })
+
+        context.add_cookies(cookies)
+
+        page = context.new_page()
+
+        page.goto(
+            pdf_url,
+            wait_until="networkidle"
+        )
+
+        # Wait until every font has loaded
+        page.wait_for_function("""
+            () => document.fonts.status === 'loaded'
+        """)
+
+        pdf = page.pdf(
+            format="A4",
+            print_background=True,
+            margin={
+                "top": "0",
+                "right": "0",
+                "bottom": "0",
+                "left": "0",
+            }
+        )
+
+        browser.close()
+
+    response = HttpResponse(
+        pdf,
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = (
+        f'inline; filename="Sonali_Bank_Form_{application_no}.pdf"'
+    )
+
+    return response
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def print_application_html(request, application_no):
+
     app = USDBond.objects.filter(
         application_no=application_no
     ).first()
+
     if app:
         template = "bonds/print_application.html"
     else:
@@ -224,33 +299,10 @@ def print_application(request, application_no):
             application_no=application_no
         )
         template = "bonds/print_application WEB.html"
-    
+
     context = {
-        'application': app,
-        'today': datetime.now().strftime("%d/%m/%Y")
+        "application": app,
+        "today": datetime.now().strftime("%d/%m/%Y"),
     }
 
-    html_string = render_to_string(template, context)
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        
-        # Critical: Wait for fonts and CSS to fully load
-        page.set_content(html_string, wait_until="networkidle")
-        
-        pdf_bytes = page.pdf(
-            format="A4",
-            print_background=True,
-            margin={
-                "top":"0",
-                "bottom":"0",
-                "left":"0",
-                "right":"0"
-            }
-        )
-        browser.close()
-
-    response = HttpResponse(pdf_bytes, content_type="application/pdf")
-    response["Content-Disposition"] = f'inline; filename="Sonali_Bank_Form_{application_no}.pdf"'
-    
-    return response
+    return render(request, template, context)

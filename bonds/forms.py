@@ -34,10 +34,10 @@ class WageEarnersBondForm(forms.ModelForm):
                     "rows": 2
                 }),
 
-            "name_of_paying_office":
+            "applicant_name_bn":
                 forms.Textarea(attrs={
                     "rows": 2
-                }),
+                })
 
         }
 class ApplicationSearchForm(forms.Form):

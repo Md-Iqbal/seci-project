@@ -44,7 +44,10 @@ class WageEarnersBondViewSet(viewsets.ModelViewSet):
         if search_param:
             queryset = queryset.filter(
                 Q(application_no__icontains=search_param) |
-                Q(applicant_name__icontains=search_param)
+                Q(applicant_name__icontains=search_param) |
+                Q(applicant_name_bn__icontains=search_param) |
+                Q(nid_number__icontains=search_param) |
+                Q(mobile_no__icontains=search_param)
             )
         
         return queryset
@@ -52,7 +55,6 @@ class WageEarnersBondViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            print(request.data)
             serializer=self.get_serializer(data=request.data)
             # data = request.data.copy()
 
@@ -105,7 +107,6 @@ class WageEarnersBondViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], permission_classes=[IsStaffUser])
     def process(self, request, application_no=None):
         """Approve or reject application"""
-        print("prcessing api")
         application = self.get_object()
         
         if application.status != ApplicationStatus.PENDING:
@@ -119,7 +120,6 @@ class WageEarnersBondViewSet(viewsets.ModelViewSet):
             action_type = serializer.validated_data['action']
             
             if action_type == 'approve':
-                print('Approved api')
                 application.approve(request.user)
                 
                 BondApprovalLog.objects.create(
@@ -131,7 +131,6 @@ class WageEarnersBondViewSet(viewsets.ModelViewSet):
                 
                 message = f'Application Approved! Application No: {application.application_no}'
             else:
-                print('Rejected api')
                 reason = serializer.validated_data['rejection_reason']
                 application.reject(request.user, reason)
                 
@@ -190,9 +189,7 @@ class USDBondViewSet(viewsets.ModelViewSet):
     
 
     def create(self, request, *args, **kwargs):
-        print("Function Found")
         try:
-            print(request.data)
             serializer=self.get_serializer(data=request.data)
             # data = request.data.copy()
 
@@ -235,7 +232,6 @@ class USDBondViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], permission_classes=[IsStaffUser])
     def process(self, request, application_no=None):
         """Approve or reject application"""
-        print("prcessing api")
         application = self.get_object()
         
         if application.status != ApplicationStatus.PENDING:
@@ -249,7 +245,6 @@ class USDBondViewSet(viewsets.ModelViewSet):
             action_type = serializer.validated_data['action']
             
             if action_type == 'approve':
-                print('Approved api')
                 application.approve(request.user)
                 
                 USDBondApprovalLog.objects.create(
@@ -261,7 +256,6 @@ class USDBondViewSet(viewsets.ModelViewSet):
                 
                 message = f'Application Approved! Application No: {application.application_no}'
             else:
-                print('Rejected api')
                 reason = serializer.validated_data['rejection_reason']
                 application.reject(request.user, reason)
                 

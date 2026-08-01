@@ -27,4 +27,5 @@ urlpatterns = [
     path('<str:application_no>/', views.bond_detail_public, name='application_detail_public'),
     path('<str:application_no>/process/', views.process_applicationBond, name='process_applicationBond'),
     path('<str:application_no>/print/', views.print_application, name='print_application_bonds'),
+    path('<str:application_no>/print/html/', views.print_application_html, name="print_application_html"),
 ]

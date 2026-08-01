@@ -1,13 +1,12 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.models import User
-
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from .utils import generate_WEB_application_no, generate_USDB_application_no
 from num2words import num2words
-
+from decimal import Decimal
 # class ApplicationStatus(models.TextChoices):
 #     PENDING = 'PENDING', 'Pending'
 #     APPROVED = 'APPROVED', 'Approved'
@@ -23,31 +22,56 @@ class USD_BondChice(models.TextChoices):
 class CURRENCY_CHOICE(models.TextChoices):
     USD = 'USD','USD'
     BDT = 'BDT','BDT'
+class WageEarnersBondBranch_CHOICE(models.TextChoices):
+    DHAKA = 'Wage Earners Corp br. Dhaka', 'Wage Earners Corp br. Dhaka'
+    DHAKA_CANT = 'Dhaka Cant.Corp br. Dhaka','Dhaka Cant.Corp br. Dhaka'
+    CHITTAGONG = 'Wage Earners Corp br. Chattogram', 'Wage Earners Corp br. Chattogram'
+    KHULNA = 'Khulna Corp. br. Khulna', 'Khulna Corp. br. Khulna'
+    SYLHET = 'Dargagate Corp. br. Sylhet', 'Dargagate Corp. br. Sylhet'
 
 class WageEarnersBond(models.Model):
+    # Rename field FC_account_office on wageearnersbond to Bank_account_branch
+    # - Rename field FC_account_no on wageearnersbond to Bank_account_no
+    # - Remove field address_of_paying_office from wageearnersbond
+    # - Add field Bank_name to wageearnersbond
+    # - Add field applicant_address_abroad to wageearnersbond
+    # - Add field applicant_name_bn to wageearnersbond
+    # - Add field nid_number to wageearnersbond
+    # - Alter field applicant_address on wageearnersbond
+    # - Alter field name_of_paying_office on wageearnersbond
     application_no = models.CharField(max_length=30, unique=True)
     application_date = models.DateField(auto_now_add=True)
     applicant_name = models.CharField(max_length=250)
+    applicant_name_bn = models.CharField(max_length=250, blank=True, null=True)
     nominee_name = models.CharField(max_length=250, blank=True)
-    applicant_address = models.TextField()
+    applicant_address = models.TextField(null=True, blank=True)#bd address
+    applicant_address_abroad = models.TextField(null=True, blank=True)#foreign address
     nominee_address = models.TextField(blank=True)
-    name_of_paying_office = models.CharField(max_length=250, null=True, blank=True)
-    address_of_paying_office = models.CharField(max_length=255, null=True, blank=True)
+    name_of_paying_office = models.CharField(
+        max_length=150,
+        choices=WageEarnersBondBranch_CHOICE.choices,
+        default=WageEarnersBondBranch_CHOICE.DHAKA
+    )
     currency = models.CharField(
         max_length=10,
         choices=CURRENCY_CHOICE.choices,
         default=CURRENCY_CHOICE.BDT
     )
     mobile_no = models.CharField(max_length=20, null=True, blank=True)
-    denomination = models.CharField(
-        max_length=20,
-        null=True,
-        blank=True
+    denomination = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        validators=[MinValueValidator(0)], 
+        null=True, blank=True
+    )
+    denomication_words = models.CharField(
+        max_length=500, null=True, blank=True
     )
     face_value = models.DecimalField(
         max_digits=18,
         decimal_places=2,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)], 
+        default=25000.00, null=True, blank=True
     )
     face_value_words = models.CharField(
         max_length=500, null=True, blank=True
@@ -56,16 +80,19 @@ class WageEarnersBond(models.Model):
     total_amount = models.DecimalField(
         max_digits=18,
         decimal_places=2,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        null=True, blank=True
     )
-    FC_account_no = models.CharField(max_length=20,blank=True,null=True)
-    FC_account_office = models.CharField(max_length=150,blank=True,null=True)
+    Bank_name = models.CharField(max_length=150,blank=True,null=True)
+    Bank_account_no = models.CharField(max_length=20,blank=True,null=True)
+    Bank_account_branch = models.CharField(max_length=150,blank=True,null=True)
     service = models.CharField(max_length=150,blank=True,null=True)
     service_address = models.CharField(max_length=250,blank=True,null=True)
     reference_name = models.CharField(max_length=150,blank=True,null=True)
     reference_service = models.CharField(max_length=150,blank=True,null=True)
     reference_service_address = models.CharField(max_length=250,blank=True,null=True)
     # wage_earner_buying_branch = models.CharField(max_length=250,blank=True,null=True)
+    nid_number = models.CharField(max_length=20, null=True, blank=True)
     passport_no = models.CharField(
         max_length=50,
         blank=True
@@ -126,8 +153,11 @@ class WageEarnersBond(models.Model):
             last = WageEarnersBond.objects.order_by("-id").first()
             next_id = 1 if not last else last.id + 1
             self.application_no = generate_WEB_application_no(next_id)
-        self.face_value_words = num2words(self.face_value, lang="en").upper()
-        self.total_amount = self.face_value * self.total_no_of_bonds
+        self.face_value = Decimal("25000.00")
+        self.face_value_words = num2words(self.face_value, lang="en")
+        self.denomication_words = num2words(self.denomination, lang="en")
+        self.total_amount = self.denomination
+        self.total_no_of_bonds = self.total_amount / self.face_value
         super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.application_no} | {self.applicant_name}"

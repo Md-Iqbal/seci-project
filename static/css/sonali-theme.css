@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/fonts-archive/NikoshBAN/NikoshBAN.css');
+/* @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/fonts-archive/NikoshBAN/NikoshBAN.css'); */
 
 :root {
   --gold: #c8960c;
@@ -17,6 +17,43 @@
   --warning: #f39c12;
   --info: #3498db;
 }
+@font-face {
+    font-family: "Nikosh";
+    src: url("/static/fonts/Nikosh.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+/* Hind Siliguri */
+@font-face {
+    font-family: "Hind Siliguri";
+    src: url("/static/fonts/HindSiliguri.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}/* Arial */
+@font-face {
+    font-family: "Arial";
+    src: url("/static/fonts/ARIAL.TTF") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}/* SansSerifFLF.otf*/
+@font-face {
+    font-family: "sans-serif";
+    src: url("/static/fonts/SansSerifFLF.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+/* Times New Roman.ttf*/
+@font-face {
+    font-family: "Times New Roman";
+    src: url("/static/fonts/times.otf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 * {
   box-sizing: border-box;
@@ -25,7 +62,7 @@
 }
 
 body {
-  font-family: 'Hind Siliguri', 'Nikosh', Arial, sans-serif;
+  font-family: "Hind Siliguri", "Nikosh", "SansSerifFLF", "Times New Roman", Arial, sans-serif;
   background: #f4efe0;
   color: var(--text);
   font-size: 14px;

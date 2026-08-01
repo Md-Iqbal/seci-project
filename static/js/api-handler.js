@@ -70,7 +70,8 @@ class APIHandler {
     async createApplication(formData) {
         // formData should be a FormData object, not plain object
         const url = `${this.baseURL}/api/applications/`;
-        const defaultOptions = {
+        try {
+            const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': this.csrfToken,
@@ -78,9 +79,7 @@ class APIHandler {
             },
             credentials: 'same-origin',
             body: formData  // FormData object
-        };
-        try {
-            const response = await fetch(url, defaultOptions);
+        });
             const data = await response.json();   
             if (!response.ok) {
                 throw { status: response.status, data };

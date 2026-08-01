@@ -125,21 +125,38 @@
                                     FULL NAME IN ENGLISH(BLOCK LETTER) <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="applicant_name" name="applicant_name" required
-                                    placeholder="Write full name in English (BLOCK LETTERS)">
+                                    placeholder="Write full name in English (BLOCK LETTERS)" 
+                                    style="text-transform: uppercase;" 
+                                    oninput="this.value = this.value.toUpperCase();">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="nominee_name" class="form-label">
-                                    Nominee Name <span class="text-danger">*</span>
+                            <div class="col-md-6 mb-3 bn-text">
+                                <label for="applicant_name_bn" class="form-label bn-text">
+                                    পূর্ণ নাম (বাংলা) <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="nominee_name" name="nominee_name" required>
+                                <input type="text" class="form-control" id="applicant_name_bn" name="applicant_name_bn" required
+                                    placeholder="বাংলা অক্ষরে পূর্ণ নাম লিখুন">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="applicant_address" class="form-label">
-                                    Address <span class="text-danger">*</span>
+                                    Address in Bangladesh <span class="text-danger">*</span>
                                 </label>
                                 <textarea class="form-control" id="applicant_address" name="applicant_address" required></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="applicant_address_abroad" class="form-label">
+                                    Address in Abroad <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="applicant_address_abroad" name="applicant_address_abroad" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_name" class="form-label">
+                                    Nominee Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_name" name="nominee_name" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="nominee_address" class="form-label">
@@ -164,37 +181,27 @@
                                 <label for="name_of_paying_office" class="form-label">
                                     Branch Name from Where You Want to Buy Your WAGE EARNER BOND <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="name_of_paying_office" name="name_of_paying_office" required placeholder="Write Bond Buying Office Name" required>
+                                <select class="form-select" id="currency" name="currency" required>
+                                    <option value="Wage Earners Corp br. Dhaka">Wage Earners Corp br. Dhaka</option>
+                                    <option value="Dhaka Cant.Corp br. Dhaka">Dhaka Cant.Corp br. Dhaka</option>
+                                    <option value="Wage Earners Corp br. Chattogram">Wage Earners Corp br. Chattogram</option>
+                                    <option value="Khulna Corp. br. Khulna">Khulna Corp. br. Khulna</option>
+                                    <option value="Dargagate Corp. br. Sylhet">Dargagate Corp. br. Sylhet</option>
+                                </select>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="currency" class="form-label">
                                     Currency <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select" id="currency" name="currency" required>
-                                    <option value="">*Select currency*</option>
-                                    <option value="USD">USD</option>
-                                    <option value="BDT">BDT</option>
-                                </select>
+                                <input type="text" id="currency" name="currency" class="form-control bond-count" value="BDT" readonly>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="address_of_paying_office" class="form-label">
-                                    Branch Address <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="address_of_paying_office" name="address_of_paying_office" required placeholder="Write Bond Buying Office Address" required>
-                            </div>
                             <div class="col-md-3 mb-3">
-                                <label for="face_value" class="form-label">
+                                <label for="denomination" class="form-label">
                                     Denomination <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" min="25000.00" id="face_value" name="face_value" class="form-control bond-count" value="25000.00" readonly>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="total_no_of_bonds" class="form-label">
-                                    No of quantity <span class="text-danger">*</span>
-                                </label>
-                                <input type="number" min="1" id="total_no_of_bonds" name="total_no_of_bonds" class="form-control bond-count" placeholder="Number of Bonds">
+                                <input type="text" id="denomination" name="denomination" class="form-control bond-count" inputmode="numeric" pattern="[0-9]*">
                             </div>
                         </div>
                         <div class="d-flex justify-content-between gap-2">
@@ -209,61 +216,68 @@
 
                     <!-- Step 3: Account & Documents -->
                     <div class="form-step" id="step3">
-                        <div class="section-title">Bond Buying Office</div>
+                        <div class="section-title">Your Banking Details</div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="FC_account_no" class="form-label">
-                                    F.C. Account No <span class="text-danger">*</span>
+                            <div class="col-md-3 mb-3">
+                                <label for="Bank_name" class="form-label">
+                                    Bank Name <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="FC_account_no" name="FC_account_no" required
-                                    placeholder="F.C. Account No">
+                                <input type="text" class="form-control" id="Bank_name" name="Bank_name" required
+                                    placeholder="Bank Name">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="Bank_account_branch" class="form-label">
+                                    Bank Account Branch Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="Bank_account_branch" name="Bank_account_branch" required
+                                    placeholder="Bank Account Branch Name">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="FC_account_office" class="form-label">
-                                    F.C. Account Branch Name <span class="text-danger">*</span>
+                                <label for="Bank_account_no" class="form-label">
+                                    Bank Account No <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="FC_account_office" name="FC_account_office" required
-                                    placeholder="F.C. Account Branch Name">
+                                <input type="text" class="form-control" id="Bank_account_no" name="Bank_account_no" required
+                                    placeholder="Bank Account No">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="service" class="form-label">
-                                    Your Service <span class="text-danger">*</span>
+                                    Your Profession <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="service" name="service" required
-                                    placeholder="Your Service/Occupation">
+                                    placeholder="Your Profession">
                             </div>
                             <div class="col-md-8 mb-3">
                                 <label for="service_address" class="form-label">
-                                    Service Address <span class="text-danger">*</span>
+                                    Professional Address <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="service_address" name="service_address" required
-                                    placeholder="Your Office Address Details">
+                                    placeholder="Your Professional Address Details">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="reference_name" class="form-label">
-                                    Who Are You Sent By <span class="text-danger">*</span>
+                                    Who Are You Sent By
                                 </label>
-                                <input type="text" class="form-control" id="reference_name" name="reference_name" required
+                                <input type="text" class="form-control" id="reference_name" name="reference_name"
                                     placeholder="Name of the Wage-Earner">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="reference_service" class="form-label">
-                                    Referred Person Service <span class="text-danger">*</span>
+                                    Referred Person Service
                                 </label>
-                                <input type="text" class="form-control" id="reference_service" name="reference_service" required
+                                <input type="text" class="form-control" id="reference_service" name="reference_service"
                                     placeholder="Service Name of Your Reference Individual">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-8 mb-3">
                                 <label for="reference_service_address" class="form-label">
-                                    Service Address of Your Reference <span class="text-danger">*</span>
+                                    Service Address of Your Reference
                                 </label>
-                                <input type="text" class="form-control" id="reference_service_address" name="reference_service_address" required
+                                <input type="text" class="form-control" id="reference_service_address" name="reference_service_address"
                                     placeholder="Service Address of Your Reference Individual">
                             </div>
                         </div>
@@ -282,6 +296,12 @@
                         <div class="section-title">Other Details</div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
+                                <label for="nid_number" class="form-label bn-text">
+                                    NID Number <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nid_number" name="nid_number" required placeholder="NID Number">
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label for="passport_no" class="form-label">
                                     Your Passport No <span class="text-danger">*</span>
                                 </label>
@@ -295,14 +315,14 @@
                                 <input type="text" class="form-control" id="place_of_issue" name="place_of_issue" required
                                     placeholder="Place of Passport Issue">
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="date_of_issue" class="form-label">
                                     Date of Issue <span class="text-danger">*</span>
                                 </label>
                                 <input type="date" class="form-control" id="date_of_issue" name="date_of_issue">
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="mobile_no" class="form-label">
                                     Your Mobile Number <span class="text-danger">*</span>

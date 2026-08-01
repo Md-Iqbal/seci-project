@@ -47,13 +47,9 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
         return [IsStaffUser()]
     
     def get_queryset(self):
-        print("QUERY PARAMS:", self.request.query_params)
-        print("TYPE:", self.request.query_params.get("type"))
         queryset = super().get_queryset()
-        print(self.request)
         # Filter by status from query params
         app_type = self.request.query_params.get("type")
-        print(app_type)
         if app_type:
             if app_type == "Wage":
                 return WageEarnersBond.objects.all()
@@ -77,23 +73,12 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
         return queryset
     
     def create(self, request, *args, **kwargs):
-        print("Api request received for creating application")
         try:
-            print("=" * 80)
-            print("REQUEST DATA:", request.data)
-            
-
             serializer = self.get_serializer(data=request.data)
-
-            print("Serializer created")
 
             serializer.is_valid(raise_exception=True)
 
-            print("Serializer valid")
-
             application = serializer.save()
-
-            print("Application saved:", application.application_number)
 
             return Response({
                 "application_number": application.application_number,
@@ -247,9 +232,5 @@ def dashboard_stats(request):
         'recent_WEBapplications': recent_web,
         'recent_USDBapplications': recent_usdb
     }
-    print("data")
-    print(data)
     serializer = DashboardStatsSerializer(data)
-    print("serializer data")
-    print(serializer.data)
     return Response(serializer.data)
