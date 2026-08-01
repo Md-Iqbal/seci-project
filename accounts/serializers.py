@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import AccountApplication, ApplicationLog, ApplicationStatus
+from bonds.models import WageEarnersBond, USDBond, ApplicationStatus
 import base64
 from django.core.files.base import ContentFile
 
@@ -23,12 +24,23 @@ class AccountApplicationListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = AccountApplication
-        fields = [
-            'id', 'application_number', 'application_date', 'status',
-            'status_display', 'full_name', 'nid_number', 'mobile_number',
-            'account_type', 'account_type_display', 'account_number',
-            'initial_deposit', 'is_expired'
-        ]
+        fields = '__all__'
+
+class WEBListSerializer(serializers.ModelSerializer):
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    is_expired = serializers.BooleanField(read_only=True)
+    
+    class Meta:
+        model = WageEarnersBond
+        fields = '__all__'
+
+class USDBListSerializer(serializers.ModelSerializer):
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    is_expired = serializers.BooleanField(read_only=True)
+    
+    class Meta:
+        model = USDBond
+        fields = '__all__'
 
 class AccountApplicationDetailSerializer(serializers.ModelSerializer):
     status_display = serializers.CharField(source='get_status_display', read_only=True)
@@ -59,7 +71,7 @@ class AccountApplicationCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ['application_number']  # Make it read-only
     
     def validate_nid_number(self, value):
-        # Check if NID already has an approved application
+        # Check if NID already has an approved or rejected application
         existing = AccountApplication.objects.filter(
             nid_number=value,
             status=ApplicationStatus.APPROVED
@@ -77,43 +89,6 @@ class AccountApplicationCreateSerializer(serializers.ModelSerializer):
             )
         return value
     
-    def validate_photograph(self, value):
-        if not value:
-            raise serializers.ValidationError("ছবি আপলোড করা আবশ্যক")
-        
-        # Check file size (max 5MB)
-        if value.size > 5 * 1024 * 1024:
-            raise serializers.ValidationError("ছবির সাইজ ৫ এমবি এর বেশি হতে পারবে না")
-        
-        # Check file type
-        if not value.content_type.startswith('image/'):
-            raise serializers.ValidationError("শুধুমাত্র ছবি ফাইল আপলোড করুন")
-        
-        return value
-    
-    def validate_nid_copy(self, value):
-        if not value:
-            raise serializers.ValidationError("এনআইডি কপি আপলোড করা আবশ্যক")
-        
-        # Check file size (max 5MB)
-        if value.size > 5 * 1024 * 1024:
-            raise serializers.ValidationError("ফাইলের সাইজ ৫ এমবি এর বেশি হতে পারবে না")
-        
-        return value
-    
-    def validate_signature(self, value):
-        if not value:
-            raise serializers.ValidationError("স্বাক্ষর আপলোড করা আবশ্যক")
-        
-        # Check file size (max 2MB)
-        if value.size > 2 * 1024 * 1024:
-            raise serializers.ValidationError("স্বাক্ষরের সাইজ ২ এমবি এর বেশি হতে পারবে না")
-        
-        # Check file type
-        if not value.content_type.startswith('image/'):
-            raise serializers.ValidationError("শুধুমাত্র ছবি ফাইল আপলোড করুন")
-        
-        return value
     
     def create(self, validated_data):
         application = AccountApplication.objects.create(**validated_data)
@@ -122,7 +97,7 @@ class AccountApplicationCreateSerializer(serializers.ModelSerializer):
         ApplicationLog.objects.create(
             application=application,
             action='APPLICATION_CREATED',
-            details=f'আবেদন জমা দেওয়া হয়েছে: {application.full_name}'
+            details=f'আবেদন জমা দেওয়া হয়েছে: {application.account_title_Eng}'
         )
         
         return application
@@ -134,7 +109,7 @@ class AccountApplicationCreateSerializer(serializers.ModelSerializer):
         representation['application_number'] = instance.application_number
         representation['application_date'] = instance.application_date
         representation['status'] = instance.status
-        representation['full_name'] = instance.full_name
+        representation['account_title_Eng'] = instance.account_title_Eng
         return representation
 
 class ApplicationApprovalSerializer(serializers.Serializer):
@@ -149,8 +124,19 @@ class ApplicationApprovalSerializer(serializers.Serializer):
         return data
 
 class DashboardStatsSerializer(serializers.Serializer):
+    pending_Acc = serializers.IntegerField()
+    pending_WEB = serializers.IntegerField()
+    pending_USDB = serializers.IntegerField()
+    approved_Acc = serializers.IntegerField()
+    approved_WEB = serializers.IntegerField()
+    approved_USDB = serializers.IntegerField()
+    rejected_Acc = serializers.IntegerField()
+    rejected_WEB = serializers.IntegerField()
+    rejected_USDB = serializers.IntegerField()
     pending_count = serializers.IntegerField()
     approved_count = serializers.IntegerField()
     rejected_count = serializers.IntegerField()
     total_count = serializers.IntegerField()
     recent_applications = AccountApplicationListSerializer(many=True)
+    recent_WEBapplications = WEBListSerializer(many=True)
+    recent_USDBapplications = USDBListSerializer(many=True)

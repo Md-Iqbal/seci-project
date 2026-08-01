@@ -87,18 +87,18 @@ class AccountApplicationForm(forms.ModelForm):
                 'step': '0.01',
                 'min': '500'
             }),
-            'photograph': forms.FileInput(attrs={
-                'class': 'form-control',
-                'accept': 'image/*'
-            }),
-            'nid_copy': forms.FileInput(attrs={
-                'class': 'form-control',
-                'accept': 'image/*,application/pdf'
-            }),
-            'signature': forms.FileInput(attrs={
-                'class': 'form-control',
-                'accept': 'image/*'
-            }),
+            # 'photograph': forms.FileInput(attrs={
+            #     'class': 'form-control',
+            #     'accept': 'image/*'
+            # }),
+            # 'nid_copy': forms.FileInput(attrs={
+            #     'class': 'form-control',
+            #     'accept': 'image/*,application/pdf'
+            # }),
+            # 'signature': forms.FileInput(attrs={
+            #     'class': 'form-control',
+            #     'accept': 'image/*'
+            # }),
             'nominee_name': forms.TextInput(attrs={'class': 'form-control'}),
             'nominee_relation': forms.TextInput(attrs={'class': 'form-control'}),
         }

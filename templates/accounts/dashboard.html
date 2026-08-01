@@ -4,6 +4,27 @@
 {% block title %}কর্মচারী ড্যাশবোর্ড - সোনালী ব্যাংক{% endblock %}
 
 {% block content %}
+<style>
+    .card-title.bn-text.dashbord-title  {
+        color: black;              
+        font-size: 24px;
+        padding: 10px;
+        display: inline-block;
+    }
+    .Count-font-color{
+        color: black;
+    }
+    #pendingCount {
+        color: black;
+    }
+    #approvedCount {
+        color: black;
+    }
+    #rejectedCount {
+        color: black;
+    }
+    
+</style>
 <div class="mb-4">
     <h2 class="bn-text">
         <i class="bi bi-speedometer2 text-gold"></i> কর্মচারী ড্যাশবোর্ড
@@ -16,13 +37,31 @@
         <div class="col-md-4">
             <div class="card stat-card bg-warning text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title bn-text">
-                        <i class="bi bi-hourglass-split"></i> অপেক্ষমাণ আবেদন
-                    </h5>
-                    <h2 id="pendingCount">-</h2>
-                    <a href="{% url 'application_list' %}?status=PENDING" class="btn btn-light btn-sm mt-2 bn-text">
+                    <h6 class="card-title bn-text dashbord-title">
+                        <i class="bi bi-hourglass-split"></i> Pending Applications
+                    </h6>
+                    <p class="Count-font-color">
+                        Account Application:
+                        <span id="pending-acc">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        WEB Application:
+                        <span id="pending-web">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        USD Bond Application:
+                        <span id="pending-usdb">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        Total Pending:
+                        <span id="pending-total">0</span>
+                    </p>
+                    <!-- <a href="{% url 'application_list' %}?status=PENDING" class="btn btn-dark btn-sm mt-2 bn-text">
                         সব দেখুন
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>
@@ -30,13 +69,31 @@
         <div class="col-md-4">
             <div class="card stat-card bg-success text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title bn-text">
-                        <i class="bi bi-check-circle"></i> অনুমোদিত আবেদন
-                    </h5>
-                    <h2 id="approvedCount">-</h2>
-                    <a href="{% url 'application_list' %}?status=APPROVED" class="btn btn-light btn-sm mt-2 bn-text">
+                    <h6 class="card-title bn-text dashbord-title">
+                        <i class="bi bi-check-circle"></i> Approved Applicaitons
+                    </h6>
+                    <p class="Count-font-color">
+                        Account Application:
+                        <span id="approved-acc">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        WEB Application:
+                        <span id="approved-web">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        USD Bond Application:
+                        <span id="approved-usdb">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        Total Approved:
+                        <span id="approved-total">0</span>
+                    </p>
+                    <!-- <a href="{% url 'application_list' %}?status=APPROVED" class="btn btn-dark btn-sm mt-2 bn-text">
                         সব দেখুন
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>
@@ -44,18 +101,52 @@
         <div class="col-md-4">
             <div class="card stat-card bg-danger text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title bn-text">
-                        <i class="bi bi-x-circle"></i> প্রত্যাখ্যাত আবেদন
-                    </h5>
-                    <h2 id="rejectedCount">-</h2>
-                    <a href="{% url 'application_list' %}?status=REJECTED" class="btn btn-light btn-sm mt-2 bn-text">
+                    <h6 class="card-title bn-text dashbord-title">
+                        <i class="bi bi-x-circle"></i> Rejected Applicaitons
+                    </h6>
+                    <p class="Count-font-color">
+                        Account Application:
+                        <span id="rejected-acc">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        WEB Application:
+                        <span id="rejected-web">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        USD Bond Application:
+                        <span id="rejected-usdb">0</span>
+                    </p>
+
+                    <p class="Count-font-color">
+                        Total Rejected:
+                        <span id="rejected-total">0</span>
+                    </p>
+                    <!-- <a href="{% url 'application_list' %}?status=REJECTED" class="btn btn-dark btn-sm mt-2 bn-text">
                         সব দেখুন
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="row" style="margin: 35px;">
+            <div class="col-md-4 mb-3">
+                <a href="{% url 'application_list' %}?type=Account" class="btn btn-dark btn-sm mt-2 bn-text">
+                    View All Account Application ->
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{% url 'application_list' %}?type=Wage" class="btn btn-dark btn-sm mt-2 bn-text">
+                    View All Wage Earners Bond Application ->
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{% url 'application_list' %}?type=USD" class="btn btn-dark btn-sm mt-2 bn-text">
+                    View All USD Investment/Premium Application ->
+                </a>
+            </div>
+    </div>
     <div class="card border-gold shadow-gold">
         <div class="card-header">
             <h5 class="mb-0 bn-text">
@@ -82,12 +173,20 @@
     async function loadDashboard() {
         try {
             const stats = await api.getDashboardStats();
-
-            // Update counts with Bengali numbers
-            document.getElementById('pendingCount').textContent = toBengaliNumber(stats.pending_count);
-            document.getElementById('approvedCount').textContent = toBengaliNumber(stats.approved_count);
-            document.getElementById('rejectedCount').textContent = toBengaliNumber(stats.rejected_count);
-
+            document.getElementById("pending-acc").textContent = stats.pending_Acc;
+            document.getElementById("pending-web").textContent = stats.pending_WEB;
+            document.getElementById("pending-usdb").textContent = stats.pending_USDB;
+            document.getElementById("pending-total").textContent = stats.pending_count;
+            
+            document.getElementById("approved-acc").textContent = stats.approved_Acc;
+            document.getElementById("approved-web").textContent = stats.approved_WEB;
+            document.getElementById("approved-usdb").textContent = stats.approved_USDB;
+            document.getElementById("approved-total").textContent = stats.approved_count;
+            
+            document.getElementById("rejected-acc").textContent = stats.rejected_Acc;
+            document.getElementById("rejected-web").textContent = stats.rejected_WEB;
+            document.getElementById("rejected-usdb").textContent = stats.rejected_USDB;
+            document.getElementById("rejected-total").textContent = stats.rejected_count;
             // Build recent applications table
             let tableHTML = `
             <table class="table table-hover mb-0">
@@ -104,7 +203,7 @@
                 <tbody class="bn-text">
         `;
 
-            if (stats.recent_applications.length === 0) {
+            if (stats.recent_applications.length === 0 || stats.recent_USDBapplications.length === 0 || stats.recent_WEBapplications.length === 0) {
                 tableHTML += `
                 <tr>
                     <td colspan="6" class="text-center">কোনো আবেদন পাওয়া যায়নি</td>
@@ -118,12 +217,52 @@
                     tableHTML += `
                     <tr>
                         <td><code>${app.application_number}</code></td>
-                        <td>${app.full_name}</td>
+                        <td>${app.account_title_Eng}</td>
                         <td>${accountType}</td>
-                        <td>${formatDateBengali(app.application_date)}</td>
+                        <td>${app.application_date}</td>
                         <td>${statusBadge}</td>
                         <td>
                             <a href="/applications/${app.application_number}/detail/" 
+                               class="btn btn-sm btn-primary" title="বিস্তারিত দেখুন">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                });
+                stats.recent_WEBapplications.forEach(app => {
+                    const statusBadge = getStatusBadgeBengali(app.status);
+                    const accountType = 'Wage Earners Bond';
+
+                    tableHTML += `
+                    <tr>
+                        <td><code>${app.application_no}</code></td>
+                        <td>${app.applicant_name}</td>
+                        <td>${accountType}</td>
+                        <td>${app.application_date}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <a href="/bonds/${app.application_no}/"
+                               class="btn btn-sm btn-primary" title="বিস্তারিত দেখুন">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                });
+                stats.recent_USDBapplications.forEach(app => {
+                    const statusBadge = getStatusBadgeBengali(app.status);
+                    const accountType = getAccountTypeBengali(app.bond_type);
+
+                    tableHTML += `
+                    <tr>
+                        <td><code>${app.application_no}</code></td>
+                        <td>${app.applicant_name}</td>
+                        <td>${accountType}</td>
+                        <td>${app.application_date}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <a href="/bonds/${app.application_no}/" 
                                class="btn btn-sm btn-primary" title="বিস্তারিত দেখুন">
                                 <i class="bi bi-eye"></i>
                             </a>
@@ -146,10 +285,6 @@
         }
     }
 
-    function toBengaliNumber(num) {
-        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-        return num.toString().split('').map(d => bengaliDigits[d] || d).join('');
-    }
 
     function getStatusBadgeBengali(status) {
         const statusMap = {
@@ -164,15 +299,13 @@
         const typeMap = {
             'SAVINGS': 'সঞ্চয়ী',
             'CURRENT': 'চলতি',
-            'FD': 'স্থায়ী আমানত'
+            'SND': 'এসএনডি',
+            'FC': 'এফসি',
+            'RFCD': 'আরএফসিডি',
+            'NFCD': 'এনএফসিডি',
+            'OTHERS': 'অন্যান্য'
         };
         return typeMap[type] || type;
-    }
-
-    function formatDateBengali(dateString) {
-        const bengaliMonths = ['জানু', 'ফেব', 'মার্চ', 'এপ্রি', 'মে', 'জুন', 'জুলা', 'আগ', 'সেপ', 'অক্টো', 'নভে', 'ডিসে'];
-        const date = new Date(dateString);
-        return `${date.getDate()} ${bengaliMonths[date.getMonth()]}, ${date.getFullYear()}`;
     }
 
     // Load dashboard on page load

@@ -122,22 +122,18 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="full_name" class="form-label bn-text">
-                                    পূর্ণ নাম (ইংরেজিতে) <span class="text-danger">*</span>
+                                    পূর্ণ নাম (বাংলা) <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="full_name" name="full_name" required
-                                    placeholder="IN CAPITAL LETTERS">
+                                <input type="text" class="form-control" id="full_name_bengali" name="full_name_bng" required
+                                    placeholder="বাংলা অক্ষরে পূর্ণ নাম লিখুন">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="nid_number" class="form-label bn-text">
-                                    জাতীয় পরিচয়পত্র নম্বর <span class="text-danger">*</span>
+                                <label for="full_name" class="form-label bn-text">
+                                    FULL NAME IN ENGLISH(BLOCK LETTER) <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="nid_number" name="nid_number"
-                                    pattern="^\d{10}$|^\d{13}$|^\d{17}$" required placeholder="১০, ১৩ অথবা ১৭ ডিজিট">
-                                <small class="text-muted bn-text">১০, ১৩ অথবা ১৭ সংখ্যার এনআইডি</small>
+                                <input type="text" class="form-control" id="full_name_english" name="full_name_eng" required
+                                    placeholder="Write full name in English (BLOCK LETTERS)">
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="father_name" class="form-label bn-text">
                                     পিতার নাম <span class="text-danger">*</span>
@@ -150,16 +146,19 @@
                                 </label>
                                 <input type="text" class="form-control" id="mother_name" name="mother_name" required>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="date_of_birth" class="form-label bn-text">
-                                    জন্ম তারিখ <span class="text-danger">*</span>
+                            <div class="col-md-6 mb-3">
+                                <label for="spouse_name" class="form-label bn-text">
+                                    স্বামী/স্ত্রীর নাম <span class="text-danger"></span>
                                 </label>
-                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
-                                    required>
+                                <input type="text" class="form-control" id="spouse_name" name="spouse_name">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nationality" class="form-label bn-text">
+                                    জাতীয়তা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nationality" name="nationality" required>
+                            </div>
+                            <p class="text-muted bn-text small">(হিসাবধারী বিদেশি নাগরিক হলে ভিসাসহ পাসপোর্টের কপি আবশ্যিকভাবে গ্রহণ করতে হবে)</p>
                             <div class="col-md-4 mb-3">
                                 <label for="gender" class="form-label bn-text">
                                     লিঙ্গ <span class="text-danger">*</span>
@@ -171,22 +170,111 @@
                                     <option value="O">অন্যান্য</option>
                                 </select>
                             </div>
+
                             <div class="col-md-4 mb-3">
-                                <label for="mobile_number" class="form-label bn-text">
-                                    মোবাইল নম্বর <span class="text-danger">*</span>
+                                <label for="date_of_birth" class="form-label bn-text">
+                                    জন্ম তারিখ <span class="text-danger">*</span>
                                 </label>
-                                <input type="tel" class="form-control" id="mobile_number" name="mobile_number"
-                                    pattern="^01[3-9]\d{8}$" required placeholder="০১৭১২৩৪৫৬৭৮">
-                                <small class="text-muted bn-text">উদাহরণ: ০১৭১২৩৪৫৬৭৮</small>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="residency_status" class="form-label bn-text">
+                                    Resident/Non-resident <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="residency_status" name="resident_status" required>
+                                    <option value="">Select</option>
+                                    <option value="RESIDENT">Resident</option>
+                                    <option value="NON_RESIDENT">Non-Resident</option>
+                                </select>
+                            </div>
+                            <!-- <p class="text-muted bn-text small">(প্রয়োজনীয় ক্ষেত্রে ব্যাংক কর্তৃক গাইডলাইন ফর ফরেন এক্সচেঞ্জ ট্রানজেকশনস এর নির্দেশনা অনুসরণ করতে হবে)</p> -->
+                            <div class="col-md-4 mb-3">
+                                <label for="tin_number" class="form-label bn-text">
+                                    ট্যাক্স আইডি নম্বর(TIN) (যদি থাকে) <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="tin_number" name="TIN" required
+                                    placeholder="ট্যাক্স আইডি নম্বর(TIN) লিখুন">
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="email" class="form-label bn-text">ই-মেইল (ঐচ্ছিক)</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="email@example.com">
+                            <div class="col-md-4 mb-3">
+                                <label for="occupation" class="form-label bn-text">
+                                    পেশা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="occupation" name="service" required
+                                    placeholder="পেশা লিখুন">
                             </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="monthly_income" class="form-label bn-text">
+                                    মাসিক আয় <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="monthly_income" name="monthly_income" min="1000" max="10000000" required
+                                    placeholder="মাসিক আয় লিখুন">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="income_source" class="form-label bn-text">
+                                    আয়ের উৎস <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="income_source" name="income_source" required
+                                    placeholder="আয়ের উৎস লিখুন">
+                            </div>
+                        </div>
+                        <!-- national level identification number. 1 must be provided from any of the following -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nid_number" class="form-label bn-text">
+                                    জাতীয় পরিচয় পত্র নম্বর 
+                                </label>
+                                <input type="text" class="form-control" id="nid_number" name="nid_number" placeholder="জাতীয় পরিচিতি নম্বর লিখুন">
+                            </div>
+                            <!-- select from dropdown passport no/birth certificate no/ others & take input for that certificate  -->
+                            <div class="col-md-4 mb-3">
+                                <label for="other_id_type" class="form-label bn-text">
+                                    অন্যান্য পরিচয়পত্রের ধরন (যদি থাকে)
+                                </label>
+                                <select class="form-select" id="other_id_type" name="other_doc_name">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="passport">পাসপোর্ট নম্বর</option>
+                                    <option value="birth_certificate">জন্ম সনদ নম্বর</option>
+                                    <option value="others">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <!-- input field for other ID number if selected -->
+                            <div class="col-md-4 mb-3">
+                                <label for="other_id_number" class="form-label bn-text">
+                                    অন্যান্য পরিচয়পত্র নম্বর
+                                </label>
+                                <input type="text" class="form-control" id="other_id_number" name="other_number"
+                                    placeholder="অন্যান্য পরিচয়পত্র নম্বর লিখুন">
+                            </div>    
+                        </div>
+                        <div class="row">
+                            <p class="text-muted bn-text small">পরিচয়দানকারীর তথ্য (জাতীয় পরিচয়পত্র ব্যতীত অন্যান্য পরিচিতিপত্র প্রদানের ক্ষেত্রে):</p>
+                            <div class="col-md-4 mb-3">
+                                <label for="reference_person_name" class="form-label bn-text">
+                                    নাম<span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="reference_person_name" name="reference_person_name" placeholder="পূর্ণ নাম লিখুন">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="reference_doc_name" class="form-label bn-text">
+                                    অন্যান্য পরিচয়পত্রের ধরন (যদি থাকে)
+                                </label>
+                                <select class="form-select" id="reference_doc_name" name="reference_doc_name">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="passport">জাতীয় পরিচয় পত্র নম্বর</option>
+                                    <option value="birth_certificate">একাউন্ট হিসাব নম্বর</option>
+                                </select>
+                            </div>
+                            <!-- input field for other ID number if selected -->
+                            <div class="col-md-4 mb-3">
+                                <label for="reference_number" class="form-label bn-text">
+                                    অন্যান্য পরিচয়পত্র নম্বর
+                                </label>
+                                <input type="text" class="form-control" id="reference_number" name="reference_number"
+                                    placeholder="অন্যান্য পরিচয়পত্র নম্বর লিখুন">
+                            </div>    
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
@@ -202,45 +290,92 @@
 
                         <h6 class="bn-text text-gold mb-3">বর্তমান ঠিকানা</h6>
                         <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="present_address" class="form-label bn-text">
-                                    বর্তমান ঠিকানা <span class="text-danger">*</span>
-                                </label>
-                                <textarea class="form-control" id="present_address" name="present_address" rows="3"
-                                    required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="city" class="form-label bn-text">
-                                    শহর/জেলা <span class="text-danger">*</span>
+                                <label for="present_village" class="form-label bn-text">
+                                    সড়ক/গ্রাম <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="city" name="city" required>
+                                <input type="text" class="form-control" id="present_village" name="pre_vill" required placeholder="সড়ক/গ্রাম লিখুন">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="postal_code" class="form-label bn-text">
-                                    পোস্ট কোড <span class="text-danger">*</span>
+                                <label for="present_postal_code" class="form-label bn-text">
+                                    পোস্ট<span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="postal_code" name="postal_code" required>
+                                <input type="text" class="form-control" id="present_postal_code" name="pre_post_office" required placeholder="পোস্ট অফিস/পোষ্টাল কোড লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="present_police_station" class="form-label bn-text">
+                                    থানা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="present_police_station" name="pre_ps" required placeholder="থানা লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="present_district" class="form-label bn-text">
+                                    জেলা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="present_district" name="pre_district" required placeholder="জেলা লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="present_phone" class="form-label bn-text">
+                                    ফোন/মোবাইল <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" class="form-control" id="present_phone" name="pre_phone"
+                                    pattern="^01[3-9]\d{8}$" required placeholder="০১৭১২৩৪৫৬৭৮">
+                                <small class="text-muted bn-text">উদাহরণ: ০১৭১২৩৪৫৬৭৮</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="present_email" class="form-label bn-text">
+                                    ই-মেইল (ঐচ্ছিক)
+                                </label>
+                                <input type="email" class="form-control" id="present_email" name="pre_email" placeholder="ই-মেইল লিখুন">
                             </div>
                         </div>
 
                         <h6 class="bn-text text-gold mb-3 mt-4">স্থায়ী ঠিকানা</h6>
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="permanent_address" class="form-label bn-text">
-                                    স্থায়ী ঠিকানা <span class="text-danger">*</span>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="sameAsPresent" onclick="copyAddress()">
+                            <label class="form-check-label bn-text" for="sameAsPresent">
+                                বর্তমান ঠিকানা স্থায়ী ঠিকানার সাথে একই
+                            </label>
+                        </div>
+                        <!-- all fields as like as present address also for permanent -->
+                         <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_village" class="form-label bn-text">
+                                    সড়ক/গ্রাম <span class="text-danger">*</span>
                                 </label>
-                                <textarea class="form-control" id="permanent_address" name="permanent_address" rows="3"
-                                    required></textarea>
-                                <div class="form-check mt-2">
-                                    <input class="form-check-input" type="checkbox" id="sameAsPresent"
-                                        onchange="copyAddress()">
-                                    <label class="form-check-label bn-text" for="sameAsPresent">
-                                        বর্তমান ঠিকানার মতো একই
-                                    </label>
-                                </div>
+                                <input type="text" class="form-control" id="permanent_village" name="per_vill" required placeholder="সড়ক/গ্রাম লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_postal_code" class="form-label bn-text">
+                                    পোস্ট<span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="permanent_postal_code" name="per_post_office" required placeholder="পোস্ট অফিস/পোষ্টাল কোড লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_police_station" class="form-label bn-text">
+                                    থানা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="permanent_police_station" name="per_ps" required placeholder="থানা লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_district" class="form-label bn-text">
+                                    জেলা <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="permanent_district" name="per_district" required placeholder="জেলা লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_phone" class="form-label bn-text">
+                                    ফোন/মোবাইল <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" class="form-control" id="permanent_phone" name="per_phone"
+                                    pattern="^01[3-9]\d{8}$" required placeholder="০১৭১২৩৪৫৬৭৮">
+                                <small class="text-muted bn-text">উদাহরণ: ০১৭১২৩৪৫৬৭৮</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="permanent_email" class="form-label bn-text">
+                                    ই-মেইল (ঐচ্ছিক)
+                                </label>
+                                <input type="email" class="form-control" id="permanent_email" name="per_email" placeholder="ই-মেইল লিখুন">
                             </div>
                         </div>
 
@@ -256,10 +391,43 @@
 
                     <!-- Step 3: Account & Documents -->
                     <div class="form-step" id="step3">
-                        <div class="section-title bn-text">হিসাব তথ্য ও নথিপত্র</div>
-
+                        <div class="section-title bn-text">হিসাব সংক্রান্ত তথ্যাদি</div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
+                                <label for="account_title" class="form-label bn-text">
+                                    হিসাবের শিরোনাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="account_title" name="account_title_Bng" required
+                                    placeholder="হিসাবের শিরোনাম লিখুন">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="account_title_eng" class="form-label bn-text">
+                                    ACCOUNT TITLE IN ENGLISH(BLOCK LETTER) <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="account_title_eng" name="account_title_Eng" required
+                                    placeholder="Write account title in English (BLOCK LETTERS)">
+                            </div>
+                            <!-- <div class="col-md-6 mb-3">
+                                <label for="father_name" class="form-label bn-text">
+                                    পিতার নাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="father_name" name="father_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="mother_name" class="form-label bn-text">
+                                    মাতার নাম <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="mother_name" name="mother_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="spouse_name" class="form-label bn-text">
+                                    স্বামী/স্ত্রীর নাম <span class="text-danger"></span>
+                                </label>
+                                <input type="text" class="form-control" id="spouse_name" name="spouse_name">
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
                                 <label for="account_type" class="form-label bn-text">
                                     হিসাবের ধরন <span class="text-danger">*</span>
                                 </label>
@@ -267,58 +435,78 @@
                                     <option value="">নির্বাচন করুন</option>
                                     <option value="SAVINGS">সঞ্চয়ী হিসাব</option>
                                     <option value="CURRENT">চলতি হিসাব</option>
-                                    <option value="FD">স্থায়ী আমানত</option>
+                                    <option value="SND">স্থায়ী আমানত</option>
+                                    <option value="FC">ফিক্সড চেক</option>
+                                    <option value="RFCD">রিজার্ভ ফিক্সড চেক</option>
+                                    <option value="NFCD">নন-ফিক্সড চেক</option>
+                                    <option value="OTHERS">অন্যান্য</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
+                                <label for="currency_type" class="form-label bn-text">
+                                    মুদ্রার প্রকার <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="currency_type" name="currency_type" required>
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="BDT">টাকা</option>
+                                    <option value="EURO">ইউরো</option>
+                                    <option value="POUND">পাউন্ড</option>
+                                    <option value="USD">মার্কিন ডলার</option>
+                                    <option value="OTHERS">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="account_procedure" class="form-label bn-text">
+                                    হিসাব পরিচালনার পদ্ধতি <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="account_procedure" name="account_procedure_type" required>
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="SINGLE">একক</option>
+                                    <option value="COMBINED">যৌথ</option>
+                                    <option value="ANY_ONE">যে কোনো একজন</option>
+                                    <option value="ANY_ONE_or_LIVING">যে কোনো একজন অথবা জীবিতজন</option>
+                                    <option value="OTHERS">অন্যান্য</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
                                 <label for="initial_deposit" class="form-label bn-text">
                                     প্রাথমিক জমা (টাকা) <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="form-control" id="initial_deposit" name="initial_deposit"
-                                    min="500" step="0.01" required placeholder="৫০০">
+                                <input type="text" class="form-control" id="initial_deposit" name="initial_deposit"
+                                    min="500" step="100" required placeholder="Minimum 500.00">
                                 <small class="text-muted bn-text">সর্বনিম্ন: ৫০০ টাকা</small>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <label for="initial_deposit_in_number" class="form-label bn-text">
+                                    প্রাথমিক জমা (কথায় লিখুন) <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="initial_deposit_in_number" name="initial_deposit_in_number"
+                                    required placeholder="এক হাজার টাকা মাত্র">
                             </div>
                         </div>
 
                         <div class="row">
+                            <!-- check box for debit card yes/no -->
                             <div class="col-md-4 mb-3">
-                                <label class="form-label bn-text">
-                                    ছবি (পাসপোর্ট সাইজ) <span class="text-danger">*</span>
-                                </label>
-                                <div class="file-upload-box" onclick="document.getElementById('photograph').click()">
-                                    <i class="bi bi-image"></i>
-                                    <p class="mb-0 bn-text small">ক্লিক করে ছবি আপলোড করুন</p>
+                                <label class="form-check-label bn-text" for="debit_card">
+                                        ডেবিট কার্ড প্রয়োজন(হ্যাঁ/না) <span class="text-danger">*</span>
+                                    </label><br><br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="debit_card" name="debit_card">
+                                    <label class="form-check-label bn-text" >
+                                        যদি প্রয়োজন হয় ডেলিভারী শাখার নাম লিখুন
+                                    </label>
                                 </div>
-                                <input type="file" class="d-none" id="photograph" name="photograph" accept="image/*"
-                                    required onchange="previewImage(this, 'photoPreview')">
-                                <img id="photoPreview" class="preview-image">
                             </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label bn-text">
-                                    এনআইডি কপি <span class="text-danger">*</span>
+                            <!-- if debit card is selected show debit card delivery branch name input field-->
+                            <div class="col-md-4 mb-3" id="debit_card_branch" style="display: none;">
+                                <label for="debit_card_branch_name" class="form-label bn-text">
+                                    ডেবিট কার্ড ডেলিভারি শাখার নাম <span class="text-danger">*</span>
                                 </label>
-                                <div class="file-upload-box" onclick="document.getElementById('nid_copy').click()">
-                                    <i class="bi bi-file-earmark-pdf"></i>
-                                    <p class="mb-0 bn-text small">ক্লিক করে এনআইডি আপলোড করুন</p>
-                                </div>
-                                <input type="file" class="d-none" id="nid_copy" name="nid_copy"
-                                    accept="image/*,application/pdf" required
-                                    onchange="previewImage(this, 'nidPreview')">
-                                <img id="nidPreview" class="preview-image">
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label bn-text">
-                                    স্বাক্ষর <span class="text-danger">*</span>
-                                </label>
-                                <div class="file-upload-box" onclick="document.getElementById('signature').click()">
-                                    <i class="bi bi-pen"></i>
-                                    <p class="mb-0 bn-text small">ক্লিক করে স্বাক্ষর আপলোড করুন</p>
-                                </div>
-                                <input type="file" class="d-none" id="signature" name="signature" accept="image/*"
-                                    required onchange="previewImage(this, 'signaturePreview')">
-                                <img id="signaturePreview" class="preview-image">
+                                <input type="text" class="form-control" id="debit_card_branch_name" name="debit_card_delivery_branch"
+                                    placeholder="ডেবিট কার্ড ডেলিভারি শাখার নাম লিখুন">
                             </div>
                         </div>
 
@@ -335,39 +523,182 @@
                     <!-- Step 4: Nominee Information -->
                     <div class="form-step" id="step4">
                         <div class="section-title bn-text">নমিনি তথ্য</div>
-
+                        <H2 class="text-muted bn-text">নমিনির- ১ম</H2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="nominee_name" class="form-label bn-text">
+                                <label for="nominee_name1" class="form-label bn-text">
                                     নমিনির নাম <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="nominee_name" name="nominee_name" required>
+                                <input type="text" class="form-control" id="nominee_name1" name="nominee_name1">
                             </div>
+                            <!-- নমিনির জন্ম তারিখ -->
                             <div class="col-md-6 mb-3">
-                                <label for="nominee_relation" class="form-label bn-text">
-                                    সম্পর্ক <span class="text-danger">*</span>
+                                <label for="nominee_DOB1" class="form-label bn-text">
+                                    নমিনির জন্ম তারিখ <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="nominee_relation" name="nominee_relation"
-                                    required placeholder="যেমন: পিতা, মাতা, স্বামী, স্ত্রী">
+                                <input type="date" class="form-control" id="nominee_DOB1" name="nominee_DOB1">
                             </div>
                         </div>
 
                         <div class="row">
+                            <!-- address -->
                             <div class="col-md-6 mb-3">
-                                <label for="nominee_nid" class="form-label bn-text">
-                                    নমিনির এনআইডি <span class="text-danger">*</span>
+                                <label for="nominee_address1" class="form-label bn-text">
+                                    নমিনির ঠিকানা <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="nominee_nid" name="nominee_nid"
-                                    pattern="^\d{10}$|^\d{13}$|^\d{17}$" required>
+                                <input type="textarea" class="form-control" id="nominee_address1" name="nominee_address1">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="nominee_mobile" class="form-label bn-text">
-                                    নমিনির মোবাইল <span class="text-danger">*</span>
+                                <label for="nominee_relation1" class="form-label bn-text">
+                                    সম্পর্ক <span class="text-danger">*</span>
                                 </label>
-                                <input type="tel" class="form-control" id="nominee_mobile" name="nominee_mobile"
-                                    pattern="^01[3-9]\d{8}$" required>
+                                <input type="text" class="form-control" id="nominee_relation1" name="nominee_relation1"
+                                    placeholder="যেমন: পিতা, মাতা, স্বামী, স্ত্রী">
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_percentage1" class="form-label bn-text">
+                                    শতকরা হার (%) <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control" id="nominee_percentage1" name="nominee_percentage1"
+                                    min="1" max="100">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_doc_name1" class="form-label bn-text">
+                                    নমিনির পরিচয়পত্রের ধরন<span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="nominee_other_doc_name1" name="nominee_other_doc_name1">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="nid">জাতীয় পরিচয়পত্র (NID)</option>
+                                    <option value="passport">পাসপোর্ট নম্বর</option>
+                                    <option value="birth_certificate">জন্ম সনদ নম্বর</option>
+                                    <option value="others">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_number1" class="form-label bn-text">
+                                    নমিনির পরিচয়পত্র নম্বর <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_other_number1" name="nominee_other_number1">
+                            </div>
+                        </div>
+                        <!-- all fields for nominee2 -->
+                         <H2 class="text-muted bn-text">নমিনির- ২য়</H2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_name2" class="form-label bn-text">
+                                    নমিনির নাম
+                                </label>
+                                <input type="text" class="form-control" id="nominee_name2" name="nominee_name2">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_DOB2" class="form-label bn-text">
+                                        নমিনির জন্ম তারিখ
+                                </label>
+                                <input type="date" class="form-control" id="nominee_DOB2" name="nominee_DOB2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_address2" class="form-label bn-text">
+                                    নমিনির ঠিকানা
+                                </label>
+                                <input type="textarea" class="form-control" id="nominee_address2" name="nominee_address2">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_relation2" class="form-label bn-text">
+                                    সম্পর্ক
+                                </label>
+                                <input type="text" class="form-control" id="nominee_relation2" name="nominee_relation2"
+                                    placeholder="যেমন: পিতা, মাতা, স্বামী, স্ত্রী">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_percentage2" class="form-label bn-text">
+                                    শতকরা হার (%)
+                                </label>
+                                <input type="number" class="form-control" id="nominee_percentage2" name="nominee_percentage2"
+                                    min="1" max="100">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_doc_name2" class="form-label bn-text">
+                                    নমিনির পরিচয়পত্রের ধরন<span class="text-danger"></span>
+                                </label>
+                                <select class="form-select" id="nominee_other_doc_name2" name="nominee_other_doc_name2">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="nid">জাতীয় পরিচয়পত্র (NID)</option>
+                                    <option value="passport">পাসপোর্ট নম্বর</option>
+                                    <option value="birth_certificate">জন্ম সনদ নম্বর</option>
+                                    <option value="others">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_number2" class="form-label bn-text">
+                                    নমিনির পরিচয়পত্র নম্বর <span class="text-danger"></span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_other_number2" name="nominee_other_number2">
+                            </div>
+                        </div>
+                        <h4 class="text-muted bn-text">নিমিন নাবালক হলে তার/তাদের নাবালক থাকা অবস্থায় হিসাবধারী/হিসাবধারীগণের মৃত্যুর ক্ষেত্রে ব্যাংক কোম্পানী আইন অনুযায়ী নিমিনর পক্ষে আমানতের অর্থ গ্রহণকারীর তথ্যঃ</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_name3" class="form-label bn-text">
+                                    নমিনির নাম
+                                </label>
+                                <input type="text" class="form-control" id="nominee_name3" name="nominee_name3">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_phone3" class="form-label bn-text">
+                                    মোবাইল
+                                </label>
+                                <input type="tel" class="form-control" id="nominee_phone3" name="nominee_phone3">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_present_address3" class="form-label bn-text">
+                                    বর্তমান ঠিকানা
+                                </label>
+                                <input type="text" class="form-control" id="nominee_present_address3" name="nominee_present_address3">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_permanent_address3" class="form-label bn-text">
+                                    স্থায়ী ঠিকানা
+                                </label>
+                                <input type="text" class="form-control" id="nominee_permanent_address3" name="nominee_permanent_address3">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_doc_name3" class="form-label bn-text">
+                                    পরিচয়পত্রের ধরন
+                                </label>
+                                <select class="form-select" id="nominee_other_doc_name3" name="nominee_other_doc_name3">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="nid">জাতীয় পরিচয়পত্র (NID)</option>
+                                    <option value="passport">পাসপোর্ট নম্বর</option>
+                                    <option value="birth_certificate">জন্ম সনদ নম্বর</option>
+                                    <option value="others">অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_other_number3" class="form-label bn-text">
+                                    পরিচয়পত্র নম্বর
+                                </label>
+                                <input type="text" class="form-control" id="nominee_other_number3" name="nominee_other_number3">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_relation3" class="form-label bn-text">
+                                    সম্পর্ক <span class="text-danger"></span>
+                                </label>
+                                <input type="text" class="form-control" id="nominee_relation3" name="nominee_relation3"
+                                    placeholder="যেমন: পিতা, মাতা, স্বামী, স্ত্রী">
+                            </div>
+                        </div>
+
 
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="terms_accepted" required>
@@ -400,7 +731,18 @@
 <script src="{% static 'js/api-handler.js' %}"></script>
 <script>
     let currentStep = 1;
-
+//  if debit card is selected show debit card delivery branch name input field
+    document.getElementById('debit_card').addEventListener('change', function () {
+        const branchField = document.getElementById('debit_card_branch');
+        if (this.checked) {
+            branchField.style.display = 'block';
+            document.getElementById('debit_card_branch_name').setAttribute('required', 'required');
+        } else {
+            branchField.style.display = 'none';
+            document.getElementById('debit_card_branch_name').removeAttribute('required');
+        }
+    });
+    
     function nextStep(step) {
         const currentForm = document.getElementById(`step${currentStep}`);
         const inputs = currentForm.querySelectorAll('input[required], select[required], textarea[required]');
@@ -455,8 +797,12 @@
     function copyAddress() {
         const checkbox = document.getElementById('sameAsPresent');
         if (checkbox.checked) {
-            document.getElementById('permanent_address').value =
-                document.getElementById('present_address').value;
+            document.getElementById('permanent_village').value = document.getElementById('present_village').value;
+            document.getElementById('permanent_postal_code').value = document.getElementById('present_postal_code').value;
+            document.getElementById('permanent_police_station').value = document.getElementById('present_police_station').value;
+            document.getElementById('permanent_district').value = document.getElementById('present_district').value;
+            document.getElementById('permanent_phone').value = document.getElementById('present_phone').value;
+            document.getElementById('permanent_email').value = document.getElementById('present_email').value;
         }
     }
 
@@ -468,15 +814,15 @@
             const messageContainer = document.getElementById('messageContainer');
 
             // Check if files are selected
-            const photograph = document.getElementById('photograph').files[0];
-            const nid_copy = document.getElementById('nid_copy').files[0];
-            const signature = document.getElementById('signature').files[0];
+            // const photograph = document.getElementById('photograph').files[0];
+            // const nid_copy = document.getElementById('nid_copy').files[0];
+            // const signature = document.getElementById('signature').files[0];
 
-            if (!photograph || !nid_copy || !signature) {
-                showError(messageContainer, 'অনুগ্রহ করে সকল নথিপত্র আপলোড করুন।');
-                window.scrollTo(0, 0);
-                return;
-            }
+            // if (!photograph || !nid_copy || !signature) {
+            //     showError(messageContainer, 'অনুগ্রহ করে সকল নথিপত্র আপলোড করুন।');
+            //     window.scrollTo(0, 0);
+            //     return;
+            // }
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> জমা হচ্ছে...';
@@ -486,20 +832,37 @@
                 const formData = new FormData(this);
 
                 // Submit using fetch with FormData
-                const response = await fetch('/api/applications/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken'),
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    credentials: 'same-origin',
-                    body: formData
-                });
-                // Debug log the raw response
+                
+                // call createApplication api function from api-handler.js
+                const response = await api.createApplication(formData);
+
+                console.log(response);
+
+                showSuccess(
+                    messageContainer,
+                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর:
+                    <strong>${response.application_number}</strong>`
+                );
+
+                this.reset();
+
+                setTimeout(() => {
+                    window.location.href = `/success/${response.application_number}/`;
+                }, 2000);
                 console.log('Response status:', response.status);
                 console.log('Response ok:', response.ok);
 
-                const data = await response.json();
+                const contentType = response.headers.get("content-type");
+
+                let data;
+
+                if (contentType && contentType.includes("application/json")) {
+                    data = await response.json();
+                } else {
+                    const html = await response.text();
+                    console.error(html);
+                    throw new Error("Server returned HTML instead of JSON.");
+                }
                 console.log('Response data:', JSON.stringify(data, null, 2));
 
                 if (!response.ok) {
@@ -538,6 +901,8 @@
                             .map(([key, value]) => {
                                 const banglaKey = getBanglaFieldName(key);
                                 const errorText = Array.isArray(value) ? value.join(', ') : value;
+                                console.log(banglaKey)
+                                console.log(errorText)
                                 return `${banglaKey}: ${errorText}`;
                             })
                             .join('<br>');
@@ -591,9 +956,7 @@
             'postal_code': 'পোস্ট কোড',
             'account_type': 'হিসাবের ধরন',
             'initial_deposit': 'প্রাথমিক জমা',
-            'photograph': 'ছবি',
-            'nid_copy': 'এনআইডি কপি',
-            'signature': 'স্বাক্ষর',
+            'initial_deposit_in_number': 'প্রাথমিক জমা কথায়',
             'nominee_name': 'নমিনির নাম',
             'nominee_relation': 'সম্পর্ক',
             'nominee_nid': 'নমিনির এনআইডি',
@@ -629,9 +992,9 @@
             for (let [key, value] of formData.entries()) {
                 if (value &&
                     key !== 'csrfmiddlewaretoken' &&
-                    key !== 'photograph' &&
-                    key !== 'nid_copy' &&
-                    key !== 'signature' &&
+                    // key !== 'photograph' &&
+                    // key !== 'nid_copy' &&
+                    // key !== 'signature' &&
                     key !== 'terms_accepted') {
                     data[key] = value;
                 }

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="bn">
 
@@ -12,15 +13,49 @@
             size: A4;
         }
 
+        .bank-logo {
+            width: 100px;      /* Adjust as needed */
+            height: 100px;
+            object-fit: contain;
+        }
+        body {
+            margin:0;
+            padding:0;
+            font-size: 10px;
+            line-height: 1;
+            background:white;
+            background-color: #3d3d3d;
+            background-image:
+                radial-gradient(ellipse at 30% 30%, #525252 0%, #3a3a3a 60%, #2e2e2e 100%);
+            font-family: 'Kalpurush', Arial, sans-serif;
+            min-height: 100vh;
+            /* padding: 40px 20px; */
+            align-items: center;
+        }
+
         .page-wrapper {
-            /* width: 210mm !important; */
-            /* min-height: 297mm !important; */
-            /* margin: 0 auto !important; */
-            background: white !important;
-            box-shadow: none !important;
-            border: 12px solid #1a5ebc !important;
+            border: 12px solid #1a5ebc;
+            background: #f8f8f8;
+            /* width: 100%; */
+            /* max-width: 800px; */
+            /* padding: 28px 32px; */
             position: relative;
-            overflow: hidden;
+            /* box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7); */
+        }
+        .page-wrapper {
+            .page-wrapper{
+            width:210mm;
+            height:297mm;
+            overflow:hidden;
+
+            margin:0 auto;
+            background:#fff;
+
+            border:12px solid #1a5ebc;
+            box-sizing:border-box;
+
+            page-break-after:always;
+            }
         }
 
         .watermark {
@@ -49,29 +84,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
-            background-color: #3d3d3d;
-            background-image:
-                radial-gradient(ellipse at 30% 30%, #525252 0%, #3a3a3a 60%, #2e2e2e 100%);
-            font-family: 'Kalpurush', Arial, sans-serif;
-            min-height: 100vh;
-            /* padding: 40px 20px; */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .page-wrapper {
-            border: 12px solid #1a5ebc;
-            background: #f8f8f8;
-            /* width: 100%; */
-            /* max-width: 800px; */
-            /* padding: 28px 32px; */
-            position: relative;
-            /* box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7); */
         }
 
         /* ===== PAGE 1 ===== */
@@ -109,7 +121,7 @@
             color: #000;
             border-bottom: 1px dotted #000;
             padding-bottom: 2px;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
         }
 
         .dotted-line-row {
@@ -148,11 +160,11 @@
 
         .section-header-box {
             border: 1px solid #000;
-            padding: 3px 8px;
+            padding: 8px 8px;
             font-size: 13px;
             font-weight: 700;
             text-align: center;
-            margin: 8px 0;
+            margin: 15px 0;
         }
 
         label,
@@ -225,11 +237,13 @@
         .photo-box-sm {
             border: 1px solid #000;
             width: 75px;
-            height: 90px;
+            height: 40px;
             display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            justify-content: center;
-            font-size: 10.5px;
+            /* justify-content: center; */
+            font-size: 10px;
             text-align: center;
             color: #333;
             flex-shrink: 0;
@@ -269,13 +283,20 @@
             margin-left: 10px;
         }
 
+        .nominee-container {
+            display: flex;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
         .nominee-box {
             border: 1px solid #000;
             width: 110px;
-            padding: 4px 6px;
-            font-size: 10.5px;
+            height: 90px;          /* fixed height for equal boxes */
+            padding: 4px;
+            font-size: 10px;
             text-align: center;
-            min-height: 80px;
+            box-sizing: border-box;
         }
 
         .nominee-box-title {
@@ -311,7 +332,7 @@
             margin-bottom: 3px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: left;
             font-size: 10px;
             color: #666;
         }
@@ -320,7 +341,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-top: 14px;
+            margin-top: 10px;
             padding-top: 10px;
             border-top: 1px solid #000;
         }
@@ -375,7 +396,7 @@
         table.field-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12.5px;
+            font-size: 10px;
         }
 
         table.field-table td {
@@ -434,51 +455,45 @@
 
             <!-- Header -->
             <div class="bank-header">
-                <!-- Sonali Bank Logo SVG -->
-                <svg class="bank-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="48" fill="#fff" stroke="#1565C0" stroke-width="3" />
-                    <path
-                        d="M50 5 L55 35 L85 20 L65 45 L95 50 L65 55 L85 80 L55 65 L50 95 L45 65 L15 80 L35 55 L5 50 L35 45 L15 20 L45 35 Z"
-                        fill="#f5c518" stroke="#e6a800" stroke-width="1" />
-                    <circle cx="50" cy="50" r="18" fill="#1565C0" />
-                    <circle cx="50" cy="50" r="13" fill="#fff" />
-                    <circle cx="50" cy="50" r="7" fill="#f5c518" />
-                </svg>
+                <!-- Sonali Bank Logo from img_path-->
+                <img src="data:image/png;base64,{{ img_path }}" alt="Sonali Bank Logo" class="bank-logo" />
                 <span class="bank-name">সোনালী ব্যাংক পিএলসি</span>
             </div>
 
             <!-- Branch -->
-            <div style="text-align:center; font-size:13px; margin-bottom:4px;">
+            <div style="text-align:center; font-size:13px; margin-bottom:15px;">
                 <span
                     style="border-bottom:1px dotted #000; padding-bottom:1px; display:inline-block; min-width:280px;">&nbsp;</span>শাখা
             </div>
 
             <div class="form-title-center">হিসাব খোলার ফরম</div>
-            <div class="form-title-center" style="margin-bottom:10px;">ব্যক্তিক হিসাব</div>
+            <div class="form-title-center" style="margin-bottom:5px;">ব্যক্তিক হিসাব</div>
 
             <!-- Date and Account Number row -->
-            <table class="field-table" style="margin-bottom:6px;">
+            <table class="field-table" style="margin-bottom:15px;">
                 <tr>
                     <td style="width:50%;">
                         <span class="field-label">তারিখ:</span>
                         <span
                             style="border-bottom:1px dotted #000; display:inline-block; min-width:140px;">&nbsp;</span>
                     </td>
-                    <td style="width:50%; text-align:right;">
-                        <span class="field-label">হিসাব নম্বর </span>
-                        <span class="grid-boxes">
-                            <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
-                            <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
-                            <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
-                            <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
-                            <span class="grid-box"></span>
-                        </span>
+                    <td style="width:40%; text-align:center;">
+                        <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px;">
+                            <span class="field-label" style="white-space:nowrap;">হিসাব নম্বর: </span>
+                            <span class="grid-boxes">
+                                <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
+                                <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
+                                <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
+                                <span class="grid-box"></span><span class="grid-box"></span><span class="grid-box"></span>
+                                <span class="grid-box"></span>
+                            </span>
+                        </div>
                     </td>
                 </tr>
             </table>
 
             <!-- Manager and UID row -->
-            <table class="field-table" style="margin-bottom:4px;">
+            <table class="field-table" style="margin-bottom:15px;">
                 <tr>
                     <td style="width:45%;">
                         <span class="field-label">ম্যানেজার</span><br />
@@ -502,11 +517,11 @@
                 </tr>
             </table>
 
-            <div style="font-size:12.5px; margin-bottom:4px;">
+            <div style="font-size:10px; margin-bottom:4px;">
                 <span style="border-bottom:1px dotted #000; display:inline-block; min-width:200px;">&nbsp;</span> শাখা ।
             </div>
 
-            <p style="font-size:12.5px; margin-bottom:8px; line-height:1.6;">
+            <p style="font-size:10px; margin-bottom:5px; line-height:1.6;">
                 প্রিয় মহোদয়,<br />
                 আমি/আমরা আপনার শাখায় একটি হিসাব খোলার জন্য আবেদন করছি। আমার/আমাদের হিসাব সংক্রান্ত ও ব্যক্তিগত তথ্য
                 নিচে প্রদান
@@ -520,59 +535,143 @@
 
             <div class="dotted-line-row" style="margin-bottom:2px;">
                 <span>১। হিসাবের শিরোনাম: (বাংলায়)</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{ application.account_title_Bng }}</span>
             </div>
             <div class="dotted-line-row" style="margin-bottom:6px;">
                 <span>In English (Block Letter)</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{ application.account_title_Eng|upper }}</span>
             </div>
 
             <!-- Account Type -->
-            <div style="margin-bottom:4px;">
+            <div style="margin-bottom:15px;">
                 <span class="field-label">২। হিসাবের প্রকৃতি (টিক দিন):</span>
                 <div class="checkbox-group" style="margin-left:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:4px 16px; width:100%;">
-                        <div class="checkbox-item"><input type="checkbox" /> সঞ্চয়ী</div>
-                        <div class="checkbox-item"><input type="checkbox" /> চলতি</div>
-                        <div class="checkbox-item"><input type="checkbox" /> এসএনডি</div>
-                        <div class="checkbox-item"><input type="checkbox" /> এফসি</div>
-                        <div class="checkbox-item"><input type="checkbox" /> আরএফসিডি</div>
-                        <div class="checkbox-item"><input type="checkbox" /> এনএফসিডি</div>
-                        <div class="checkbox-item" style="grid-column:span 2;"><input type="checkbox" /> অন্যান্য<span
-                                style="border-bottom:1px dotted #000; display:inline-block; min-width:60px;">&nbsp;</span>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "SAVINGS" %}checked{% endif %} disabled />
+                            সঞ্চয়ী
                         </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "CURRENT" %}checked{% endif %} disabled />
+                            চলতি
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "SND" %}checked{% endif %} disabled />
+                            এসএনডি
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "FC" %}checked{% endif %} disabled />
+                            এফসি
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "RFCD" %}checked{% endif %} disabled />
+                            আরএফসিডি
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_type == "NFCD" %}checked{% endif %} disabled />
+                            এনএফসিডি
+                        </div>
+
+                        <div class="checkbox-item" style="grid-column:span 2;">
+                            <input type="checkbox" {% if application.account_type == "OTHERS" %}checked{% endif %} disabled />
+                            অন্যান্য
+                            <span style="border-bottom:1px dotted #000; display:inline-block; min-width:60px;">
+                                {% if application.account_type == "OTHERS" %}
+                                    {{ application.other_account_type }}
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </span>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
             <!-- Currency -->
-            <div style="margin-bottom:4px;">
+            <div style="margin-bottom:15px;">
                 <span class="field-label">৩। মুদ্রা (টিক দিন):</span>
                 <div class="checkbox-group" style="margin-left:20px;">
-                    <div class="checkbox-item"><input type="checkbox" /> টাকা</div>
-                    <div class="checkbox-item"><input type="checkbox" /> ইউরো</div>
-                    <div class="checkbox-item"><input type="checkbox" /> পাউন্ড</div>
-                    <div class="checkbox-item"><input type="checkbox" /> ডলার</div>
-                    <div class="checkbox-item"><input type="checkbox" /> অন্যান্য<span
-                            style="border-bottom:1px dotted #000; display:inline-block; min-width:50px;">&nbsp;</span>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" {% if application.currency_type == "BDT" %}checked{% endif %} disabled />
+                        টাকা
                     </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" {% if application.currency_type == "EURO" %}checked{% endif %} disabled />
+                        ইউরো
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" {% if application.currency_type == "POUND" %}checked{% endif %} disabled />
+                        পাউন্ড
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" {% if application.currency_type == "USD" %}checked{% endif %} disabled />
+                        ডলার
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" {% if application.currency_type == "OTHERS" %}checked{% endif %} disabled />
+                        অন্যান্য
+                        <span style="border-bottom:1px dotted #000; display:inline-block; min-width:50px;">
+                            {% if application.currency_type == "OTHERS" %}
+                                {{ application.other_currency_type }}
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        </span>
+                    </div>
+
                 </div>
             </div>
 
             <!-- Operation Mode -->
-            <div style="margin-bottom:4px;">
+            <div style="margin-bottom:15px;">
                 <span class="field-label">৪। হিসাব পরিচালনার পদ্ধতি</span>
                 <div class="checkbox-group" style="margin-left:20px;">
                     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:4px 16px; width:100%;">
-                        <div class="checkbox-item"><input type="checkbox" /> এককভাবে</div>
-                        <div class="checkbox-item"><input type="checkbox" /> যৌথভাবে</div>
-                        <div class="checkbox-item"><input type="checkbox" /> যে কোনো একজন</div>
-                        <div class="checkbox-item" style="grid-column:span 2;"><input type="checkbox" /> যে কোনো একজন
-                            অথবা জীবিতজন
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_procedure_type == "SINGLE" %}checked{% endif %} disabled />
+                            এককভাবে
                         </div>
-                        <div class="checkbox-item"><input type="checkbox" /> অন্যান্য<span
-                                style="border-bottom:1px dotted #000; display:inline-block; min-width:50px;">&nbsp;</span>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_procedure_type == "COMBINED" %}checked{% endif %} disabled />
+                            যৌথভাবে
                         </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_procedure_type == "ANY_ONE" %}checked{% endif %} disabled />
+                            যে কোনো একজন
+                        </div>
+
+                        <div class="checkbox-item" style="grid-column:span 2;">
+                            <input type="checkbox" {% if application.account_procedure_type == "ANY_ONE_or_LIVING" %}checked{% endif %} disabled />
+                            যে কোনো একজন অথবা জীবিতজন
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" {% if application.account_procedure_type == "OTHERS" %}checked{% endif %} disabled />
+                            অন্যান্য
+                            <span style="border-bottom:1px dotted #000; display:inline-block; min-width:50px;">
+                                {% if application.account_procedure_type == "OTHERS" %}
+                                    {{ application.other_account_procedure }}
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </span>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -580,9 +679,9 @@
             <!-- Initial Deposit -->
             <div class="dotted-line-row" style="margin-bottom:6px;">
                 <span>৫। প্রাথমিক জমার পরিমাণ (অংকে)</span>
-                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:80px;">&nbsp;</span>
+                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:80px;">{{ application.initial_deposit }}&nbsp;</span>
                 <span>(কথায়)</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{ application.initial_deposit_in_number }}</span>
             </div>
 
             <hr class="hr-line" />
@@ -591,31 +690,31 @@
             <div class="section-header-box">[ দ্বিতীয় অংশ: ব্যক্তি সংক্রান্ত তথ্যাদি ]</div>
 
             <!-- Account Holder Info with photo -->
-            <div style="display:flex; gap:10px; align-items:flex-start;">
+            <div style="display:flex; gap:15px; align-items:flex-start;">
                 <div style="flex:1;">
                     <div class="dotted-line-row" style="margin-bottom:2px;">
                         <span>১। হিসাবধারীর নাম (বাংলায়):</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{{application.account_title_Bng}}</span>
                     </div>
                     <div class="dotted-line-row" style="margin-bottom:4px;">
                         <span>In English (Block Letter)</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{{application.account_title_Eng|upper}}</span>
                     </div>
                     <div class="dotted-line-row" style="margin-bottom:2px;">
                         <span>২। জন্ম তারিখ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{{application.date_of_birth}}</span>
                     </div>
                     <div class="dotted-line-row" style="margin-bottom:2px;">
                         <span>৩। পিতার নাম &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{{application.father_name}}</span>
                     </div>
                     <div class="dotted-line-row" style="margin-bottom:2px;">
                         <span>৪। মাতার নাম &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{{application.mother_name}}</span>
                     </div>
                     <div class="dotted-line-row" style="margin-bottom:2px;">
                         <span>৫। স্বামী/স্ত্রীর নাম &nbsp;:</span>
-                        <span class="dotted-fill"></span>
+                        <span class="dotted-fill">{% if application.spouse_name %}{{application.spouse_name}}{%endif%}</span>
                     </div>
                 </div>
                 <div class="photo-box">হিসাবধারীর ছবি</div>
@@ -623,81 +722,94 @@
 
             <div class="dotted-line-row" style="margin-bottom:2px;">
                 <span>৬। জাতীয়তা</span>
-                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:120px;">&nbsp;</span>
+                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:120px;">{{application.nationality}}&nbsp;</span>
                 <span>৭। লিঙ্গ:</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{application.gender}}</span>
             </div>
             <p class="info-text indent-1" style="font-size:11px; margin-bottom:4px;">(হিসাবধারী বিদেশি নাগরিক হলে ভিসাসহ
                 পাসপোর্টের কপি আবশ্যিকভাবে গ্রহণ করতে হবে)</p>
 
             <div style="margin-bottom:4px;">
                 <span class="field-label">৮। রেসিডেন্ট স্ট্যাটাস (টিক দিন):</span>
-                <span class="checkbox-item" style="display:inline-flex; margin:0 10px;"><input type="checkbox"
-                        style="width:13px;height:13px;" /> রেসিডেন্ট</span>
-                <span class="checkbox-item" style="display:inline-flex; margin:0 10px;"><input type="checkbox"
-                        style="width:13px;height:13px;" /> নন-রেসিডেন্ট</span>
+
+                <span class="checkbox-item" style="display:inline-flex; margin:0 10px;">
+                    <input type="checkbox"
+                        style="width:13px;height:13px;"
+                        {% if application.resident_status == "RESIDENT" %}checked{% endif %}
+                        disabled />
+                    রেসিডেন্ট
+                </span>
+
+                <span class="checkbox-item" style="display:inline-flex; margin:0 10px;">
+                    <input type="checkbox"
+                        style="width:13px;height:13px;"
+                        {% if application.resident_status == "NON_RESIDENT" %}checked{% endif %}
+                        disabled />
+                    নন-রেসিডেন্ট
+                </span>
             </div>
             <p class="info-text indent-1" style="font-size:11px; margin-bottom:4px;">(প্রযোজনীয় ক্ষেত্রে ব্যাংক কর্তৃক
                 গাইডলাইন ফর ফরেন এক্সচেঞ্জ ট্রানজেকশনস এর নির্দেশনা অনুসরণ করতে হবে)</p>
 
-            <div class="dotted-line-row" style="margin-bottom:2px;">
+            <div class="dotted-line-row" style="margin-bottom:5px;">
                 <span>৯। পেশা (বিস্তারিত) &nbsp;:</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{application.service}}</span>
             </div>
-            <div class="dotted-line-row" style="margin-bottom:2px;">
+            <div class="dotted-line-row" style="margin-bottom:5px;">
                 <span>১০। মাসিক আয় &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{application.monthly_income}}</span>
             </div>
-            <div class="dotted-line-row" style="margin-bottom:2px;">
+            <div class="dotted-line-row" style="margin-bottom:5px;">
                 <span>১১। অর্থের উৎস (বিস্তারিত) :</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{{application.income_source}}</span>
             </div>
-            <div class="dotted-line-row" style="margin-bottom:2px;">
+            <div class="dotted-line-row" style="margin-bottom:5px;">
                 <span>১২। ট্যাক্স আইডি নম্বর (TIN) (যদি থাকে) :</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">{% if application.TIN %}{{application.TIN}}{% endif %}</span>
             </div>
 
             <!-- Address Section -->
-            <div style="margin-bottom:2px;">
-                <div class="dotted-line-row">
+            <div style="margin:15px 0px;">
+                <div class="dotted-line-row"style="margin: 18px 0px;">
                     <span>১৩। (ক) বর্তমান ঠিকানা: সড়ক/গ্রাম:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.pre_vill}}</span>
                     <span>পোস্ট:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">{{application.pre_post_office}}&nbsp;</span>
                 </div>
                 <div class="dotted-line-row indent-1">
                     <span>থানা:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">{{application.pre_ps}}&nbsp;</span>
                     <span>জেলা:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.pre_district}}</span>
                 </div>
                 <div class="dotted-line-row indent-1">
                     <span>ফোন/মোবাইল নম্বর:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">{{application.pre_phone}}&nbsp;</span>
                     <span>ই-মেইল:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.pre_email}}</span>
                 </div>
-                <div class="dotted-line-row">
+                <div class="dotted-line-row" style="margin: 18px 0px;">
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(খ) স্থায়ী ঠিকানা: সড়ক/গ্রাম:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.per_vill}}</span>
                     <span>পোস্ট:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">{{application.per_post_office}}&nbsp;</span>
                 </div>
                 <div class="dotted-line-row indent-1">
                     <span>থানা:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">{{application.per_ps}}&nbsp;</span>
                     <span>জেলা:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.per_district}}</span>
                 </div>
                 <div class="dotted-line-row indent-1">
                     <span>ফোন/মোবাইল নম্বর:</span>
-                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">&nbsp;</span>
+                    <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">{{application.per_phone}}&nbsp;</span>
                     <span>ই-মেইল:</span>
-                    <span class="dotted-fill"></span>
+                    <span class="dotted-fill">{{application.per_email}}</span>
                 </div>
             </div>
 
-            <hr class="hr-line" />
+            <div style="margin: 50px;"></div>
+            <hr class="hr-line" style="margin: 5px;" />
             <p class="footnote">
                 ১। হিসাবধারী একাধিক হলে প্রত্যেকের এবং হিসাবধারী নাবালক হলে হিসাবধারীর অভিভাবক (বাবা অথবা মা অথবা অন্য
                 কোনো
@@ -714,27 +826,39 @@
         <div class="page-content">
 
             <!-- Section 14 - ID Info -->
-            <div style="font-size:12.5px; margin-bottom:4px;">
+            <div style="font-size:10px; margin-bottom:4px;">
                 <span style="font-weight:600;">১৪। পরিচিতি পত্রঃ</span> (ক) জাতীয় পরিচয়পত্র নম্বর
-                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:300px;">&nbsp;</span>
+                <span style="border-bottom:1px dotted #000; display:inline-block; min-width:300px;">{% if application.nid_number %}{{ application.nid_number }}{% endif %}&nbsp;</span>
             </div>
             <div class="dotted-line-row indent-2" style="margin-bottom:2px;">
                 <span>অথবা, &nbsp;&nbsp;(খ) পাসপোর্ট নম্বর/জন্ম নিবন্ধন নম্বর/অন্যান্য (নির্দিষ্টভাবে উল্লেখ করতে
                     হবে):</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.other_doc_name %}
+                        {{ application.other_number}} ({{ application.other_doc_name }})
+                    {% endif %}
+                </span>
             </div>
             <div class="indent-2" style="margin-bottom:2px;">
-                <span style="font-size:12.5px;">(গ) পরিচয়দানকারীর তথ্য (জাতীয় পরিচয়পত্র ব্যতীত অন্যান্য পরিচিতিপত্র
+                <span style="font-size:10px;">(গ) পরিচয়দানকারীর তথ্য (জাতীয় পরিচয়পত্র ব্যতীত অন্যান্য পরিচিতিপত্র
                     প্রদানের
                     ক্ষেত্রে):</span>
             </div>
             <div class="dotted-line-row indent-3" style="margin-bottom:2px;">
                 <span>নামঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.reference_person_name %}
+                        {{ application.reference_person_name}}
+                    {% endif %}
+                </span>
             </div>
             <div class="dotted-line-row indent-3" style="margin-bottom:2px;">
                 <span>হিসাব/জাতীয় পরিচয়পত্র নম্বর (জন্ম তারিখসহ):</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.reference_number %}
+                        {{ application.reference_number}}
+                    {% endif %}
+                </span>
             </div>
             <div class="dotted-line-row indent-3" style="margin-bottom:6px;">
                 <span>স্বাক্ষর (তারিখসহ):</span>
@@ -755,106 +879,155 @@
                         করা হলে সংশ্লিষ্ট আমানত সম্পর্কিত যাবতীয় দায় পরিশোধ হয়েছে বলে গণ্য হবে।
                     </p>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:6px;">
-                    <div class="nominee-box">
-                        <div class="nominee-box-title">নিমিন-২</div>
-                        <div style="font-size:10px;">হিসাবধারী কর্তৃক<br />সত্যায়িত নিমিনর ছবি</div>
-                    </div>
+                <div class="nominee-container">
                     <div class="nominee-box">
                         <div class="nominee-box-title">নিমিন-১</div>
                         <div style="font-size:10px;">হিসাবধারী কর্তৃক<br />সত্যায়িত নিমিনর ছবি</div>
                     </div>
+                    <div class="nominee-box">
+                        <div class="nominee-box-title">নিমিন-২</div>
+                        <div style="font-size:10px;">হিসাবধারী কর্তৃক<br />সত্যায়িত নিমিনর ছবি</div>
+                    </div>
                 </div>
+                <!-- <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div class="nominee-box">
+                        
+                    </div>
+                    <div class="nominee-box">
+                        <div class="nominee-box-title">নিমিন-২</div>
+                        <div style="font-size:10px;">হিসাবধারী কর্তৃক<br />সত্যায়িত নিমিনর ছবি</div>
+                    </div>
+                </div> -->
             </div>
 
             <!-- Nominee Table -->
-            <table style="width:100%; font-size:12px; border-collapse:collapse; margin-bottom:4px;">
+            <table style="width:100%; font-size:10px; border-collapse:collapse; margin-bottom:4px;">
                 <tr>
                     <td style="width:55%; padding-right:10px; vertical-align:top;">
-                        <div style="font-weight:600; font-size:12px; margin-bottom:3px;">নিমিন-১</div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div style="font-weight:600; font-size:10px; margin-bottom:3px;">নিমিন-১</div>
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>ক) নিমিনর নাম &nbsp;&nbsp;: ১।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_name1 %}
+                                    {{ application.nominee_name1}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>খ) জন্ম তারিখ &nbsp;&nbsp;&nbsp;: ১।</span>
                             <span
                                 style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">&nbsp;</span>
-                            <span style="font-size:10px;">/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</span>
+                            <span style="font-size:10px;">
+                                {% if application.nominee_DOB1 %}
+                                    {{ application.nominee_DOB1}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>গ) নিমিনর ঠিকানা : ১।</span>
-                            <span class="dotted-fill"></span>
-                        </div>
-                        <div class="dotted-line-row" style="font-size:12px; margin-left:110px;">
-                            <span class="dotted-fill"></span>
-                        </div>
-                        <div class="dotted-line-row" style="font-size:12px; margin-left:110px;">
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_address1 %}
+                                    {{ application.nominee_address1}}
+                                {% endif %}
+                            </span>
                         </div>
                     </td>
                     <td style="width:45%; vertical-align:top;">
-                        <div style="font-weight:600; font-size:12px; margin-bottom:3px;">নিমিন-২</div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div style="font-weight:600; font-size:10px; margin-bottom:3px;">নিমিন-২</div>
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>২।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_name2 %}
+                                    {{ application.nominee_name2}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>২।</span>
                             <span
                                 style="border-bottom:1px dotted #000; min-width:80px; display:inline-block;">&nbsp;</span>
-                            <span style="font-size:10px;">/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</span>
+                            <span style="font-size:10px;">
+                                {% if application.nominee_DOB2 %}
+                                    {{ application.nominee_DOB2}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>২।</span>
-                            <span class="dotted-fill"></span>
-                        </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
-                            <span class="dotted-fill"></span>
-                        </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_address2 %}
+                                    {{ application.nominee_address2}}
+                                {% endif %}
+                            </span>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <table style="width:100%; font-size:12px; border-collapse:collapse; margin-bottom:4px;">
+            <table style="width:100%; font-size:10px; border-collapse:collapse; margin-bottom:4px;">
                 <tr>
                     <td style="width:55%; padding-right:10px; vertical-align:top;">
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>ঘ) শতকরা হার &nbsp;&nbsp;&nbsp;: ১।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_percentage1 %}
+                                    {{ application.nominee_percentage1}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>ঙ) হিসাবধারীর সাথে সম্পর্ক: ১।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_relation1 %}
+                                    {{ application.nominee_relation1}}
+                                {% endif %}
+                            </span>
                         </div>
                     </td>
                     <td style="width:45%; vertical-align:top;">
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>২।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_percentage2 %}
+                                    {{ application.nominee_percentage2}}
+                                {% endif %}
+                            </span>
                         </div>
-                        <div class="dotted-line-row" style="font-size:12px;">
+                        <div class="dotted-line-row" style="font-size:10px;">
                             <span>২।</span>
-                            <span class="dotted-fill"></span>
+                            <span class="dotted-fill">
+                                {% if application.nominee_relation2 %}
+                                    {{ application.nominee_relation2}}
+                                {% endif %}
+                            </span>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <div class="dotted-line-row" style="font-size:12px; margin-bottom:2px;">
+            <div class="dotted-line-row" style="font-size:10px; margin-bottom:2px;">
                 <span>চ) জাতীয় পরিচয়পত্র নম্বর/পাসপোর্ট নম্বর/জন্ম নিবন্ধন নম্বর/অন্যান্য (নির্দিষ্টভাবে উল্লেখ করতে
                     হবে):</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_other_doc_name1 %}
+                        {{ application.nominee_other_doc_name1}}
+                    {% endif %}
+                </span>
             </div>
-            <div class="dotted-line-row" style="font-size:12px; margin-bottom:6px;">
+            <div class="dotted-line-row" style="font-size:10px; margin-bottom:6px;">
                 <span style="margin-left:10px;">নম্বর</span>
                 <span>&nbsp;১।</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_other_number1 %}
+                        {{ application.nominee_other_number1}}
+                    {% endif %}
+                </span>
                 <span>২।</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_other_number2 %}
+                        {{ application.nominee_other_number2}}
+                    {% endif %}
+                </span>
             </div>
 
             <!-- Minor Nominee -->
@@ -865,69 +1038,113 @@
                 পক্ষে আমানতের অর্থ গ্রহণকারীর তথ্যঃ
             </p>
 
-            <div class="dotted-line-row indent-1" style="font-size:12px; margin-bottom:2px;">
+            <div class="dotted-line-row indent-1" style="font-size:10px; margin-bottom:2px;">
                 <span>ক) নাম ঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_name3 %}
+                        {{ application.nominee_name3}}
+                    {% endif %}
+                </span>
             </div>
-            <div class="dotted-line-row indent-1" style="font-size:12px; margin-bottom:2px;">
+            <div class="dotted-line-row indent-1" style="font-size:10px; margin-bottom:2px;">
                 <span>খ) বর্তমান ঠিকানা ঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_present_address3 %}
+                        {{ application.nominee_present_address3}}
+                    {% endif %}
+                </span>
             </div>
-            <div class="dotted-line-row indent-1" style="font-size:12px; margin-bottom:2px;">
+            <div class="dotted-line-row indent-1" style="font-size:10px; margin-bottom:2px;">
                 <span>গ) স্থায়ী ঠিকানা ঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_permanent_address3 %}
+                        {{ application.nominee_permanent_address3}}
+                    {% endif %}
+                </span>
             </div>
-            <div class="dotted-line-row indent-1" style="font-size:12px; margin-bottom:2px;">
+            <div class="dotted-line-row indent-1" style="font-size:10px; margin-bottom:2px;">
                 <span>ঘ) জাতীয় পরিচয়পত্র নম্বর/পাসপোর্ট নম্বর/জন্ম নিবন্ধন নম্বর/অন্যান্য (নির্দিষ্টভাবে উল্লেখ করতে
                     হবে)
                     ঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_other_doc_name3 %}
+                        {{ application.nominee_other_number3}} ({{ application.nominee_other_doc_name3 }})
+                    {% endif %}
+                </span>
             </div>
-            <div class="dotted-line-row indent-1" style="font-size:12px; margin-bottom:6px;">
+            <div class="dotted-line-row indent-1" style="font-size:10px; margin-bottom:6px;">
                 <span>ঙ) নিমিনর সাথে সম্পর্ক ঃ</span>
-                <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">&nbsp;</span>
+                <span style="border-bottom:1px dotted #000; min-width:100px; display:inline-block;">
+                    {% if application.nominee_relation3 %}
+                        {{ application.nominee_relation3}}
+                    {% endif %}
+                    &nbsp;</span>
                 <span>মোবাইল নম্বরঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill">
+                    {% if application.nominee_phone3 %}
+                        {{ application.nominee_phone3}}
+                    {% endif %}
+                </span>
             </div>
 
             <!-- Anushangik Seba -->
             <div class="section-header-box">[ আনুষঙ্গিক সেবা ]</div>
 
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px; font-size:12.5px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px; font-size:10px;">
                 <span>ডেবিট কার্ড</span>
-                <span class="checkbox-item"><input type="checkbox" style="width:13px;height:13px;" /> (হ্যাঁ)</span>
-                <span class="checkbox-item"><input type="checkbox" style="width:13px;height:13px;" /> (না)</span>
+
+                <span class="checkbox-item">
+                    <input type="checkbox"
+                        style="width:13px;height:13px;"
+                        {% if application.debit_card %}checked{% endif %}
+                        disabled />
+                    (হ্যাঁ)
+                </span>
+
+                <span class="checkbox-item">
+                    <input type="checkbox"
+                        style="width:13px;height:13px;"
+                        {% if not application.debit_card %}checked{% endif %}
+                        disabled />
+                    (না)
+                </span>
+
                 <span>কার্ড ডেলিভারি শাখা</span>
-                <span style="border-bottom:1px dotted #000; flex:1; display:inline-block;">&nbsp;</span>
-            </div>
 
-            <!-- Declaration -->
-            <div class="section-header-box">[ ঘোষণা ও স্বাক্ষর ]</div>
-
-            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:4px;">
-                <p class="info-text" style="flex:1; font-size:11.5px; line-height:1.7;">
-                    আমি/আমরা সজ্ঞানে ঘোষণা করছি যে, উল্লিখিত তথ্যাদি সত্য। আমি/আমরা ব্যাংকের চাহিদা মোতাবেক প্রয়োজনীয়
-                    তথ্য/পলিসিদি সরবরাহ করবো।
-                    (ডিজিটাল ফরমেটে সংরক্ষণের জন্য)
-                </p>
-                <div class="photo-box-sm">হিসাবধারীর ছবি<br />(স্ক্যান সাইজ)</div>
-            </div>
-
-            <!-- Account Number boxes -->
-            <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px; font-size:12.5px;">
-                <span>হিসাব নম্বরঃ</span>
-                <span class="hisab-box">
-                    <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
-                    <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
-                    <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
-                    <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
-                    <span class="hisab-cell"></span>
+                <span style="border-bottom:1px dotted #000; flex:1; display:inline-block;">
+                    {% if application.debit_card %}
+                        {{ application.debit_card_delivery_branch }}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
                 </span>
             </div>
 
-            <div style="font-size:12.5px; font-weight:600; margin-bottom:4px;">আবেদনকারী(গণ)এর নাম, স্বাক্ষর ও তারিখ
-            </div>
+            <!-- Declaration -->
+            <div class="section-header-box">[ ঘোষণা ও স্বাক্ষর ]
+                <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <p class="info-text" style="flex:1; font-size:11.5px; line-height:1.7;">
+                        আমি/আমরা সজ্ঞানে ঘোষণা করছি যে, উল্লিখিত তথ্যাদি সত্য। আমি/আমরা ব্যাংকের চাহিদা মোতাবেক প্রয়োজনীয়
+                        তথ্য/পলিসিদি সরবরাহ করবো।
+                    </p>
+                    <div class="photo-box-sm" style="display: inline !important;">হিসাবধারীর ছবি<br />(স্ক্যান সাইজ)</div>
+                </div>
 
+                <!-- Account Number boxes -->
+                <div style="display:flex; align-items:center; font-size:10px;">
+                    <span>হিসাব নম্বরঃ</span>
+                    <span class="hisab-box">
+                        <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
+                        <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
+                        <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
+                        <span class="hisab-cell"></span><span class="hisab-cell"></span><span class="hisab-cell"></span>
+                        <span class="hisab-cell"></span><p>(ডিজিটাল ফরমেটে সংরক্ষণের জন্য)</p>
+                    </span>
+                </div>
+
+                <div style="font-size:10px; font-weight:600; margin-bottom:4px;">আবেদনকারী(গণ)এর নাম, স্বাক্ষর ও তারিখ
+                </div>
+            </div>
             <!-- Signature Boxes -->
             <div class="signature-section">
                 <!-- 1st Applicant -->
@@ -985,13 +1202,12 @@
             </div>
 
             <!-- Bank Use Section -->
-            <div class="section-header-box" style="margin-top:8px;">[ ব্যাংকের ব্যবহারের জন্য ]</div>
+            <div class="section-header-box">[ ব্যাংকের ব্যবহারের জন্য ]</div>
 
-            <div class="dotted-line-row" style="margin-bottom:8px;">
+            <div class="dotted-line-row">
                 <span>মন্তব্যঃ</span>
-                <span class="dotted-fill"></span>
+                <span class="dotted-fill" style="margin-bottom:7px;"></span>
             </div>
-            <span class="dotted-fill-full"></span>
 
             <!-- Bottom Officials -->
             <div class="bottom-officials">
@@ -1015,8 +1231,6 @@
                 করতে হবে।<br />
                 ৪। হিসাবধারী নাবালক হলে আবেদনকারী স্বাক্ষরের হলে হিসাবধারীর অভিভাবক স্বাক্ষর করবেন।
             </div>
-
-            <div class="form-count" style="margin-top:6px;">ফর্মের দাম: ২০,০০০ পাতা</div>
 
         </div>
     </div>

@@ -30,10 +30,7 @@ urlpatterns = [
 ]
 
 # API URLs - these will be prefixed with /api/ in main urls.py
-api_urlpatterns = [
-    path('', include(router.urls)),
-    path('dashboard-stats/', api_views.dashboard_stats, name='api_dashboard_stats'),
-]
-
-# Add API patterns to urlpatterns with 'api/' prefix
-urlpatterns += [path('api/', include(api_urlpatterns))]
+# api_urlpatterns = [
+#     # path('', include(router.urls)),
+#     # path('dashboard-stats/', api_views.dashboard_stats, name='api_dashboard_stats'),
+# ]

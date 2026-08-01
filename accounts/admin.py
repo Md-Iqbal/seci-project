@@ -12,13 +12,13 @@ admin.site.index_title = "প্রশাসনিক ড্যাশবোর�
 @admin.register(AccountApplication)
 class AccountApplicationAdmin(admin.ModelAdmin):
     list_display = [
-        'application_number_link', 'full_name', 'nid_number',
+        'application_number_link', 'full_name_eng', 'nid_number',
         'account_type_display', 'status_badge', 'application_date_formatted',
         'account_number', 'action_buttons'
     ]
     list_filter = ['status', 'account_type', 'application_date', 'gender']
     search_fields = [
-        'application_number', 'full_name', 'nid_number',
+        'application_number', 'full_name_eng', 'nid_number',
         'mobile_number', 'account_number', 'email'
     ]
     readonly_fields = [
@@ -28,48 +28,48 @@ class AccountApplicationAdmin(admin.ModelAdmin):
     
     date_hierarchy = 'application_date'
     
-    fieldsets = (
-        ('আবেদন তথ্য', {
-            'fields': ('application_number', 'application_date', 'status'),
-            'classes': ('wide',)
-        }),
-        ('ব্যক্তিগত তথ্য', {
-            'fields': (
-                'full_name', 'father_name', 'mother_name',
-                'date_of_birth', 'gender', 'nid_number'
-            ),
-            'classes': ('wide',)
-        }),
-        ('যোগাযোগ তথ্য', {
-            'fields': (
-                'mobile_number', 'email', 'present_address',
-                'permanent_address', 'city', 'postal_code'
-            ),
-            'classes': ('wide',)
-        }),
-        ('হিসাব বিবরণ', {
-            'fields': ('account_type', 'initial_deposit', 'account_number'),
-            'classes': ('wide',)
-        }),
-        ('নথিপত্র', {
-            'fields': ('photo_preview', 'photograph', 'signature_preview', 
-                      'signature', 'nid_copy'),
-            'classes': ('wide',)
-        }),
-        ('নমিনি তথ্য', {
-            'fields': (
-                'nominee_name', 'nominee_relation',
-                'nominee_nid', 'nominee_mobile'
-            ),
-            'classes': ('collapse',)
-        }),
-        ('অনুমোদন তথ্য', {
-            'fields': (
-                'approved_by', 'approval_date', 'rejection_reason'
-            ),
-            'classes': ('wide',)
-        }),
-    )
+    # fieldsets = (
+    #     ('আবেদন তথ্য', {
+    #         'fields': ('application_number', 'application_date', 'status'),
+    #         'classes': ('wide',)
+    #     }),
+    #     ('ব্যক্তিগত তথ্য', {
+    #         'fields': (
+    #             'full_name_eng', 'father_name', 'mother_name',
+    #             'date_of_birth', 'gender', 'nid_number'
+    #         ),
+    #         'classes': ('wide',)
+    #     }),
+    #     ('যোগাযোগ তথ্য', {
+    #         'fields': (
+    #             'mobile_number', 'email', 'present_address',
+    #             'permanent_address', 'city', 'postal_code'
+    #         ),
+    #         'classes': ('wide',)
+    #     }),
+    #     ('হিসাব বিবরণ', {
+    #         'fields': ('account_type', 'initial_deposit', 'account_number'),
+    #         'classes': ('wide',)
+    #     }),
+    #     ('নথিপত্র', {
+    #         'fields': ('photo_preview', 'photograph', 'signature_preview', 
+    #                   'signature', 'nid_copy'),
+    #         'classes': ('wide',)
+    #     }),
+    #     ('নমিনি তথ্য', {
+    #         'fields': (
+    #             'nominee_name', 'nominee_relation',
+    #             'nominee_nid', 'nominee_mobile'
+    #         ),
+    #         'classes': ('collapse',)
+    #     }),
+    #     ('অনুমোদন তথ্য', {
+    #         'fields': (
+    #             'approved_by', 'approval_date', 'rejection_reason'
+    #         ),
+    #         'classes': ('wide',)
+    #     }),
+    # )
     
     actions = ['approve_applications', 'reject_applications']
     
@@ -80,9 +80,13 @@ class AccountApplicationAdmin(admin.ModelAdmin):
     
     def account_type_display(self, obj):
         type_map = {
-            'SAVINGS': 'সঞ্চয়ী',
+            'SAVINGS': 'সঞ্চয়ী',
             'CURRENT': 'চলতি',
-            'FD': 'স্থায়ী আমানত'
+            'SND': 'এসএনডি',
+            'FC': 'এফসি',
+            'RFCD': 'আরএফসিডি',
+            'NFCD': 'এনএফসিডি',
+            'OTHERS': 'অন্যান্য',
         }
         return type_map.get(obj.account_type, obj.account_type)
     account_type_display.short_description = 'হিসাবের ধরন'

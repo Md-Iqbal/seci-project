@@ -1,0 +1,317 @@
+<!-- banking/templates/banking/admin_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        border-radius: 10px;
+        padding: 20px;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .stat-card h3 {
+        margin: 0;
+        font-size: 36px;
+    }
+
+    .stat-card p {
+        margin: 5px 0 0 0;
+    }
+
+    .process-form {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Admin Dashboard - Account Applications</h2>
+
+    <!-- Statistics -->
+    <div class="row mb-4" id="statistics">
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h3 id="total-count">-</h3>
+                <p>Total Applications</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h3 id="pending-count">-</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h3 id="approved-count">-</h3>
+                <p>Approved</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3 id="rejected-count">-</h3>
+                <p>Rejected</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="card">
+        <div class="card-header">
+            <h5>All Applications</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="applicationsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Account Type</th>
+                            <th>Mobile</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsBody">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Modal -->
+<div class="modal fade" id="processModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Process Application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="applicationDetails"></div>
+                <div class="process-form">
+                    <form id="processForm">
+                        <div class="mb-3">
+                            <label class="form-label">Action</label>
+                            <select class="form-select" id="action" required>
+                                <option value="">Select Action</option>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="accountNumberGroup" style="display: none;">
+                            <label class="form-label">Account Number (13 digits)</label>
+                            <input type="text" class="form-control" id="accountNumber" pattern="[0-9]{13}"
+                                maxlength="13">
+                            <small class="text-muted">Enter 13-digit account number</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Remarks (Optional)</label>
+                            <textarea class="form-control" id="remarks" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" id="applicationId">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const API_BASE = '/api/applications/';
+    let processModal;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        processModal = new bootstrap.Modal(document.getElementById('processModal'));
+        loadStatistics();
+        loadApplications();
+
+        // Show/hide account number field based on action
+        document.getElementById('action').addEventListener('change', function () {
+            const accountNumberGroup = document.getElementById('accountNumberGroup');
+            if (this.value === 'approve') {
+                accountNumberGroup.style.display = 'block';
+                document.getElementById('accountNumber').required = true;
+            } else {
+                accountNumberGroup.style.display = 'none';
+                document.getElementById('accountNumber').required = false;
+            }
+        });
+
+        // Handle process form submission
+        document.getElementById('processForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            await processApplication();
+        });
+    });
+
+    async function loadStatistics() {
+        try {
+            const response = await fetch(API_BASE + 'statistics/');
+            const data = await response.json();
+
+            document.getElementById('total-count').textContent = data.total;
+            document.getElementById('pending-count').textContent = data.pending;
+            document.getElementById('approved-count').textContent = data.approved;
+            document.getElementById('rejected-count').textContent = data.rejected;
+        } catch (error) {
+            console.error('Error loading statistics:', error);
+        }
+    }
+
+    async function loadApplications() {
+        try {
+            const response = await fetch(API_BASE);
+            const data = await response.json();
+
+            const tbody = document.getElementById('applicationsBody');
+            tbody.innerHTML = '';
+
+            data.results.forEach(app => {
+                const row = `
+                <tr>
+                    <td>${app.id}</td>
+                    <td>${app.full_name}</td>
+                    <td>${app.account_type_display}</td>
+                    <td>${app.mobile_number}</td>
+                    <td>
+                        <span class="badge bg-${getStatusColor(app.status)}">
+                            ${app.status_display}
+                        </span>
+                    </td>
+                    <td>${new Date(app.created_at).toLocaleDateString('bn-BD')}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="viewApplication(${app.id})">
+                            View
+                        </button>
+                        ${app.status === 'PENDING' ? `
+                        <button class="btn btn-sm btn-primary" onclick="openProcessModal(${app.id})">
+                            Process
+                        </button>
+                        ` : ''}
+                    </td>
+                </tr>
+            `;
+                tbody.innerHTML += row;
+            });
+        } catch (error) {
+            console.error('Error loading applications:', error);
+            document.getElementById('applicationsBody').innerHTML =
+                '<tr><td colspan="7" class="text-center text-danger">Error loading data</td></tr>';
+        }
+    }
+
+    function getStatusColor(status) {
+        switch (status) {
+            case 'PENDING': return 'warning';
+            case 'APPROVED': return 'success';
+            case 'REJECTED': return 'danger';
+            default: return 'secondary';
+        }
+    }
+
+    async function openProcessModal(id) {
+        try {
+            const response = await fetch(API_BASE + id + '/');
+            const app = await response.json();
+
+            document.getElementById('applicationId').value = id;
+            document.getElementById('applicationDetails').innerHTML = `
+            <div class="mb-3">
+                <h6>${app.full_name}</h6>
+                <p class="mb-1"><strong>Account Type:</strong> ${app.account_type_display}</p>
+                <p class="mb-1"><strong>Mobile:</strong> ${app.mobile_number}</p>
+                <p class="mb-1"><strong>NID:</strong> ${app.nid_number || 'N/A'}</p>
+            </div>
+        `;
+
+            processModal.show();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error loading application details');
+        }
+    }
+
+    async function processApplication() {
+        const id = document.getElementById('applicationId').value;
+        const action = document.getElementById('action').value;
+        const remarks = document.getElementById('remarks').value;
+        const accountNumber = document.getElementById('accountNumber').value;
+
+        const data = {
+            action: action,
+            remarks: remarks
+        };
+
+        if (action === 'approve') {
+            if (!accountNumber || accountNumber.length !== 13) {
+                alert('Please enter a valid 13-digit account number');
+                return;
+            }
+            data.account_number = accountNumber;
+        }
+
+        try {
+            const response = await fetch(API_BASE + id + '/process/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                processModal.hide();
+                document.getElementById('processForm').reset();
+                loadStatistics();
+                loadApplications();
+            } else {
+                alert('Error: ' + (result.error || JSON.stringify(result)));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error processing application');
+        }
+    }
+
+    function viewApplication(id) {
+        window.location.href = `/applications/${id}/`;
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

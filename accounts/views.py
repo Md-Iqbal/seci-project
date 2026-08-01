@@ -6,7 +6,10 @@ from django.template.loader import get_template
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils import timezone
+from itertools import chain
+from operator import attrgetter
 from .models import AccountApplication, ApplicationLog, ApplicationStatus
+from bonds.models import WageEarnersBond, USDBond
 from .forms import AccountApplicationForm, ApplicationSearchForm, ApplicationApprovalForm
 import logging
 
@@ -35,6 +38,7 @@ def apply_account(request):
         if form.is_valid():
             try:
                 application = form.save()
+                print(f'Application created: {application.application_number}')
                 
                 # Log the creation
                 ApplicationLog.objects.create(
@@ -52,6 +56,7 @@ def apply_account(request):
                 )
                 return redirect('application_success', app_number=application.application_number)
             except Exception as e:
+                print(f'Error creating application: {str(e)}')
                 logger.error(f'Error creating application: {str(e)}')
                 messages.error(request, 'আবেদন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।')
     else:
@@ -130,7 +135,7 @@ def application_detail_public(request, app_number):
         'status_bengali': status_bengali.get(application.status, application.status),
         'account_type_bengali': account_type_bengali.get(application.account_type, application.account_type)
     }
-    return render(request, 'accounts/application_detail_public.html', context)
+    return render(request, 'accounts/application_detail.html', context)
 
 # Employee Views
 from django.contrib.auth import login, authenticate
@@ -212,46 +217,81 @@ def dashboard(request):
 @login_required
 @user_passes_test(is_bank_employee)
 def application_list(request):
-    """List all applications with filters"""
-    status_filter = request.GET.get('status', '')
-    search_query = request.GET.get('search', '')
-    
-    applications = AccountApplication.objects.all()
-    
-    if status_filter:
-        applications = applications.filter(status=status_filter)
-    
-    if search_query:
-        applications = applications.filter(
-            Q(application_number__icontains=search_query) |
-            Q(full_name__icontains=search_query) |
-            Q(nid_number__icontains=search_query) |
-            Q(mobile_number__icontains=search_query) |
-            Q(account_number__icontains=search_query)
-        )
-    
-    paginator = Paginator(applications, 20)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    # Bengali labels for filters
+    app_type = request.GET.get("type", "")
+    search = request.GET.get("search", "").strip()
+
     status_labels = {
-        'PENDING': 'অপেক্ষমাণ',
-        'APPROVED': 'অনুমোদিত',
-        'REJECTED': 'প্রত্যাখ্যাত'
+        "PENDING": "PENDING",
+        "APPROVED": "APPROVED",
+        "REJECTED": "REJECTED",
     }
-    
+
+    # ---------------- SEARCH ----------------
+    if search:
+
+        if app_type == "Account":
+            applications = AccountApplication.objects.filter(
+                Q(application_number__icontains=search) |
+                Q(full_name__icontains=search) |
+                Q(nid_number__icontains=search) |
+                Q(mobile_number__icontains=search) |
+                Q(account_number__icontains=search)
+            ).order_by("-application_date")
+
+        elif app_type == "Wage":
+            applications = WageEarnersBond.objects.filter(
+                Q(application_no__icontains=search) |
+                Q(applicant_name__icontains=search) |
+                Q(passport_no__icontains=search) |
+                Q(mobile_no__icontains=search)
+            ).order_by("-application_date")
+
+        elif app_type == "USD":
+            applications = USDBond.objects.filter(
+                Q(application_no__icontains=search) |
+                Q(applicant_name__icontains=search) |
+                Q(passport_no__icontains=search) |
+                Q(applicant_contact__icontains=search)
+            ).order_by("-application_date")
+
+        else:
+            applications = []
+
+    # ---------------- NO SEARCH ----------------
+    else:
+
+        accounts = list(AccountApplication.objects.all())
+        wages = list(WageEarnersBond.objects.all())
+        usds = list(USDBond.objects.all())
+
+        for obj in accounts:
+            obj.app_type = "Account"
+
+        for obj in wages:
+            obj.app_type = "Wage"
+
+        for obj in usds:
+            obj.app_type = "USD"
+
+        applications = sorted(
+            chain(accounts, wages, usds),
+            key=attrgetter("application_date"),
+            reverse=True,
+        )
+
+    paginator = Paginator(applications, 20)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     context = {
-        'page_obj': page_obj,
-        'status_filter': status_filter,
-        'search_query': search_query,
-        'status_labels': status_labels,
-        'page_title': 'সকল আবেদন'
+        "page_obj": page_obj,
+        "applications": applications,
+        "status_filter": app_type,
+        "search_query": search,
+        "status_labels": status_labels,
+        "page_title": "সকল আবেদন",
     }
-    
-    logger.info(f'Application list viewed by: {request.user.username}, Filters: status={status_filter}, search={search_query}')
-    
-    return render(request, 'accounts/application_list.html', context)
+
+    return render(request, "accounts/application_list.html", context)
 
 @login_required
 @user_passes_test(is_bank_employee)
@@ -268,9 +308,13 @@ def application_detail(request, app_number):
     }
     
     account_type_bengali = {
-        'SAVINGS': 'সঞ্চয়ী হিসাব',
-        'CURRENT': 'চলতি হিসাব',
-        'FD': 'স্থায়ী আমানত'
+        'SAVINGS': 'সঞ্চয়ী',
+        'CURRENT': 'চলতি',
+        'SND': 'এসএনডি',
+        'FC': 'এফসি',
+        'RFCD': 'আরএফসিডি',
+        'NFCD': 'এনএফসিডি',
+        'OTHERS': 'অন্যান্য'
     }
     
     gender_bengali = {
@@ -374,16 +418,25 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required, user_passes_test
 from playwright.sync_api import sync_playwright
 from datetime import datetime
-
-
+from django.contrib.staticfiles import finders
+from pathlib import Path
+import base64
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def print_application(request, app_number):
     application = get_object_or_404(AccountApplication, application_number=app_number)
+    print(application)
+    img_path = finders.find('logo/logo.png')
+    print(f'Logo path: {img_path}')
+
+
+    with open(img_path, "rb") as f:
+        logo_base64 = base64.b64encode(f.read()).decode()
 
     context = {
         'application': application,
         'today': datetime.now().strftime("%d/%m/%Y"),
+        'img_path': logo_base64,
         # Add your model fields here for auto-filling
         'account_title_bn': application.account_title_bn if hasattr(application, 'account_title_bn') else '',
         'account_title_en': application.account_title_en if hasattr(application, 'account_title_en') else '',

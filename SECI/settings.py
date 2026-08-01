@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-%we9m3=ls)n=%6iy+npu_40k!l0##0ozee+hpn_=giqxzpvatt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sonaliebond.com', '://sonaliebond.com']
 
 
 # Application definition
@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'accounts',
+    'bonds',
+
     'crispy_forms',
     'crispy_bootstrap4',
     'django_celery_beat',

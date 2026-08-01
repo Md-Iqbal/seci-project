@@ -67,40 +67,100 @@ class APIHandler {
     }
 
     // Update the createApplication method in api-handler.js
-async createApplication(formData) {
-    // formData should be a FormData object, not plain object
-    const url = `${this.baseURL}/api/applications/`;
-    
-    const defaultOptions = {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': this.csrfToken,
-            'X-Requested-With': 'XMLHttpRequest',
-        },
-        credentials: 'same-origin',
-        body: formData  // FormData object
-    };
-    
-    try {
-        const response = await fetch(url, defaultOptions);
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw { status: response.status, data };
+    async createApplication(formData) {
+        // formData should be a FormData object, not plain object
+        const url = `${this.baseURL}/api/applications/`;
+        const defaultOptions = {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': this.csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin',
+            body: formData  // FormData object
+        };
+        try {
+            const response = await fetch(url, defaultOptions);
+            const data = await response.json();   
+            if (!response.ok) {
+                throw { status: response.status, data };
+            }    
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
         }
-        
-        return data;
-    } catch (error) {
-        console.error('API Error:', error);
-        throw error;
     }
-}
-
+    async createApplication_WEBond(formData){
+        const url = `${this.baseURL}/bonds/api/WEbondapplication/`;
+        const defaultOptions = {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': this.csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin',
+            body: formData  // FormData object
+        };
+        try {
+            const response = await fetch(url, defaultOptions);
+            const data = await response.json();   
+            if (!response.ok) {
+                throw { status: response.status, data };
+            }    
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
+    async createApplication_USDBond(formData){
+        const url = `${this.baseURL}/bonds/api/USDbondapplication/`;
+        console.log(url);
+        const defaultOptions = {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': this.csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin',
+            body: formData  // FormData object
+        };
+        try {
+            const response = await fetch(url, defaultOptions);
+            const data = await response.json();   
+            if (!response.ok) {
+                throw { status: response.status, data };
+            }    
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
     async searchByNID(nidNumber) {
         return this.request('applications/search_by_nid/', {
             method: 'POST',
             body: { nid_number: nidNumber }
         });
+    }
+    async searchByapplication_no(application_no) {
+        const url = `${this.baseURL}/bonds/api/WEbondapplication/search_by_application_no/`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": this.csrfToken,
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                application_no: application_no
+            })
+        });
+
+        return await response.json();
     }
 
     async processApplication(id, action, rejectionReason = '') {
@@ -111,6 +171,38 @@ async createApplication(formData) {
                 rejection_reason: rejectionReason
             }
         });
+    }
+    async processApplicationBond(application_no, action, rejectionReason = '') {
+
+        let apiUrl;
+        console.log(application_no);
+        if (application_no.startsWith("USDB")) {
+            apiUrl = `/bonds/api/USDbondapplication/${application_no}/process/`;
+        } else {
+            apiUrl = `/bonds/api/WEbondapplication/${application_no}/process/`;
+        }
+
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": this.csrfToken,
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                action: action,
+                rejection_reason: rejectionReason
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw {status: response.status, data};
+        }
+
+        return data;
     }
 
     async getApplicationLogs(id) {

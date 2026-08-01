@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags bengali_filters %}
+
+{% block title %}Process Wage Earners Development Bond - {{ application.application_no }}{% endblock %}
+
+{% block content %}
+<h2 class=" mb-4">
+    <i class="bi bi-check-square text-gold"></i> Process {% if application.bond_type %} {{ application.bond_type|lower|title }} {% else %} Wage Earners Development Bond {% endif %}
+</h2>
+<p class="text-muted">Applicaiton No: <strong>{{ application.application_no }}</strong></p>
+
+<div id="messageContainer"></div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-gold shadow-gold">
+            <div class="card-header">
+                <h5 class="mb-0">Application Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="mb-1"><strong>Applicant:</strong> {{ application.applicant_name }}</p>
+                            <p class="mb-1"><strong>Nominee name:</strong> {{ application.nominee_name }}</p>
+                            <p class="mb-1"><strong>Applicant address:</strong> {{ application.applicant_address }}</p>
+                            <p class="mb-1"><strong>Nominee address:</strong> {{ application.nominee_address }}</p>
+                            <p class="mb-1"><strong>Passport:</strong> {{ application.passport_no }}</p>
+                            {% if application.bond_type %}
+                            <p class="mb-1"><strong>Applicant contact no:</strong>{{ application.applicant_contact }}</p>
+                            <p class="mb-1"><strong>Nominee contact no:</strong>{{ application.nominee_contact }}</p>
+                            {% else %}
+                            <p class="mb-1"><strong>Mobile:</strong>{{ application.mobile_no }}</p>
+                            {% endif %}
+                            <p class="mb-1"><strong>Total Amount:</strong> {{ application.total_amount }}</p>
+                            <p class="mb-1"><strong>Application Date:</strong> {{ application.application_date }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="{% url 'application_detail_public' application.application_no %}" 
+                   class="btn btn-info btn-sm ">
+                    <i class="bi bi-eye"></i> View Details
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-warning shadow-gold">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0 ">Decision</h5>
+            </div>
+            <div class="card-body">
+                <form id="processForm">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label "><strong>Select Decision <span class="text-danger">*</span></strong></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="action" id="approve" 
+                                   value="approve" required>
+                            <label class="form-check-label " for="approve">
+                                <i class="bi bi-check-circle text-success"></i> Approve Application
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="action" id="reject" 
+                                   value="reject" required>
+                            <label class="form-check-label " for="reject">
+                                <i class="bi bi-x-circle text-danger"></i> Reject Application
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="rejectionReasonDiv" style="display: none;">
+                        <label for="rejection_reason" class="form-label ">
+                            Reason for Rejection <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" 
+                                  rows="3" placeholder="Write your reason for rejecting this application..."></textarea>
+                    </div>
+                    
+                    <div class="alert alert-warning ">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>Warning:</strong> This activity can't be reversed. Please decide by reviewing the application.
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg " id="submitBtn">
+                            <i class="bi bi-send"></i> Submit Decision
+                        </button>
+                        <a href="{% url 'application_detail' application.application_no %}" 
+                           class="btn btn-secondary ">
+                            <i class="bi bi-x-circle"></i> Reject
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+const applicationId = '{{ application.id }}';
+const applicationNo = '{{ application.application_no }}';
+
+// Show/hide rejection reason
+document.querySelectorAll('input[name="action"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const rejectionDiv = document.getElementById('rejectionReasonDiv');
+        const rejectionInput = document.getElementById('rejection_reason');
+        
+        if (this.value === 'reject') {
+            rejectionDiv.style.display = 'block';
+            rejectionInput.required = true;
+        } else {
+            rejectionDiv.style.display = 'none';
+            rejectionInput.required = false;
+        }
+    });
+});
+
+document.getElementById('processForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const messageContainer = document.getElementById('messageContainer');
+    const action = document.querySelector('input[name="action"]:checked').value;
+    const rejectionReason = document.getElementById('rejection_reason').value;
+    
+    if (action === 'reject' && !rejectionReason) {
+        showError(messageContainer, 'Provide reason for rejection.');
+        return;
+    }
+    
+    const confirmMessage = action === 'approve' 
+        ? 'Are you sure to approve this application?' 
+        : 'Are you sure to reject this application?';
+    
+    if (!confirm(confirmMessage)) {
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+    
+    try {
+        console.log(applicationNo);
+        const response = await api.processApplicationBond(applicationNo, action, rejectionReason);
+        console.log(response.message);
+        
+        showSuccess(messageContainer, response.message);
+        
+        setTimeout(() => {
+            window.location.href = `/bonds/${applicationNo}/`;
+        }, 2000);
+        
+    } catch (error) {
+        let errorMessage = 'Error in processing application.';
+        
+        if (error.data && error.data.error) {
+            errorMessage = error.data.error;
+        }
+        
+        showError(messageContainer, errorMessage);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-send"></i> Submit Decision';
+    }
+});
+</script>
+{% endblock %}

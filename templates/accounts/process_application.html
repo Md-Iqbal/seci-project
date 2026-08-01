@@ -24,22 +24,19 @@
                             <p class="mb-1"><strong>নাম:</strong> {{ application.full_name }}</p>
                             <p class="mb-1"><strong>এনআইডি:</strong> {{ application.nid_number }}</p>
                             <p class="mb-1"><strong>মোবাইল:</strong> {{ application.mobile_number }}</p>
-                            <p class="mb-1"><strong>হিসাবের ধরন:</strong> {{
-                                application.account_type|account_type_bengali }}</p>
-                            <p class="mb-1"><strong>প্রাথমিক জমা:</strong> {{
-                                application.initial_deposit|bengali_currency }}</p>
-                            <p class="mb-1"><strong>আবেদনের তারিখ:</strong> {{ application.application_date|bengali_date
-                                }}</p>
+                            <p class="mb-1"><strong>হিসাবের ধরন:</strong> {{ application.account_type|account_type_bengali }}</p>
+                            <p class="mb-1"><strong>প্রাথমিক জমা:</strong> {{ application.initial_deposit|bengali_currency }}</p>
+                            <p class="mb-1"><strong>আবেদনের তারিখ:</strong> {{ application.application_date|bengali_date }}</p>
                         </div>
                         <div class="col-4 text-center">
-                            <img src="{{ application.photograph.url }}" class="img-thumbnail" style="max-width: 120px;"
-                                alt="Photo">
+                            <img src="{{ application.photograph.url }}" class="img-thumbnail" 
+                                 style="max-width: 120px;" alt="Photo">
                         </div>
                     </div>
                 </div>
-
-                <a href="{% url 'application_detail' application.application_number %}"
-                    class="btn btn-info btn-sm bn-text">
+                
+                <a href="{% url 'application_detail' application.application_number %}" 
+                   class="btn btn-info btn-sm bn-text">
                     <i class="bi bi-eye"></i> সম্পূর্ণ বিস্তারিত দেখুন
                 </a>
             </div>
@@ -54,8 +51,8 @@
                 <div class="row">
                     <div class="col-6 text-center mb-2">
                         <small class="bn-text d-block mb-1">স্বাক্ষর</small>
-                        <img src="{{ application.signature.url }}" class="img-thumbnail" style="max-width: 150px;"
-                            alt="Signature">
+                        <img src="{{ application.signature.url }}" class="img-thumbnail" 
+                             style="max-width: 150px;" alt="Signature">
                     </div>
                     <div class="col-6 text-center mb-2">
                         <small class="bn-text d-block mb-1">এনআইডি</small>
@@ -76,46 +73,44 @@
             <div class="card-body">
                 <form id="processForm">
                     {% csrf_token %}
-
+                    
                     <div class="mb-3">
-                        <label class="form-label bn-text"><strong>কার্যক্রম নির্বাচন করুন <span
-                                    class="text-danger">*</span></strong></label>
+                        <label class="form-label bn-text"><strong>কার্যক্রম নির্বাচন করুন <span class="text-danger">*</span></strong></label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="action" id="approve" value="approve"
-                                required>
+                            <input class="form-check-input" type="radio" name="action" id="approve" 
+                                   value="approve" required>
                             <label class="form-check-label bn-text" for="approve">
                                 <i class="bi bi-check-circle text-success"></i> আবেদন অনুমোদন করুন
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="action" id="reject" value="reject"
-                                required>
+                            <input class="form-check-input" type="radio" name="action" id="reject" 
+                                   value="reject" required>
                             <label class="form-check-label bn-text" for="reject">
                                 <i class="bi bi-x-circle text-danger"></i> আবেদন প্রত্যাখ্যান করুন
                             </label>
                         </div>
                     </div>
-
+                    
                     <div class="mb-3" id="rejectionReasonDiv" style="display: none;">
                         <label for="rejection_reason" class="form-label bn-text">
                             প্রত্যাখ্যানের কারণ <span class="text-danger">*</span>
                         </label>
-                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="3"
-                            placeholder="প্রত্যাখ্যানের কারণ লিখুন..."></textarea>
+                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" 
+                                  rows="3" placeholder="প্রত্যাখ্যানের কারণ লিখুন..."></textarea>
                     </div>
-
+                    
                     <div class="alert alert-warning bn-text">
                         <i class="bi bi-exclamation-triangle"></i>
-                        <strong>সতর্কতা:</strong> এই কার্যক্রম পূর্বাবস্থায় ফেরানো যাবে না। অনুগ্রহ করে আবেদন যাচাই করে
-                        সিদ্ধান্ত নিন।
+                        <strong>সতর্কতা:</strong> এই কার্যক্রম পূর্বাবস্থায় ফেরানো যাবে না। অনুগ্রহ করে আবেদন যাচাই করে সিদ্ধান্ত নিন।
                     </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg bn-text" id="submitBtn">
                             <i class="bi bi-send"></i> সিদ্ধান্ত জমা দিন
                         </button>
-                        <a href="{% url 'application_detail' application.application_number %}"
-                            class="btn btn-secondary bn-text">
+                        <a href="{% url 'application_detail' application.application_number %}" 
+                           class="btn btn-secondary bn-text">
                             <i class="bi bi-x-circle"></i> বাতিল করুন
                         </a>
                     </div>
@@ -170,69 +165,69 @@
 {% block extra_js %}
 <script src="{% static 'js/api-handler.js' %}"></script>
 <script>
-    const applicationId = '{{ application.id }}';
-    const applicationNumber = '{{ application.application_number }}';
+const applicationId = '{{ application.id }}';
+const applicationNumber = '{{ application.application_number }}';
 
-    // Show/hide rejection reason
-    document.querySelectorAll('input[name="action"]').forEach(radio => {
-        radio.addEventListener('change', function () {
-            const rejectionDiv = document.getElementById('rejectionReasonDiv');
-            const rejectionInput = document.getElementById('rejection_reason');
-
-            if (this.value === 'reject') {
-                rejectionDiv.style.display = 'block';
-                rejectionInput.required = true;
-            } else {
-                rejectionDiv.style.display = 'none';
-                rejectionInput.required = false;
-            }
-        });
-    });
-
-    document.getElementById('processForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const submitBtn = document.getElementById('submitBtn');
-        const messageContainer = document.getElementById('messageContainer');
-        const action = document.querySelector('input[name="action"]:checked').value;
-        const rejectionReason = document.getElementById('rejection_reason').value;
-
-        if (action === 'reject' && !rejectionReason) {
-            showError(messageContainer, 'প্রত্যাখ্যানের কারণ প্রদান করুন।');
-            return;
-        }
-
-        const confirmMessage = action === 'approve'
-            ? 'আপনি কি নিশ্চিত এই আবেদন অনুমোদন করতে চান?'
-            : 'আপনি কি নিশ্চিত এই আবেদন প্রত্যাখ্যান করতে চান?';
-
-        if (!confirm(confirmMessage)) {
-            return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> প্রক্রিয়া চলছে...';
-
-        try {
-            const response = await api.processApplication(applicationId, action, rejectionReason);
-
-            showSuccess(messageContainer, response.message);
-
-            setTimeout(() => {
-                window.location.href = `/applications/${applicationNumber}/detail/`;
-            }, 2000);
-
-        } catch (error) {
-            let errorMessage = 'আবেদন প্রক্রিয়া করতে সমস্যা হয়েছে।';
-
-            if (error.data && error.data.error) {
-                errorMessage = error.data.error;
-            }
-
-            showError(messageContainer, errorMessage);
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bi bi-send"></i> সিদ্ধান্ত জমা দিন';
+// Show/hide rejection reason
+document.querySelectorAll('input[name="action"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const rejectionDiv = document.getElementById('rejectionReasonDiv');
+        const rejectionInput = document.getElementById('rejection_reason');
+        
+        if (this.value === 'reject') {
+            rejectionDiv.style.display = 'block';
+            rejectionInput.required = true;
+        } else {
+            rejectionDiv.style.display = 'none';
+            rejectionInput.required = false;
         }
     });
+});
+
+document.getElementById('processForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const messageContainer = document.getElementById('messageContainer');
+    const action = document.querySelector('input[name="action"]:checked').value;
+    const rejectionReason = document.getElementById('rejection_reason').value;
+    
+    if (action === 'reject' && !rejectionReason) {
+        showError(messageContainer, 'প্রত্যাখ্যানের কারণ প্রদান করুন।');
+        return;
+    }
+    
+    const confirmMessage = action === 'approve' 
+        ? 'আপনি কি নিশ্চিত এই আবেদন অনুমোদন করতে চান?' 
+        : 'আপনি কি নিশ্চিত এই আবেদন প্রত্যাখ্যান করতে চান?';
+    
+    if (!confirm(confirmMessage)) {
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> প্রক্রিয়া চলছে...';
+    
+    try {
+        const response = await api.processApplication(applicationId, action, rejectionReason);
+        
+        showSuccess(messageContainer, response.message);
+        
+        setTimeout(() => {
+            window.location.href = `/applications/${applicationNumber}/detail/`;
+        }, 2000);
+        
+    } catch (error) {
+        let errorMessage = 'আবেদন প্রক্রিয়া করতে সমস্যা হয়েছে।';
+        
+        if (error.data && error.data.error) {
+            errorMessage = error.data.error;
+        }
+        
+        showError(messageContainer, errorMessage);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-send"></i> সিদ্ধান্ত জমা দিন';
+    }
+});
 </script>
 {% endblock %}

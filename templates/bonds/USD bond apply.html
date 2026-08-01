@@ -1,0 +1,631 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bond Buying Page- Sonali Bank PLC{% endblock %}
+
+{% block extra_css %}
+<style>
+    .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        display: none;
+        border: 2px solid var(--gold);
+        border-radius: 6px;
+    }
+
+    .form-step {
+        display: none;
+    }
+
+    .form-step.active {
+        display: block;
+    }
+
+    .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .step-indicator::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #d4b860;
+        z-index: 0;
+    }
+
+    .step {
+        background: var(--white);
+        border: 2px solid #d4b860;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+        color: #999;
+    }
+
+    .step.active {
+        background: linear-gradient(135deg, #c8960c, #f0c430);
+        border-color: var(--gold);
+        color: var(--dark);
+    }
+
+    .step.completed {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+    }
+
+    .file-upload-box {
+        border: 2px dashed var(--gold);
+        border-radius: 6px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: var(--gold-pale);
+    }
+
+    .file-upload-box:hover {
+        background: #fff8e1;
+        border-color: var(--gold-light);
+    }
+
+    .file-upload-box i {
+        font-size: 2rem;
+        color: var(--gold);
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-gold shadow-gold">
+            <div class="card-header">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-file-earmark-text"></i> USD Investment/Premium Bond
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted bn-text">অনুগ্রহ করে সকল তথ্য সাবধানে পূরণ করুন</p>
+
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">১</div>
+                    <div class="step" data-step="2">২</div>
+                    <div class="step" data-step="3">৩</div>
+                    <!-- <div class="step" data-step="4">৪</div> -->
+                </div>
+
+                <div id="messageContainer"></div>
+
+                <form id="bondForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="step1">
+                        <div class="section-title bn-text">Personal Details</div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="applicant_name" class="form-label bn-text">
+                                    FULL NAME IN ENGLISH(BLOCK LETTER) <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" required
+                                    placeholder="Write full name in English (BLOCK LETTERS)">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nominee_name" class="form-label bn-text">
+                                    Nominee Name
+                                </label>
+                                <input type="text" class="form-control" id="nominee_name" name="nominee_name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="applicant_address" class="form-label bn-text">
+                                    Address <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="applicant_address" name="applicant_address" required></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="applicant_address_BD" class="form-label bn-text">
+                                    Address in Bangladesh <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="applicant_address_BD" name="applicant_address_BD" required></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_address" class="form-label bn-text">
+                                    Nominee Address
+                                </label>
+                                <textarea class="form-control" id="nominee_address" name="nominee_address"></textarea>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="applicant_contact" class="form-label">
+                                    Applicant Contact No <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="applicant_contact" name="applicant_contact" required
+                                    placeholder="Your Mobile No.">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="nominee_contact" class="form-label">
+                                    Nominee Contact No
+                                </label>
+                                <input type="text" class="form-control" id="nominee_contact" name="nominee_contact" >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="relation_with_nominee" class="form-label bn-text">
+                                    Relation with nominee: <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="relation_with_nominee" name="relation_with_nominee" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="passport_no" class="form-label bn-text">
+                                    Your Passport No <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="passport_no" name="passport_no" required
+                                    placeholder="Passport Number">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="place_of_issue" class="form-label bn-text">
+                                    place of issue: <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="place_of_issue" name="place_of_issue" placeholder="Place of Issueing the Passport" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="dob" class="form-label bn-text">
+                                    Date of birth: <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" class="form-control" id="dob" name="dob">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="service" class="form-label bn-text">
+                                    Your Service <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="service" name="service" required
+                                    placeholder="Your Service/Occupation">
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <label for="service_address" class="form-label bn-text">
+                                    Service Address <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="service_address" name="service_address" required
+                                    placeholder="Your Office Address Details">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(2)">
+                                পরবর্তী <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Address Information -->
+                    <div class="form-step" id="step2">
+                        <div class="section-title bn-text">Bond Buying Details</div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="bond_type" class="form-label bn-text">
+                                    Which Bond do you want to invest in? <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="bond_type" name="bond_type" required>
+                                    <option value="">*Select any of the Bond*</option>
+                                    <option value="US DOLLAR INVESTMENT BOND">US DOLLAR INVESTMENT BOND</option>
+                                    <option value="US DOLLAR PREMIUM BOND">US DOLLAR PREMIUM BOND</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <input type="number" min="1" id="face_value" name="face_value" class="form-control bond-count" value="500.00" readonly>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input type="number" min="1" id="quantity" name="quantity" class="form-control bond-count" placeholder="Number of Bonds">
+                            </div>
+                        </div>
+                                              
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(1)">
+                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+                            </button>
+                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(3)">
+                                পরবর্তী <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Account & Documents -->
+                    <div class="form-step" id="step3">
+                        <div class="section-title bn-text">Bond Buying Office</div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="FC_account_no" class="form-label bn-text">
+                                    F.C. Account No <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="FC_account_no" name="FC_account_no" required
+                                    placeholder="F.C. Account No">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="FC_account_office" class="form-label bn-text">
+                                    F.C. Account Branch Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="FC_account_office" name="FC_account_office" required
+                                    placeholder="F.C. Account Branch Name">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name_of_paying_office" class="form-label bn-text">
+                                    Branch Name from Where You Want to Buy Your BOND <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="name_of_paying_office" name="name_of_paying_office" required placeholder="Write Bond Buying Office Name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="address_of_paying_office" class="form-label bn-text">
+                                    Branch address from Where You Want to Buy Your BOND <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="address_of_paying_office" name="address_of_paying_office" required placeholder="Write Bond Buying Office Address" required>
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="terms_accepted" required>
+                            <label class="form-check-label bn-text" for="terms_accepted">
+                                I declare that all the information provided is true and correct. I agree to abide by all the rules and regulations of Sonali Bank.
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(3)">
+                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-lg bn-text" id="submitBtn">
+                                <i class="bi bi-send"></i> আবেদন জমা দিন
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Autosave Indicator -->
+<div id="autosave-indicator" class="bn-text"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+    let currentStep = 1;
+
+    function nextStep(step) {
+        const currentForm = document.getElementById(`step${currentStep}`);
+        const inputs = currentForm.querySelectorAll('input[required], select[required], textarea[required]');
+        let valid = true;
+
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+
+        if (!valid) return;
+
+        // Update step indicators
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+        // Show/hide steps
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        document.getElementById(`step${step}`).classList.add('active');
+        currentStep = step;
+        window.scrollTo(0, 0);
+    }
+
+    function prevStep(step) {
+        // Update step indicators
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+        document.querySelector(`.step[data-step="${step}"]`).classList.remove('completed');
+        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+        // Show/hide steps
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        document.getElementById(`step${step}`).classList.add('active');
+        currentStep = step;
+        window.scrollTo(0, 0);
+    }
+
+
+    // Form submission with proper file handling
+    document.getElementById('bondForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const messageContainer = document.getElementById('messageContainer');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> জমা হচ্ছে...';
+
+            try {
+                // Create FormData object
+                const formData = new FormData(this);
+                console.log("USD Bond form data");
+                // Print all FormData
+                console.log("===== FormData Start =====");
+                for (const [key, value] of formData.entries()) {
+                    console.log(`${key}:`, value);
+                }
+                console.log("===== FormData End =====");
+
+                // Wait for 1 minute
+                // console.log("Waiting 60 seconds before sending request...");
+                // await new Promise(resolve => setTimeout(resolve, 60000));
+                
+// this is what html from is sending
+// ===== FormData Start =====
+// csrfmiddlewaretoken: NhPXKGV4Zvkxn8puGx5eu86ubsOuUTEdfrpuWSz99W2C5y12tLCTkO9WUgDtmf2H
+// applicant_name: Abu Sayeed Md Iqbal Majumder
+// nominee_name: Abu sayeed md ivan majumder
+// applicant_address: 
+// applicant_address_BD: City Gate, Agrabad, Dhaka.
+// nominee_address: 
+// relation_with_nominee: Brother
+// passport_no: A12345678901
+// place_of_issue: Uttara, Kurigram
+// dob: 2010-01-01
+// service: Allah'r Dan
+// service_address: Pothe Pothe
+// bond_type: US DOLLAR PREMIUM BOND
+// face_value: 500
+// quantity: 2
+// FC_account_no: 1234566789aa
+// FC_account_office: Norway
+// name_of_paying_office: Kushtia
+// address_of_paying_office: Kushtia, UK
+// ===== FormData End =====
+
+                // Submit using fetch with FormData
+                // call createApplication api function from api-handler.js
+                const response = await api.createApplication_USDBond(formData);
+
+                console.log(response);
+
+                showSuccess(
+                    messageContainer,
+                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর:
+                    <strong>${response.application_no}</strong>`
+                );
+
+                this.reset();
+
+                setTimeout(() => {
+                    window.location.href = `/bonds/success/${response.application_no}/`;
+                }, 2000);
+
+                let data;
+
+                if (contentType && contentType.includes("application/json")) {
+                    data = await response.json();
+                } else {
+                    const html = await response.text();
+                    console.error(html);
+                    throw new Error("Server returned HTML instead of JSON.");
+                }
+                console.log('Response data:', JSON.stringify(data, null, 2));
+
+                if (!response.ok) {
+                    console.error('Error response:', data);
+                    throw { status: response.status, data };
+                }
+
+                // Check if plication_no exists
+                if (!data.application_no) {
+                    console.error('No application_no in response:', data);
+                    throw new Error('আবেদন নম্বর পাওয়া যায়নি');
+                }
+
+                // Show success message
+                showSuccess(messageContainer,
+                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর: <strong>${data.application_no}</strong>`
+                );
+
+                // Reset form
+                this.reset();
+                // Redirect to success page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = `/success/${data.application_no}/`;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Submission error:', error); // Debug log
+
+                let errorMessage = 'আবেদন জমা দিতে সমস্যা হয়েছে।';
+
+                if (error.data) {
+                    if (typeof error.data === 'object') {
+                        errorMessage = Object.entries(error.data)
+                            .map(([key, value]) => {
+                                const banglaKey = getBanglaFieldName(key);
+                                const errorText = Array.isArray(value) ? value.join(', ') : value;
+                                console.log(banglaKey)
+                                console.log(errorText)
+                                return `${banglaKey}: ${errorText}`;
+                            })
+                            .join('<br>');
+                    } else if (error.data.detail) {
+                        errorMessage = error.data.detail;
+                    } else {
+                        errorMessage = error.data;
+                    }
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                showError(messageContainer, errorMessage);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send"></i> আবেদন জমা দিন';
+                window.scrollTo(0, 0);
+            }
+        });
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Helper function to translate field names to Bengali
+    function getBanglaFieldName(fieldName) {
+        const fieldMap = {
+            // USD Investment/Premium Bond
+            'applicant_name': 'applicant_name',
+            'nominee_name': 'nominee_name',
+            'applicant_address': 'applicant_address',
+            'applicant_address_BD': 'applicant_address_BD',
+            'nominee_address': 'nominee_address',
+            'relation_with_nominee':'relation_with_nominee',
+            'passport_no': 'passport_no',
+            'place_of_issue':'place_of_issue',
+            'dob':'dob',
+            'service': 'service',
+            'service_address': 'service_address',
+            'bond_type':'bond_type',
+            'face_value': 'face_value',
+            'quantity':'quantity',
+            'FC_account_no': 'FC_account_no',
+            'FC_account_office': 'FC_account_office',
+            'name_of_paying_office': 'name_of_paying_office',
+            'address_of_paying_office':'address_of_paying_office',
+            
+            // 
+            'reference_name': 'reference_name',
+            'reference_service': 'reference_service',
+            'reference_service_address': 'reference_service_address'
+        };
+        return fieldMap[fieldName] || fieldName;
+    }
+
+    // Auto-save functionality (modified to skip files)
+    class FormAutoSave {
+        constructor(formId, storageKey) {
+            this.form = document.getElementById(formId);
+            this.storageKey = storageKey;
+            this.init();
+        }
+
+        init() {
+            if (!this.form) return;
+
+            this.loadFormData();
+
+            this.form.querySelectorAll('input, select, textarea').forEach(element => {
+                if (element.type !== 'file' && element.type !== 'password') {
+                    element.addEventListener('input', () => this.saveFormData());
+                }
+            });
+        }
+
+        saveFormData() {
+            const formData = new FormData(this.form);
+            const data = {};
+
+            for (let [key, value] of formData.entries()) {
+                if (value &&
+                    key !== 'csrfmiddlewaretoken' &&
+                    key !== 'terms_accepted') {
+                    data[key] = value;
+                }
+            }
+
+            localStorage.setItem(this.storageKey, JSON.stringify(data));
+            this.showSaveIndicator();
+        }
+
+        loadFormData() {
+            const savedData = localStorage.getItem(this.storageKey);
+
+            if (savedData) {
+                const data = JSON.parse(savedData);
+
+                Object.keys(data).forEach(key => {
+                    const element = this.form.elements[key];
+                    if (element && element.type !== 'file') {
+                        element.value = data[key];
+                    }
+                });
+
+                this.showRestoreNotification();
+            }
+        }
+
+        showSaveIndicator() {
+            let indicator = document.getElementById('autosave-indicator');
+
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'autosave-indicator';
+                indicator.className = 'bn-text';
+                document.body.appendChild(indicator);
+            }
+
+            indicator.textContent = 'সংরক্ষিত ✓';
+            indicator.style.opacity = '1';
+
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+            }, 2000);
+        }
+
+        showRestoreNotification() {
+            const message = 'সংরক্ষিত তথ্য পাওয়া গেছে। এটি পুনরুদ্ধার করতে চান?';
+
+            if (confirm(message)) {
+                showSuccess(document.getElementById('messageContainer'),
+                    'সংরক্ষিত তথ্য পুনরুদ্ধার করা হয়েছে');
+            } else {
+                localStorage.removeItem(this.storageKey);
+                location.reload();
+            }
+        }
+    }
+
+    // Initialize auto-save
+    new FormAutoSave('bondForm', 'sonali_bank_application');
+</script>
+{% endblock %}

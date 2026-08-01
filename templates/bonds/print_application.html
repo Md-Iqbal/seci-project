@@ -1,0 +1,785 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bond Application</title>
+    <style>
+        /* ===========================
+        US Dollar Investment Bond
+        Print Stylesheet
+        =========================== */
+
+        *{
+            margin:15px;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html{
+            font-size:17px;
+        }
+
+        body{
+            font-family:"Times New Roman", serif;
+            color:#000;
+            background:#fff;
+            line-height:1.2;
+        }
+
+        /* ===========================
+        A4
+        =========================== */
+
+        .page{
+            width:210mm;
+            min-height:297mm;
+            margin:auto;
+            padding:15mm 15mm 15mm 15mm;
+            position:relative;
+            background:#fff;
+        }
+
+        .page-break{
+            page-break-before:always;
+        }
+
+        @page{
+            size:A4;
+            margin:5mm 7mm;
+        }
+
+        /* ===========================
+        Typography
+        =========================== */
+
+        h1{
+            font-size:24px;
+        }
+
+        h2{
+            font-size:21px;
+        }
+
+        h3{
+            font-size:18px;
+        }
+
+        h4{
+            font-size:17px;
+        }
+
+        h5{
+            font-size:15px;
+        }
+
+        p{
+            text-align:justify;
+        }
+
+        strong{
+            font-weight:bold;
+        }
+
+        .text-left{
+            text-align:left;
+        }
+
+        .text-center{
+            text-align:center;
+        }
+
+        .text-end{
+            text-align:right;
+        }
+
+        .justify{
+            text-align:justify;
+        }
+
+        .indent{
+            margin-left:60px;
+        }
+
+        .page-number{
+            font-size:16px;
+        }
+
+        /* ===========================
+        Logo
+        =========================== */
+
+        .logo{
+            width:75px;
+            height:auto;
+        }
+
+        /* ===========================
+        Header
+        =========================== */
+
+        .header-table{
+            width:100%;
+            border-collapse:collapse;
+            margin-bottom:10px;
+        }
+        .header-table-right{
+            border-collapse:collapse;
+            align-content: end;
+        }
+        .header-table td{
+            vertical-align:middle;
+        }
+
+        .sl-table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:8px;
+        }
+
+        /* ===========================
+        General Tables
+        =========================== */
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        td,
+        th{
+            padding:6px;
+            vertical-align:top;
+        }
+
+        .info-table{
+            margin-top:12px;
+        }
+
+        .info-table th{
+            border:1px solid #000;
+            text-align:center;
+            font-size:14px;
+            padding:8px;
+        }
+
+        .info-table td{
+            border:1px solid #000;
+            height:150px;
+        }
+        .signature-section{
+            width:420px;          /* Adjust as needed */
+            margin-left:auto;     /* Pushes the whole section to the right */
+            margin-right:0;
+        }
+
+        .signature-right{
+            text-align:center;
+            /* margin-bottom:15px; */
+        }
+
+        .signature-title{
+            font-size:18px;
+            margin:0;
+        }
+        .purchaser-info-table{
+            /* width:100%; */
+            width:auto;         /* Adjust as needed */
+            margin-left:auto;     /* Pushes the whole section to the right */
+            margin-right:0;
+            border-collapse:collapse;
+            border:none;
+        }
+
+        .purchaser-info-table,
+        .purchaser-info-table tr,
+        .purchaser-info-table td{
+            border:none !important;
+        }
+
+        .purchaser-info-table td{
+            padding:4px 2px;
+            vertical-align:top;
+        }
+
+        .purchaser-info-table td:first-child{
+            width:170px;
+        }
+
+        .purchaser-info-table td:nth-child(2){
+            width:20px;
+            text-align:center;
+        }
+
+        .purchaser-info-table td:last-child{
+            width:auto;
+        }
+
+        .details-table{
+            margin-top:12px;
+        }
+
+        .details-table td{
+            border:1px solid #000;
+        }
+
+        .details-table tr td:first-child{
+            background:#f7f7f7;
+        }
+
+        /* ===========================
+        Office Table
+        =========================== */
+        .bond-issued-table{
+            width:100%;
+            border-collapse:collapse;
+            table-layout:fixed;
+            font-size:13px;
+        }
+
+        .bond-issued-table th,
+        .bond-issued-table td{
+            border:1px solid #000;
+            vertical-align:top;
+        }
+
+        .bond-issued-table th{
+            text-align:left;
+            font-weight:normal;
+        }
+
+        .total-label{
+            font-size:16px;
+            vertical-align:middle !important;
+        }
+
+        .bond-issued-table td{
+            line-height:1;
+        }
+        .bond-table{
+            margin-top:10px;
+        }
+
+        .bond-table th{
+            border:1px solid #000;
+            text-align:center;
+            font-size:13px;
+            padding:8px;
+        }
+
+        .bond-table td{
+            border:1px solid #000;
+            height:120px;
+        }
+
+        /* ===========================
+        Total Table
+        =========================== */
+
+        .total-table{
+            margin-top:15px;
+        }
+
+        .total-table td{
+            border:1px solid #000;
+            padding:8px;
+        }
+
+        /* ===========================
+        Signature
+        =========================== */
+
+        .signature-right{
+            width:280px;
+            margin-left:auto;
+            text-align:center;
+        }
+
+        .officer-table td{
+            border:none;
+        }
+
+        /* ===========================
+        Horizontal Rule
+        =========================== */
+
+        hr{
+            border:none;
+            border-top:1px dashed #000;
+        }
+
+        /* ===========================
+        Lists
+        =========================== */
+
+        ol{
+            margin-left:28px;
+        }
+
+        li{
+            margin-bottom:8px;
+        }
+
+        /* ===========================
+        Printing
+        =========================== */
+
+        @media print{
+
+            body{
+                margin:0;
+                -webkit-print-color-adjust:exact;
+                print-color-adjust:exact;
+            }
+
+            .page{
+                width:210mm;
+                min-height:297mm;
+                margin:0;
+                box-shadow:none;
+            }
+
+            .page-break{
+                page-break-before:always;
+            }
+
+            table{
+                page-break-inside:avoid;
+            }
+
+            tr{
+                page-break-inside:avoid;
+            }
+
+        }
+
+        /* ===========================
+        Playwright Optimization
+        =========================== */
+
+        table{
+            border-spacing:0;
+        }
+
+        img{
+            display:block;
+        }
+
+        .header-table h2,
+        .header-table h3{
+            margin-bottom:3px;
+        }
+
+        .info-table td,
+        .details-table td,
+        .bond-table td{
+            word-break:break-word;
+        }
+
+        p{
+            orphans:3;
+            widows:3;
+        }
+
+        .page:last-child{
+            page-break-after:auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ PAGE 2 (Front Page) ============ -->
+    <div class="page-wrapper" style="page-break-after: always;">
+         <!-- Header -->
+        <table class="header-table">
+            <tr>
+                <td class="text-center">
+
+                    <h5>ANNEXURE</h5>
+                </td>
+            </tr>
+            <tr>
+                <td class="info-table th">FORM NO. DIB-I</td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <strong class="info-table th">APPLICATION FOR PURCHASE OF 
+                        <!-- {% if application.bond_type %} -->
+                            {{ application.bond_type }}
+                        <!-- {% else %}
+                            WAGE-EARNERS DEVELOPMENT BOND
+                        {% endif %} -->
+                    
+                </td>
+
+            </tr>
+        </table>
+
+        <table class="sl-table">
+
+            <tr>
+
+                <td style="padding: 0px!important;">
+                    SL. No :
+                    ____________________
+                </td>
+
+                <td class="text-end">
+                    Dated : {{ today }}
+                </td>
+
+            </tr>
+
+        </table>
+        <p>
+            The Manager
+        </p>
+        <p>{{ application.name_of_paying_office }}</p>
+        <p>
+            {{ application.address_of_paying_office }}
+        </p>
+        <p>Dear Sir,</p>
+        <p class="justify" style="font-size: 18px !important;">
+            I,
+            
+                {{ application.applicant_name|upper }}
+            <br>
+            intend to purchase 3-years {{ application.bond_type|lower|title }} to the face value of <br>
+            {% if application.bond_type == "US DOLLAR INVESTMENT BOND" %}
+            US$
+            <span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:50px;
+                text-align:center;
+                line-height:1;
+            ">{{ application.face_value }}</span>
+            (US$<span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:70px;
+                text-align:center;
+                line-height:1;
+            ">{{ application.face_value_words }}</span>) only.
+            My address, the name and address of the
+            nominee and the bank branch (paying office) where from the amounts becoming due against the<br>
+            Bond(s) as interest and redemption value will be drawn as under :-
+            {% else %}
+            US$
+            <span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:90px;
+                text-align:center;
+                line-height:1;
+            ">{{ application.face_value }}</span>
+            (US$<span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:250px;
+                text-align:center;
+                line-height:1;
+            ">{{ application.face_value_words }}</span>) only.
+            My address, the name and address of the
+            nominee and the bank branch (paying office) where from the amounts becoming due against the
+            Bond(s) as interest and redemption value will be drawn as under :-
+            {% endif %}
+
+        </p>
+
+        <!-- Applicant / Nominee -->
+
+        <table class="info-table">
+
+            <thead>
+                <tr>
+                    <th colspan="2" style="width:72%;">
+                        Name and address of
+                    </th>
+                    <th style="width:28%;">
+                        Name of Paying Office.
+                    </th>
+                </tr>
+                <tr>
+                    <th width="35%">
+                        HOLDER
+                    </th>
+                    <th width="35%">
+                        NOMINEE
+                    </th>
+                    <th width="30%">
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr>
+
+                <td>
+                    Name: {{ application.applicant_name }}
+                    <br>
+                    Address: {{ application.applicant_address }}
+                </td>
+                <td>
+                    Name: {{ application.nominee_name }}
+                    Address: {{ application.nominee_address }}
+                </td>
+                <td>
+                    {{ application.name_of_paying_office }}
+                    <br><br>
+                    {{ application.address_of_paying_office }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p>
+            2.&emsp;&emsp;Relation with Nominee: {{ application.relation_with_nominee }} <br>
+            3.&emsp;&emsp;I accept the conversion rate applied by you. <br>
+            4.&emsp;&emsp;I declare that:—
+        </p>
+        <div class="indent">
+            <p>
+                (a) I am a non-resident account holder bearing Passport No.
+                <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:140px;
+                    text-align:center;
+                    line-height:1;
+                ">{{ application.passport_no }}</span>and <br>
+                &emsp;&nbsp;I maintain F.C. Account No
+                <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:120px;
+                    text-align:center;
+                    line-height:1;
+                ">{{ application.FC_account_no }}</span>with
+                <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:200px;
+                    text-align:center;
+                    line-height:1;
+                ">{{ application.FC_account_office }}</span> and <br>
+                &emsp;&nbsp;I earn my wage / income<br>
+                &emsp;&nbsp;as <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:70px;
+                    text-align:center;
+                    line-height:1;
+                ">{{ application.service }}</span> in
+                <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:100px;
+                    text-align:center;
+                    line-height:1;
+                ">{{ application.service_address }}</span><br>
+                (b) My date of birth is
+                <span style="
+                    border-bottom:1px dotted #000;
+                    min-width:50px;
+                    text-align:center;
+                    line-height:1;
+                ">
+                {{ application.dob|date:"d/m/Y" }}</span>
+            </p>
+        </div>
+        <p class="text-end">
+            Contd. P-2
+        </p>
+            <!-- ========================= PAGE 2 ========================= -->
+
+    </div>
+    <div class="page-break"></div>
+    <div class="page">
+        <div class="page-number text-center">
+            - 2 -
+        </div>
+        <p>
+            5. I solemnly affirm that—
+        </p>
+        <div class="indent">
+            <p>
+                (i)&emsp;&nbsp;The statements made above are true and the funds tendered for purchase of the
+                    Bond(s) represent savings out of my income abroad which have not been received 
+                    from Bangladeshi services. <br>
+                (ii)&emsp;&nbsp;The Statements made above are true to the best of my knowledge and belief.
+            </p>
+        </div>
+        <p>
+            6.
+            (In case of purchase of Bond abroad) I select .................................. branch of your bank as the paying office. <br><br>
+            7. I hereby agree to abide by the
+            {% if application.bond_type %}
+                            {{ application.bond_type|lower|title }}
+                        {% else %}
+                            WAGE-EARNERS DEVELOPMENT BOND
+                        {% endif %} Rules, 2002
+        </p>
+        <div class="signature-right">
+            Yours faithfully,
+            <br><br>
+            Signature of Purchaser
+        </div>
+        <table class="purchaser-info-table">
+            <tr>
+                <td>Name in block letters</td>
+                <td>:</td>
+                <td>{{ application.applicant_name|upper }}</td>
+            </tr>
+            <tr>
+                <td><u>Address</u></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>(a) Abroad</td>
+                <td>:</td>
+                <td>{{ application.applicant_address }}</td>
+            </tr>
+            <tr>
+                <td>(b) In Bangladesh</td>
+                <td>:</td>
+                <td>{{ application.applicant_address_BD }}</td>
+            </tr>
+            <tr>
+                <td>Passport No</td>
+                <td>:</td>
+                <td>{{ application.passport_no }}</td>
+            </tr>
+            <tr>
+                <td>Place of Issue</td>
+                <td>:</td>
+                <td>{{ application.place_of_issue }}</td>
+            </tr>
+            <tr>
+                <td>F.C. Account No</td>
+                <td>:</td>
+                <td>{{ application.FC_account_no }}</td>
+            </tr>
+        </table>
+        <hr style="margin-bottom: 10px;">
+        8.&emsp;Particulars of the Bond(s) Issued
+        <table class="bond-issued-table">
+            <tr>
+                <th rowspan="2" style="width:21%; text-align:left;">
+                    Bond
+                    <br><br>
+                    Sl. No.
+                </th>
+
+                <th rowspan="2" style="width:19%; vertical-align:top;">
+                    Denomination
+                </th>
+
+                <th colspan="2" style="width:42%;">
+                    Name and Address of Bond
+                </th>
+
+                <th rowspan="2" style="width:18%;">
+                    Name of<br>Paying Office
+                </th>
+            </tr>
+
+            <tr>
+                <th style="width:21%;">Holder</th>
+                <th style="width:21%;">Nominee</th>
+            </tr>
+
+            <!-- Data Row -->
+            <tr>
+                <td>
+                    {{ application.bond_serial_no }}
+                </td>
+
+                <td>
+                    US$ {{ application.face_value }} * {{ application.quantity }}
+                </td>
+
+                <td rowspan="2">
+                    {{ application.applicant_name|upper }}<br>
+                    {{ application.applicant_address }}
+                </td>
+
+                <td rowspan="2">
+                    {{ application.nominee_name|upper }}<br>
+                    {{ application.nominee_address }}
+                </td>
+
+                <td rowspan="2">
+                    {{ application.name_of_paying_office }}
+                </td>
+            </tr>
+
+            <!-- Total Amount -->
+            <tr>
+
+                <td class="total-label">
+                    Total amount:
+                </td>
+
+                <td>
+                    US$ {{ application.total_amount }}
+                </td>
+
+
+            </tr>
+
+        </table>
+        <p>
+
+            The Bond(s) as detailed above has / have been issued.
+
+        </p>
+        <table class="officer-table">
+            <tr>
+                {% if application.bond_type == "US DOLLAR INVESTMENT BOND" %}
+                <td class="text-left">
+                    <i>Authorized Officer</i>{{ application.approved_by }}
+                </td>
+
+                <td class="text-center">
+                    <i>Authorized Officer</i>
+                </td>
+                {% else %}
+                <td class="text-left">
+                    Authorized Officer{{ application.approved_by }}
+                </td>
+
+                <td class="text-center">
+                    Authorized Officer
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+        <hr style="margin: 7px;">
+        <p>
+            Received the Bond(s) detailed above of the face value of <br>
+            <span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:90px;
+                text-align:center;
+            ">
+                US Dollar {{ application.face_value }}</span>(US$
+                <span style="
+                display:inline-block;
+                border-bottom:1px dotted #000;
+                min-width:290px;
+                text-align:center;
+            ">
+                {{ application.face_value_words|upper }}
+            </span>)
+
+            only which conform to my specification.
+
+        </p>
+        <div class="signature-right">
+            Signature of Applicant
+        </div>
+    </div>
+</body>
+</html>

@@ -3,9 +3,11 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
 from .models import AccountApplication, ApplicationLog, ApplicationStatus
+from bonds.models import WageEarnersBond,USDBond, ApplicationStatus as BondStatus
 from .serializers import (
     AccountApplicationListSerializer,
     AccountApplicationDetailSerializer,
@@ -28,7 +30,7 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
     parser_classes = [MultiPartParser, FormParser, JSONParser]  # Important!
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['status', 'account_type']
-    search_fields = ['application_number', 'full_name', 'nid_number', 'mobile_number', 'account_number']
+    search_fields = ['application_number', 'full_name_bng', 'nid_number', 'pre_phone', 'full_name_eng', 'per_phone']
     ordering_fields = ['application_date', 'approval_date']
     ordering = ['-application_date']
     
@@ -45,12 +47,21 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
         return [IsStaffUser()]
     
     def get_queryset(self):
+        print("QUERY PARAMS:", self.request.query_params)
+        print("TYPE:", self.request.query_params.get("type"))
         queryset = super().get_queryset()
-        
+        print(self.request)
         # Filter by status from query params
-        status_param = self.request.query_params.get('status', None)
-        if status_param:
-            queryset = queryset.filter(status=status_param)
+        app_type = self.request.query_params.get("type")
+        print(app_type)
+        if app_type:
+            if app_type == "Wage":
+                return WageEarnersBond.objects.all()
+
+            elif app_type == "USD":
+                return USDBond.objects.all()
+
+            return AccountApplication.objects.all()
         
         # Search functionality
         search_param = self.request.query_params.get('search', None)
@@ -66,31 +77,37 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
         return queryset
     
     def create(self, request, *args, **kwargs):
-        logger.info(f"Application creation attempt. Files: {request.FILES.keys()}")
-        logger.info(f"Data: {request.data.keys()}")
+        print("Api request received for creating application")
+        try:
+            print("=" * 80)
+            print("REQUEST DATA:", request.data)
+            
+
+            serializer = self.get_serializer(data=request.data)
+
+            print("Serializer created")
+
+            serializer.is_valid(raise_exception=True)
+
+            print("Serializer valid")
+
+            application = serializer.save()
+
+            print("Application saved:", application.application_number)
+
+            return Response({
+                "application_number": application.application_number,
+                "message": "Success"
+            }, status=201)
         
-        serializer = self.get_serializer(data=request.data)
-        
-        if not serializer.is_valid():
-            logger.error(f"Validation errors: {serializer.errors}")
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Save the application
-        application = serializer.save()
-        
-        logger.info(f"Application created: {application.application_number}")
-        
-        # Return response with application number
-        response_data = {
-            'application_number': application.application_number,
-            'full_name': application.full_name,
-            'application_date': application.application_date,
-            'status': application.status,
-            'message': 'আবেদন সফলভাবে জমা হয়েছে!'
-        }
-        
-        headers = self.get_success_headers(serializer.data)
-        return Response(response_data, status=status.HTTP_201_CREATED, headers=headers)
+        except ValidationError as e:
+            return Response(e.detail, status=400)
+        except Exception:
+            logger.exception("Application creation failed")
+            return Response(
+                {"error": "Internal Server Error"},
+                status=500
+            )
     
 
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
@@ -169,29 +186,70 @@ class AccountApplicationViewSet(viewsets.ModelViewSet):
 @permission_classes([IsStaffUser])
 def dashboard_stats(request):
     """Get dashboard statistics"""
-    pending_count = AccountApplication.objects.filter(
+    pending_Acc = AccountApplication.objects.filter(
         status=ApplicationStatus.PENDING
     ).count()
-    
-    approved_count = AccountApplication.objects.filter(
+    pending_WEB = WageEarnersBond.objects.filter(
+        status=BondStatus.PENDING
+    ).count()
+    pending_USDB = USDBond.objects.filter(
+        status=BondStatus.PENDING
+    ).count()
+    pending_count=pending_Acc+pending_WEB+pending_USDB
+
+    approved_Acc = AccountApplication.objects.filter(
         status=ApplicationStatus.APPROVED
     ).count()
-    
-    rejected_count = AccountApplication.objects.filter(
+    approved_WEB = WageEarnersBond.objects.filter(
+        status=BondStatus.APPROVED
+    ).count()
+    approved_USDB = USDBond.objects.filter(
+        status=BondStatus.APPROVED
+    ).count()
+    approved_count=approved_Acc+approved_WEB+approved_USDB
+
+    rejected_Acc = AccountApplication.objects.filter(
         status=ApplicationStatus.REJECTED
     ).count()
+    rejected_WEB = WageEarnersBond.objects.filter(
+        status=BondStatus.REJECTED
+    ).count()
+    rejected_USDB = USDBond.objects.filter(
+        status=BondStatus.REJECTED
+    ).count()
+    rejected_count=rejected_Acc+rejected_WEB+rejected_USDB
+
     
-    total_count = AccountApplication.objects.count()
+    total_app = AccountApplication.objects.count()
+    total_WEB = WageEarnersBond.objects.count()
+    total_USDB = USDBond.objects.count()
+    total_count = total_app + total_WEB + total_USDB
     
-    recent_applications = AccountApplication.objects.all()[:10]
+    recent_applications = AccountApplication.objects.all()[:7]
+    recent_web = WageEarnersBond.objects.all()[:7]
+    recent_usdb = USDBond.objects.all()[:7]
     
     data = {
+        'pending_Acc': pending_Acc,
+        'pending_WEB': pending_WEB,
+        'pending_USDB': pending_USDB,
+        'approved_Acc': approved_Acc,
+        'approved_WEB': approved_WEB,
+        'approved_USDB': approved_USDB,
+        'rejected_Acc': rejected_Acc,
+        'rejected_WEB': rejected_WEB,
+        'rejected_USDB': rejected_USDB,
         'pending_count': pending_count,
         'approved_count': approved_count,
         'rejected_count': rejected_count,
         'total_count': total_count,
-        'recent_applications': recent_applications
+        'recent_applications': recent_applications,
+        'recent_WEBapplications': recent_web,
+        'recent_USDBapplications': recent_usdb
     }
-    
+    print("data")
+    print(data)
     serializer = DashboardStatsSerializer(data)
+    print("serializer data")
+    print(serializer.data)
     return Response(serializer.data)

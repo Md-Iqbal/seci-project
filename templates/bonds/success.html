@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}আবেদন সফল - সোনালী ব্যাংক{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-success shadow-gold">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-check-circle-fill"></i> আবেদন সফলভাবে জমা হয়েছে!
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <i class="bi bi-check-circle" style="font-size: 5rem; color: var(--success);"></i>
+                    </div>
+                    <h5 class="bn-text">Thank You, {{ application.applicant_name }}!</h5>
+                    <p class="bn-text">Your Bond Application Successfully Submitted.</p>
+                </div>
+
+                <div class="alert alert-info border-gold">
+                    <h6 class="bn-text"><strong>Your Application No:</strong></h6>
+                    <h2 class="mb-0 text-center" style="color: var(--gold); font-weight: 700; letter-spacing: 2px;">
+                        {{ application.application_no }}
+                    </h2>
+                </div>
+
+                <div class="alert alert-warning bn-text">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <strong>Important:</strong> Preserve This Application Number to Find Your Application in Future.
+                </div>
+
+                <div class="card bg-gold-pale border-gold mb-4">
+                    <div class="card-body">
+                        <h6 class="bn-text text-gold"><i class="bi bi-file-earmark-check"></i> আবেদনের বিস্তারিত:</h6>
+                        <table class="table table-borderless mb-0 bn-text">
+                            <tr>
+                                <td width="40%"><strong>আবেদন নম্বর:</strong></td>
+                                <td>{{ application.application_no }}</td>
+                            </tr>
+                            <tr>
+                                <td width="40%"><strong>আবেদনের তারিখ:</strong></td>
+                                <td>{{ application.application_date|date:"d F, Y" }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Branch to Collect Bond:</strong></td>
+                                <td>{{ application.name_of_paying_office }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="alert alert-info bn-text">
+                    <h6><i class="bi bi-clock-history"></i> Next Step:</h6>
+                    <ol class="mb-0">
+                        <li>Contact to Your Bond Buying Office.</li>
+                    </ol>
+                </div>
+
+                <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                    <a href="{% url 'search_bonds' %}" class="btn btn-primary bn-text">
+                        <i class="bi bi-search"></i> Find Bond Application
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-secondary bn-text">
+                        <i class="bi bi-house-door"></i> Home Page
+                    </a>
+                    <button onclick="window.print()" class="btn btn-info bn-text no-print">
+                        <i class="bi bi-printer"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-gold mt-4">
+            <div class="card-header">
+                <h6 class="mb-0 bn-text">
+                    <i class="bi bi-telephone-fill"></i> Contact Info
+                </h6>
+            </div>
+            <div class="card-body bn-text">
+                <p class="mb-2">
+                    <i class="bi bi-headset text-gold"></i>
+                    <strong>Helpline:</strong> 16236 (24/7)
+                </p>
+                <p class="mb-0">
+                    <i class="bi bi-globe text-gold"></i>
+                    <strong>ওয়েবসাইট:</strong> www.sonalibank.com.bd
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

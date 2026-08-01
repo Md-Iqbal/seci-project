@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}আবেদন খুঁজুন - সোনালী ব্যাংক{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-gold shadow-gold">
+            <div class="card-header">
+                <h4 class="mb-0 bn-text">
+                    <i class="bi bi-search"></i> Find your bond application
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="bn-text">To find your bond application give your <b>Application No</b></p>
+
+                <form id="searchForm">
+                    <div class="mb-3">
+                        <label for="application_no" class="form-label bn-text">
+                            Application No <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="application_no" name="application_no"
+                            required placeholder="Example: WEB-****-****** / USDB-****-******">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 bn-text" id="searchBtn">
+                        <i class="bi bi-search"></i> খুঁজুন
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="searchResults" class="mt-4"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api-handler.js' %}"></script>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsContainer = document.getElementById('searchResults');
+        const application_no = document.getElementById('application_no').value;
+
+        searchBtn.disabled = true;
+        searchBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> খুঁজছি...';
+
+        showLoading(resultsContainer);
+
+        try {
+            const applications = await api.searchByapplication_no(application_no);
+
+            if (applications.length === 0) {
+                resultsContainer.innerHTML = `
+                <div class="alert alert-info bn-text">
+                    <i class="bi bi-info-circle"></i> There is no application under this application no.
+                </div>
+            `;
+            } else {
+                let html = '<h5 class="bn-text mb-3">অনুসন্ধানের ফলাফল:</h5>';
+
+                applications.forEach(app => {
+                    const statusBadge = getStatusBadge(app.status, app.status_display);
+
+                    html += `
+                    <div class="card mb-3 border-gold">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title bn-text">${app.applicant_name}</h5>
+                                    <div class="bn-text">
+                                        <p class="mb-1">
+                                            <i class="bi bi-file-earmark-text text-gold"></i>
+                                            <strong>Application no:</strong> ${app.application_no}
+                                        </p>
+                                        <p class="mb-1">
+                                            <i class="bi bi-calendar text-gold"></i>
+                                            <strong>Application Date:</strong> ${app.application_date}
+                                        </p>
+                                        ${app.application_no ? `
+                                        ` : ''}
+                                        <p class="mb-1">
+                                            <i class="bi bi-info-circle text-gold"></i>
+                                            <strong>অবস্থা:</strong> ${statusBadge}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end d-flex flex-column justify-content-center">
+                                    <a href="/bonds/${app.application_no}/" class="btn btn-primary mb-2 bn-text">
+                                        <i class="bi bi-eye"></i> বিস্তারিত দেখুন
+                                    </a>
+                                    ${app.status === 'APPROVED' ? `
+                                    <button class="btn btn-success bn-text" onclick="downloadStatement('${app.application_no}')">
+                                        <i class="bi bi-download"></i> স্টেটমেন্ট
+                                    </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                });
+
+                resultsContainer.innerHTML = html;
+            }
+        } catch (error) {
+            console.log(error);
+            showError(resultsContainer, 'আবেদন খুঁজতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+        } finally {
+            searchBtn.disabled = false;
+            searchBtn.innerHTML = '<i class="bi bi-search"></i> খুঁজুন';
+        }
+    });
+
+    function getStatusBadge(status, statusDisplay) {
+        const statusMap = {
+            'PENDING': '<span class="badge bg-warning">PENDING</span>',
+            'APPROVED': '<span class="badge bg-success">APPROVED</span>',
+            'REJECTED': '<span class="badge bg-danger">REJECTED</span>'
+        };
+        return statusMap[status] || statusDisplay;
+    }
+
+    function downloadStatement(appNumber) {
+        window.open(`/applications/${appNumber}/print/`, '_blank');
+    }
+</script>
+{% endblock %}

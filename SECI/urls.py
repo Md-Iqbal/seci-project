@@ -9,10 +9,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # API URLs
-    path('api/', include('accounts.urls')),
+    # path('api/', include('accounts.urls')),
     
     # Accounts app URLs
     path('', include('accounts.urls')),
+    path('bonds/', include('bonds.urls')),
     
     # Authentication URLs
     path('login/', auth_views.LoginView.as_view(
