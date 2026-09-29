@@ -321,6 +321,117 @@
         li{
             margin-bottom:8px;
         }
+              /* ===== Diaspora PDF pages ===== */
+      .diaspora-page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+        font-family: "Times New Roman", serif;
+        font-size: 15px;
+        line-height: 1.15;
+      }
+      .diaspora-title {
+        color: #0070c0;
+        text-decoration: underline;
+        text-align: center;
+        font-size: 21px;
+        margin: 3mm 0 6mm;
+      }
+      .diaspora-top {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 3mm;
+      }
+      .diaspora-top td {
+        border: none;
+        padding: 1px 8px;
+        vertical-align: top;
+      }
+      .diaspora-check {
+        font-size: 16px;
+        line-height: 1.15;
+      }
+            .pdf-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin: 0 0 3mm;
+        font-size: 15px;
+      }
+      .pdf-table th,
+      .pdf-table td {
+        border: 1px solid #999;
+        padding: 5px 7px;
+        vertical-align: top;
+        font-weight: normal;
+      }
+      .pdf-table .section {
+        background: #d9d9d9;
+        padding: 1px 3px;
+        height: 20px;
+      }
+      .pdf-table .h42 {
+        height: 36px;
+      }
+      .pdf-table .h50 {
+        height: 44px;
+      }
+      .pdf-table .h56 {
+        height: 50px;
+      }
+      .pdf-table .h65 {
+        height: 59px;
+      }
+      .pdf-table .h80 {
+        height: 74px;
+      }
+      .pdf-table .h95 {
+        height: 89px;
+      }
+      .pdf-table .center {
+        text-align: center;
+      }
+      .pdf-table .middle {
+        vertical-align: middle;
+      }
+      .pdf-table .value {
+        display: block;
+        margin-top: 4px;
+        font-weight: normal;
+      }
+      .diaspora-footer {
+        position: absolute;
+        bottom: 1mm;
+        left: 0;
+        font-size: 13px;
+      }
+      .cb {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        vertical-align: -1px;
+      }
+      .cb.selected {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        vertical-align: middle;
+        position: relative;
+      }
+
+      .cb.selected::after {
+        content: "✓";
+        position: absolute;
+        left: 1px;
+        top: -5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
 
         /* ===========================
         Printing
@@ -386,6 +497,446 @@
         .page:last-child{
             page-break-after:auto;
         }
+    </style>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 18px;
+      }
+      body {
+        font-family: "Times New Roman", serif;
+        color: #000;
+        background: #fff;
+        line-height: 1.15;
+      }
+      @page {
+        size: A4;
+        margin: 8mm 10mm;
+      }
+      .page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .text-right {
+        text-align: right;
+      }
+      .text-left {
+        text-align: left;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .small {
+        font-size: 13px;
+      }
+      .large {
+        font-size: 20px;
+      }
+      .mt5 {
+        margin-top: 5px;
+      }
+      .mt10 {
+        margin-top: 10px;
+      }
+      .mt15 {
+        margin-top: 15px;
+      }
+      .mt20 {
+        margin-top: 20px;
+      }
+      .mt25 {
+        margin-top: 25px;
+      }
+      .mb5 {
+        margin-bottom: 5px;
+      }
+      .mb10 {
+        margin-bottom: 10px;
+      }
+      .mb15 {
+        margin-bottom: 15px;
+      }
+      .mb20 {
+        margin-bottom: 20px;
+      }
+      .ml20 {
+        margin-left: 20px;
+      }
+      .ml30 {
+        margin-left: 30px;
+      }
+      .indent {
+        margin-left: 28px;
+      }
+      p {
+        text-align: justify;
+        margin-bottom: 6px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        vertical-align: top;
+        padding: 5px;
+      }
+      .dotted {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 120px;
+        text-align: center;
+      }
+      .dotted-small {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 80px;
+        text-align: center;
+      }
+      .dotted-medium {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 200px;
+        text-align: center;
+      }
+      .dotted-large {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 350px;
+        text-align: center;
+      }
+      .header-table td,
+      .sl-table td {
+        border: none;
+      }
+      .header-table h5 {
+        color: #5b9bd5;
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+      .sl-table {
+        margin-top: 8px;
+      }
+      .bond-particulars-table,
+      .bond-issued-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-family: "Times New Roman", serif;
+        font-size: 15px;
+      }
+      .bond-particulars-table th,
+      .bond-particulars-table td,
+      .bond-issued-table th,
+      .bond-issued-table td {
+        border: 1px solid #000;
+        padding: 4px 6px;
+        vertical-align: top;
+      }
+      .bond-particulars-table th,
+      .bond-issued-table th {
+        text-align: center;
+        font-weight: normal;
+      }
+      .signature-table {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+      }
+      .signature-table td {
+        border: none;
+        vertical-align: top;
+      }
+      .signature-table .left {
+        width: 48%;
+      }
+      .signature-table .right {
+        width: 52%;
+        font-size: 17px;
+      }
+      .signature-info {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .signature-info td {
+        border: none;
+        padding: 2px 4px;
+        font-size: 15px;
+        vertical-align: top;
+      }
+      .signature {
+        width: 250px;
+        margin-left: auto;
+        text-align: center;
+      }
+      .signature p {
+        text-align: center;
+      }
+      hr {
+        border: none;
+        border-top: 1px dashed #000;
+        margin: 18px 0;
+      }
+
+      /* ===== Diaspora PDF pages ===== */
+      .diaspora-page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+        font-family: "Times New Roman", serif;
+        font-size: 15px;
+        line-height: 1.15;
+      }
+      .diaspora-title {
+        color: #0070c0;
+        text-decoration: underline;
+        text-align: center;
+        font-size: 21px;
+        margin: 3mm 0 6mm;
+      }
+      .diaspora-top {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 3mm;
+      }
+      .diaspora-top td {
+        border: none;
+        padding: 1px 8px;
+        vertical-align: top;
+      }
+      .diaspora-check {
+        font-size: 16px;
+        line-height: 1.15;
+      }
+      .fill-line {
+        display: inline-block;
+        border-bottom: 1px solid #777;
+        min-width: 185px;
+        height: 18px;
+        vertical-align: bottom;
+        text-align: center;
+      }
+      .pdf-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin: 0 0 3mm;
+        font-size: 15px;
+      }
+      .pdf-table th,
+      .pdf-table td {
+        border: 1px solid #999;
+        padding: 5px 7px;
+        vertical-align: top;
+        font-weight: normal;
+      }
+      .pdf-table .section {
+        background: #d9d9d9;
+        padding: 1px 3px;
+        height: 20px;
+      }
+      .pdf-table .h42 {
+        height: 36px;
+      }
+      .pdf-table .h50 {
+        height: 44px;
+      }
+      .pdf-table .h56 {
+        height: 50px;
+      }
+      .pdf-table .h65 {
+        height: 59px;
+      }
+      .pdf-table .h80 {
+        height: 74px;
+      }
+      .pdf-table .h95 {
+        height: 89px;
+      }
+      .pdf-table .center {
+        text-align: center;
+      }
+      .pdf-table .middle {
+        vertical-align: middle;
+      }
+      .pdf-table .value {
+        display: block;
+        margin-top: 4px;
+        font-weight: normal;
+      }
+      .diaspora-footer {
+        position: absolute;
+        bottom: 1mm;
+        left: 0;
+        font-size: 13px;
+      }
+      .issue-title {
+        background: #d9d9d9;
+        text-align: center;
+        border: 1px solid #999;
+        border-bottom: none;
+        padding: 2px;
+      }
+      .sig-space {
+        height: 60px;
+      }
+      @media print {
+        body {
+          margin: 0;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        table,
+        tr,
+        img {
+          page-break-inside: avoid;
+        }
+      }
+
+      /* ===== Angikarnama (অঙ্গীকারনামা) page ===== */
+      .angikarnama-page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+        font-family: "Times New Roman", serif;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #000;
+      }
+
+      .angikarnama-title {
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 18px;
+        margin-top: 5mm;
+        margin-bottom: 11mm;
+      }
+
+      .angikarnama-intro {
+        text-align: center;
+        margin: 0 auto 5mm;
+        line-height: 1.25;
+      }
+
+      .angikarnama-fill {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 170px;
+        text-align: center;
+        line-height: 1.1;
+        vertical-align: baseline;
+      }
+
+      .angikarnama-fill-short {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 95px;
+        text-align: center;
+      }
+
+      .angikarnama-table {
+        width: 92%;
+        margin: 3mm auto 6mm;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 15px;
+      }
+
+      .angikarnama-table th,
+      .angikarnama-table td {
+        border: 1px solid #000;
+        padding: 4px 7px;
+        vertical-align: middle;
+        height: 22px;
+      }
+
+      .angikarnama-table th {
+        text-align: center;
+        font-weight: normal;
+      }
+
+      .angikarnama-table td:first-child {
+        width: 62%;
+      }
+
+      .angikarnama-table td:last-child {
+        width: 38%;
+        text-align: center;
+      }
+
+      .angikarnama-body {
+        text-align: justify;
+        margin: 0 7mm;
+      }
+
+      .angikarnama-body p {
+        margin-bottom: 7mm;
+        text-align: justify;
+      }
+
+      .angikarnama-number {
+        margin-right: 5px;
+      }
+
+      .angikarnama-signature {
+        width: 100%;
+        margin-top: 17mm;
+        border-collapse: collapse;
+      }
+
+      .angikarnama-signature td {
+        border: none;
+        vertical-align: top;
+        padding: 0;
+      }
+
+      .angikarnama-sign-left {
+        width: 50%;
+        text-align: left;
+        padding-left: 7mm !important;
+      }
+
+      .angikarnama-sign-right {
+        width: 50%;
+        text-align: left;
+        padding-left: 20mm !important;
+        line-height: 2;
+      }
+
+      .angikarnama-page-number {
+        position: absolute;
+        left: 8mm;
+        bottom: 2mm;
+        font-size: 16px;
+      }
+
+      @media print {
+        .angikarnama-page {
+          page-break-inside: avoid;
+        }
+
+        .angikarnama-page-number {
+          position: absolute;
+        }
+      }
     </style>
 </head>
 
@@ -780,6 +1331,381 @@
         <div class="signature-right">
             Signature of Applicant
         </div>
+    </div>
+        <div class="page-break"></div>
+
+    <div class="diaspora-page">
+      <div class="diaspora-title">Diaspora Bond Investor Information Form</div>
+
+      <table class="diaspora-top">
+        <tr>
+          <td style="width: 52%" class="diaspora-check">
+            <div><span class="cb"></span>Wage Earner Bond</div>
+            {% if application.bond_type == "US DOLLAR INVESTMENT BOND" %}
+            <div><span class="cb selected"></span>US Dollar Investment Bond</div>
+            {% else %}
+            <div><span class="cb"></span>US Dollar Investment Bond</div>
+            {% endif %}
+            {% if application.bond_type == "US DOLLAR PREMIUM BOND" %}
+            <div><span class="cb selected"></span>US Dollar Premium Bond</div>
+            {% else %}
+            <div><span class="cb"></span>US Dollar Premium Bond</div>
+            {% endif %}
+          </td>
+          <td style="width: 48%; padding-top: 2px">
+            <div style="margin-bottom: 14px">
+              Investment Amount:
+              <span class="fill-line">{{ application.denomination }}</span>
+            </div>
+            <div>
+              Interest Cycle: <span class="cb"></span>Half-yearly&nbsp;&nbsp;
+              <span class="cb"></span>End of Period
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            1. Diaspora Information:
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.nid_number }}</td>
+          <td colspan="2">DOB:{{ application.dob|date:"d/m/Y" }}</td>
+          <td colspan="2">Gender:{{ application.gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla): {{ application.applicant_name_bn }}
+          </td>
+          <td colspan="3">Name (English): {{ application.applicant_name }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address: {{ application.applicant_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address: {{ application.applicant_address_BD }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Father’s Name: {{ application.father_name }}</td>
+          <td colspan="3">Mother’s Name: {{ application.mother_name }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Spouse’s Name: {{ application.spouse_name }}</td>
+          <td colspan="3">Email:{{ application.email }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Phone (Bangladesh): {{ application.mobile_no }}</td>
+          <td colspan="3">Phone (Abroad): {{ application.phone_abroad }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Passport #{{ application.passport_no }}</td>
+          <td colspan="2">
+            Expiry Date: {{ application.date_of_expiry|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">Issue Country: {{ application.place_of_issue }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Date of arrival in Bangladesh (If returned from abroad permanently):
+            {{ application.return_date|date:"d/m/Y" }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            2. Beneficiary (If applicable):
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.nominee_nid_number }}</td>
+          <td colspan="2">DOB: {{ application.nominee_dob|date:"d/m/Y" }}</td>
+          <td colspan="2">Gender: {{ application.beneficiary_gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla): {{ application.beneficiary_name_bn }}
+          </td>
+          <td colspan="3">
+            Name (English): {{ application.beneficiary_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address: {{ application.beneficiary_present_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address: {{ application.beneficiary_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Father’s Name: {{ application.beneficiary_father_name }}
+          </td>
+          <td colspan="3">
+            Mother’s Name:{{ application.beneficiary_mother_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Spouse’s Name:{{ application.beneficiary_spouse_name }}
+          </td>
+          <td colspan="3">Email:{{ application.beneficiary_email }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Phone (Abroad):{{ application.beneficiary_phone_abroad }}
+          </td>
+          <td colspan="3">
+            Phone (Bangladesh):{{ application.beneficiary_phone_bangladesh }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            3. Remittance Information:
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Source Country:{{ application.source_country }}</td>
+          <td colspan="2">Diaspora Occupation:{{ application.service }}</td>
+          <td colspan="2">
+            Relationship with holder:{{ application.relationship_with_holder }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Visa Type:{{ application.visa_type }}</td>
+          <td colspan="2">
+            Visa Start Date:{{ application.visa_start_date|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">
+            Visa End Date:{{ application.visa_end_date|date:"d/m/Y" }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table" style="font-size: 12px">
+        <tr class="section">
+          <th style="width: 20%">Remittance Channel</th>
+          <th style="width: 28%">Bank/ Exchange House</th>
+          <th style="width: 15%">Acc./Ref #</th>
+          <th style="width: 10%">Date</th>
+          <th style="width: 10%">Currency</th>
+          <th style="width: 17%">Remittance Amount</th>
+        </tr>
+        <tr class="h50">
+          <td>{{ application.remittance_channel }}</td>
+          <td>{{ application.remittance_bank }}</td>
+          <td>{{ application.remittance_reference }}</td>
+          <td>{{ application.remittance_date|date:"d/m/Y" }}</td>
+          <td>{{ application.currency }}</td>
+          <td></td>
+        </tr>
+        <tr class="h50">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="h50">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+
+      <div class="diaspora-footer">Page 1 of 2</div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="diaspora-page">
+      <div class="diaspora-title">Diaspora Bond Investor Information Form</div>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="3" class="section text-left">
+            4. Bank Related information:
+          </th>
+        </tr>
+        <tr>
+          <td>Pay-in Account:</td>
+          <td>Principal Payment Account</td>
+          <td>Interest Payment Account</td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account Title:{{ application.payin_account_title }}
+          </td>
+          <td>
+            Account Title:{{ application.principal_account_title }}
+          </td>
+          <td>
+            Account Title:{{ application.interest_account_title }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account No:{{ application.payin_account_no }}
+          </td>
+          <td>
+            Account No:{{ application.principal_account_no }}
+          </td>
+          <td>
+            Account No:{{ application.interest_account_no }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td>Bank:{{ application.payin_bank }}</td>
+          <td>Bank:{{ application.principal_bank }}</td>
+          <td>Bank:{{ application.interest_bank }}</td>
+        </tr>
+        <tr class="h42">
+          <td>Branch:{{ application.payin_branch }}</td>
+          <td>Branch:{{ application.principal_branch }}</td>
+          <td>Branch:{{ application.interest_branch }}</td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account Type:{{ application.payin_account_type }}
+          </td>
+          <td>
+            Account Type:{{ application.principal_account_type }}
+          </td>
+          <td>
+            Account Type:{{ application.interest_account_type }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            5. Nominee information (If the nominee is a minor, an identifier's
+            NID &amp; DOB will be required):
+          </th>
+        </tr>
+        <tr class="h65">
+          <td colspan="1" rowspan="2" style="width: 18%">
+            {% if application.is_minor %}
+            <span class="cb selected"></span>Nominee is minor<br />
+            <div class="text-center">(If applicable):</div>
+            {% else %}
+            <span class="cb"></span>Nominee is minor<br />
+            <div class="text-center">(If applicable):</div>
+            {% endif %}
+          </td>
+          <td colspan="5">
+            Minor Nominee Name:{% if application.is_minor %}{{ application.minor_nominee_name }}{% endif %}
+          </td>
+        </tr>
+        <tr class="h50">
+          <td colspan="5">
+            Minor Nominee Address:{% if application.is_minor %}{{ application.minor_nominee_address }}{% endif %}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.identifier_nid }}</td>
+          <td colspan="2">
+            DOB:{{ application.identifier_dob|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">Gender:{{ application.identifier_gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla):{{ application.identifier_name_bn }}
+          </td>
+          <td colspan="3">
+            Name (English):{{ application.identifier_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address:{{ application.identifier_pre_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address:{{ application.identifier_per_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Father Name:{{ application.identifier_father }}
+          </td>
+          <td colspan="3">
+            Mother Name:{{ application.identifier_mother }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">
+            Relation with nominee:{{ application.relation_with_nominee }}
+          </td>
+          <td colspan="2">Phone:{{ application.identifier_phone }}</td>
+          <td colspan="2">Email:{{ application.identifier_email }}</td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr class="sig-space">
+          <td style="width: 33.33%"></td>
+          <td style="width: 33.33%"></td>
+          <td style="width: 33.33%"></td>
+        </tr>
+        <tr>
+          <td class="center">
+            Date &amp; Signature of Nominee<br />(Optional)
+          </td>
+          <td class="center">
+            Date &amp; Signature of Beneficiary<br />(If applicable)
+          </td>
+          <td class="center">Date &amp; Signature of Diaspora</td>
+        </tr>
+      </table>
+
+      <div class="issue-title">To be filled by the issue office</div>
+      <table class="pdf-table">
+        <tr>
+          <th class="center">Registration Number</th>
+          <th class="center">Issue Date</th>
+          <th class="center">Issued Amount</th>
+        </tr>
+        <tr class="h65">
+          <td>{{ application.registration_number }}</td>
+          <td>{{ application.issue_date|date:"d/m/Y" }}</td>
+          <td>{{ application.issued_amount }}</td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr style="height: 60px">
+          <td style="width: 50%"></td>
+          <td style="width: 50%"></td>
+        </tr>
+        <tr>
+          <td class="center">Date &amp; Signature of Authorized Officer</td>
+          <td class="center">Date &amp; Signature of Authorized Officer</td>
+        </tr>
+      </table>
+
+      <div class="diaspora-footer">Page 2 of 2</div>
     </div>
 </body>
 </html>

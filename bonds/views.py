@@ -208,6 +208,7 @@ def process_applicationBond(request, application_no):
     }
     
     return render(request, 'bonds/process_applicationBond.html', context)
+
 from django.urls import reverse
 @login_required
 @user_passes_test(lambda u: u.is_staff)

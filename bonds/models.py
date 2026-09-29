@@ -30,23 +30,71 @@ class WageEarnersBondBranch_CHOICE(models.TextChoices):
     SYLHET = 'Dargagate Corp. br. Sylhet', 'Dargagate Corp. br. Sylhet'
 
 class WageEarnersBond(models.Model):
-    # Rename field FC_account_office on wageearnersbond to Bank_account_branch
-    # - Rename field FC_account_no on wageearnersbond to Bank_account_no
-    # - Remove field address_of_paying_office from wageearnersbond
-    # - Add field Bank_name to wageearnersbond
-    # - Add field applicant_address_abroad to wageearnersbond
-    # - Add field applicant_name_bn to wageearnersbond
-    # - Add field nid_number to wageearnersbond
-    # - Alter field applicant_address on wageearnersbond
-    # - Alter field name_of_paying_office on wageearnersbond
     application_no = models.CharField(max_length=30, unique=True)
     application_date = models.DateField(auto_now_add=True)
+    # applicant info
     applicant_name = models.CharField(max_length=250)
     applicant_name_bn = models.CharField(max_length=250, blank=True, null=True)
-    nominee_name = models.CharField(max_length=250, blank=True)
+    dob = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)                                              
     applicant_address = models.TextField(null=True, blank=True)#bd address
-    applicant_address_abroad = models.TextField(null=True, blank=True)#foreign address
+    applicant_address_abroad = models.TextField(null=True, blank=True)#foreign addressmobile_no = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    phone_abroad = models.CharField(max_length=20, null=True, blank=True)
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    service = models.CharField(max_length=150,blank=True,null=True)
+    service_address = models.CharField(max_length=250,blank=True,null=True)
+    nid_number = models.CharField(max_length=20, null=True, blank=True)
+    passport_no = models.CharField(
+            max_length=50,
+            blank=True
+        )
+    place_of_issue= models.CharField(max_length=150, null=True, blank=True)
+    date_of_issue = models.DateField(null=True, blank=True)
+    date_of_expiry = models.DateField(null=True, blank=True)
+    visa_type = models.TextField(null=True, blank=True)
+    visa_start_date = models.DateField(null=True, blank=True)
+    visa_end_date = models.DateField(null=True, blank=True)
+    #If returned from abroad permanently
+    return_date = models.DateField(null=True, blank=True)
+    #nominee info  
+    nominee_name = models.CharField(max_length=250, blank=True)    
+    nominee_dob = models.DateField(null=True, blank=True) 
+    nominee_nid_number = models.CharField(max_length=20, null=True, blank=True)
     nominee_address = models.TextField(blank=True)
+    nominee_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)
+    #if nominee is minor then we need to store minor nominee info
+    is_minor = models.BooleanField(default=False)
+    minor_nominee_name = models.CharField(max_length=250, blank=True)
+    minor_nominee_address = models.TextField(blank=True)
+    identifier_nid = models.CharField(max_length=20, null=True, blank=True)
+    identifier_dob = models.DateField(null=True, blank=True)
+    identifier_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)
+    identifier_name = models.CharField(max_length=250, blank=True)
+    identifier_name_bn = models.CharField(max_length=250, blank=True, null=True)
+    identifier_pre_address = models.TextField(blank=True)
+    identifier_per_address = models.TextField(blank=True)
+    identifier_father = models.CharField(max_length=250, blank=True)
+    identifier_mother = models.CharField(max_length=250, blank=True)
+    relation_with_nominee = models.CharField(max_length=150, blank=True)
+    identifier_phone = models.CharField(max_length=20, blank=True, null=True)
+    identifier_email = models.EmailField(max_length=100, blank=True, null=True)
+
+    #benificiary info
+    beneficiary_name = models.CharField(max_length=250, blank=True)
+    benificiary_name_bn = models.CharField(max_length=250, blank=True, null=True)
+    beneficiary_father_name = models.CharField(max_length=250, blank=True)
+    beneficiary_mother_name = models.CharField(max_length=250, blank=True)
+    beneficiary_spouse_name = models.CharField(max_length=250, blank=True)
+    benificiary_nid = models.CharField(max_length=20, null=True, blank=True)
+    benificiary_dob = models.DateField(null=True, blank=True)
+    benificiary_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)
+    benificiary_present_address = models.TextField(blank=True)
+    benificiary_permanent_address = models.TextField(blank=True)
+    benificiary_email = models.EmailField(max_length=100, blank=True, null=True)
+    benificiary_phone = models.CharField(max_length=20, blank=True, null=True)
+    benificiary_phone_abroad = models.CharField(max_length=20, blank=True, null=True)
+
     name_of_paying_office = models.CharField(
         max_length=150,
         choices=WageEarnersBondBranch_CHOICE.choices,
@@ -57,7 +105,8 @@ class WageEarnersBond(models.Model):
         choices=CURRENCY_CHOICE.choices,
         default=CURRENCY_CHOICE.BDT
     )
-    mobile_no = models.CharField(max_length=20, null=True, blank=True)
+    
+
     denomination = models.DecimalField(
         max_digits=18,
         decimal_places=2,
@@ -76,30 +125,13 @@ class WageEarnersBond(models.Model):
     face_value_words = models.CharField(
         max_length=500, null=True, blank=True
     )
-    total_no_of_bonds = models.PositiveIntegerField(default=1, null=True, blank=True)
-    total_amount = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        validators=[MinValueValidator(0)],
-        null=True, blank=True
-    )
     Bank_name = models.CharField(max_length=150,blank=True,null=True)
     Bank_account_no = models.CharField(max_length=20,blank=True,null=True)
     Bank_account_branch = models.CharField(max_length=150,blank=True,null=True)
-    service = models.CharField(max_length=150,blank=True,null=True)
-    service_address = models.CharField(max_length=250,blank=True,null=True)
     reference_name = models.CharField(max_length=150,blank=True,null=True)
     reference_service = models.CharField(max_length=150,blank=True,null=True)
     reference_service_address = models.CharField(max_length=250,blank=True,null=True)
     # wage_earner_buying_branch = models.CharField(max_length=250,blank=True,null=True)
-    nid_number = models.CharField(max_length=20, null=True, blank=True)
-    passport_no = models.CharField(
-        max_length=50,
-        blank=True
-    )
-    place_of_issue= models.CharField(max_length=150, null=True, blank=True)
-    date_of_issue = models.DateField(null=True, blank=True)
-
     status = models.CharField(
         max_length=10,
         choices=ApplicationStatus.choices,
@@ -156,8 +188,6 @@ class WageEarnersBond(models.Model):
         self.face_value = Decimal("25000.00")
         self.face_value_words = num2words(self.face_value, lang="en")
         self.denomication_words = num2words(self.denomination, lang="en")
-        self.total_amount = self.denomination
-        self.total_no_of_bonds = self.total_amount / self.face_value
         super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.application_no} | {self.applicant_name}"
@@ -195,20 +225,69 @@ class USDBond(models.Model):
             choices=USD_BondChice.choices,
             null=True, blank=True
         )
-    face_value = models.DecimalField(max_digits=18, decimal_places=2, validators=[MinValueValidator(0)])
-    quantity = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)])
+    face_value = models.DecimalField(max_digits=18, decimal_places=2, validators=[MinValueValidator(0)], null=True, blank=True)
+    denomination = models.DecimalField(max_digits=18, decimal_places=2, validators=[MinValueValidator(0)], null=True, blank=True)
+    quantity = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)], null=True, blank=True)
     face_value_words = models.CharField(max_length=500, null=True, blank=True)
     applicant_name = models.CharField(max_length=250)
-    nominee_name = models.CharField(max_length=250, blank=True, null=True)
+    applicant_name_bn = models.CharField(max_length=250, blank=True, null=True)
+    father_name = models.CharField(max_length=250, blank=True, null=True)
+    mother_name = models.CharField(max_length=250, blank=True, null=True)
+    spouse_name = models.CharField(max_length=250, blank=True, null=True)
+    nid_number = models.CharField(max_length=20, null=True, blank=True)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)                                              
     applicant_address = models.TextField(null=True, blank=True)
     applicant_address_BD = models.TextField(null=True, blank=True)
-    nominee_address = models.TextField(blank=True)
-    applicant_contact = models.CharField(max_length=20, blank=True, null=True)
-    nominee_contact = models.CharField(max_length=20, blank=True, null=True)
+    mobile_no = models.CharField(max_length=20, null=True, blank=True)
+    phone_abroad = models.CharField(max_length=20, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
+    visa_type = models.TextField(null=True, blank=True)
+    visa_start_date = models.DateField(null=True, blank=True)
+    visa_end_date = models.DateField(null=True, blank=True)
+
+    #nominee info
+    nominee_name = models.CharField(max_length=250, blank=True, null=True)
+    nominee_address = models.TextField(blank=True)
+    nominee_contact = models.CharField(max_length=20, blank=True, null=True)
+    nominee_nid_number = models.CharField(max_length=20, null=True, blank=True)
+    nominee_dob = models.DateField(null=True, blank=True)
+    nominee_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)
     relation_with_nominee = models.CharField(max_length=150, blank=True, null=True)
+    
+    #if minior
+    is_minor = models.BooleanField(default=False)
+    minor_nominee_name = models.CharField(max_length=250, blank=True)
+    minor_nominee_address = models.TextField(blank=True)
+    identifier_nid = models.CharField(max_length=20, null=True, blank=True)
+    identifier_dob = models.DateField(null=True, blank=True)
+    identifier_gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True, blank=True)
+    identifier_name = models.CharField(max_length=250, blank=True)
+    identifier_name_bn = models.CharField(max_length=250, blank=True, null=True)
+    identifier_pre_address = models.TextField(blank=True)
+    identifier_per_address = models.TextField(blank=True)
+    identifier_father = models.CharField(max_length=250, blank=True)
+    identifier_mother = models.CharField(max_length=250, blank=True)
+    relation_with_nominee = models.CharField(max_length=150, blank=True)
+    identifier_phone = models.CharField(max_length=20, blank=True, null=True)
+    identifier_email = models.EmailField(max_length=100, blank=True, null=True)
+    
+    #benificiary info
+    benificiary_name = models.CharField(max_length=250, blank=True, null=True)
+    benificiary_name_bn = models.CharField(max_length=250, blank=True, null=True)
+    benificiary_present_address = models.TextField(blank=True)
+    benificiary_address = models.TextField(blank=True)
+    benificiary_father_name = models.CharField(max_length=250, blank=True)
+    benificiary_mother_name = models.CharField(max_length=250, blank=True)
+    benificiary_spouse_name = models.CharField(max_length=250, blank=True)
+    benificiary_email = models.EmailField(max_length=100, blank=True, null=True)
+    benificiary_phone_abroad = models.CharField(max_length=20, blank=True, null=True)
+    benificiary_phone_bangladesh = models.CharField(max_length=20, blank=True, null=True)
+    relation_with_holder = models.CharField(max_length=150, blank=True, null=True)
     passport_no = models.CharField(max_length=50, blank=True, null=True)
+    date_of_expiry = models.DateField(null=True, blank=True)
     place_of_issue= models.CharField(max_length=150, null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
     FC_account_no = models.CharField(max_length=20,blank=True,null=True)
     FC_account_office = models.CharField(max_length=150,blank=True,null=True)
     
@@ -216,13 +295,12 @@ class USDBond(models.Model):
     service_address = models.CharField(max_length=250,blank=True,null=True)
     name_of_paying_office = models.CharField(max_length=250)
     address_of_paying_office = models.CharField(max_length=255, blank=True, null=True)
-    denomination = models.CharField(max_length=20, null=True, blank=True)
 
     # total_no_of_bonds = models.PositiveIntegerField(default=0)
     total_amount = models.DecimalField(
         max_digits=18,
         decimal_places=2,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)], null=True, blank=True
     )
     
     status = models.CharField(
@@ -275,19 +353,13 @@ class USDBond(models.Model):
         self.save()
     
 
-
-    def calculate_total_amount(self):
-        return self.face_value*self.quantity
-    
-
     def save(self, *args, **kwargs):
         if not self.application_no:
             last = USDBond.objects.order_by("-id").first()
             next_id = 1 if not last else last.id + 1
             self.application_no = generate_USDB_application_no(next_id)
         self.face_value_words = num2words(self.face_value, lang="en").upper()
-        amount = self.calculate_total_amount()
-        self.total_amount = amount
+        self.denomination = self.face_value
         super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.application_no} | {self.applicant_name}"

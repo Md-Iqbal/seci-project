@@ -1,800 +1,1721 @@
 {% load static bengali_filters %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Wage Earners Development Bond</title>
-
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            html {
-                font-size: 18px;
-            }
-
-            body {
-                font-family: "Times New Roman", serif;
-                color: #000;
-                background: #fff;
-                line-height: 1.3;
-            }
-
-            @page {
-                size: A4;
-                margin: 8mm 10mm;
-            }
-
-            .page {
-                width: 190mm;
-                min-height: 277mm;
-                margin: auto;
-                position: relative;
-            }
-
-            .page-break {
-                page-break-before: always;
-            }
-
-            .text-center {
-                text-align: center;
-            }
-
-            .text-right {
-                text-align: right;
-            }
-
-            .text-left {
-                text-align: left;
-            }
-
-            .bold {
-                font-weight: bold;
-            }
-
-            .small {
-                font-size: 13px;
-            }
-
-            .large {
-                font-size: 20px;
-            }
-
-            .mt5 {
-                margin-top: 5px;
-            }
-
-            .mt10 {
-                margin-top: 10px;
-            }
-
-            .mt15 {
-                margin-top: 15px;
-            }
-
-            .mt20 {
-                margin-top: 20px;
-            }
-
-            .mt25 {
-                margin-top: 25px;
-            }
-
-            .mb5 {
-                margin-bottom: 5px;
-            }
-
-            .mb10 {
-                margin-bottom: 10px;
-            }
-
-            .mb15 {
-                margin-bottom: 15px;
-            }
-
-            .mb20 {
-                margin-bottom: 20px;
-            }
-
-            .ml20 {
-                margin-left: 20px;
-            }
-
-            .ml30 {
-                margin-left: 30px;
-            }
-
-            .indent {
-                margin-left: 28px;
-            }
-
-            p {
-                text-align: justify;
-                margin-bottom: 6px;
-            }
-
-            .logo {
-                width: 70px;
-                display: block;
-                margin: auto;
-            }
-
-            .header-table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            .header-table td {
-                border: none;
-                vertical-align: middle;
-            }
-
-            .header-table h3 {
-                margin-bottom: 4px;
-            }
-
-            .header-table h4 {
-                margin-bottom: 4px;
-            }
-
-            .header-table h5 {
-                color: #5B9BD5;
-                font-size: 18px;
-                margin-bottom: 2px;
-            }
-
-            .sl-table {
-                width: 100%;
-                margin-top: 8px;
-                border-collapse: collapse;
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Wage Earners Development Bond + Diaspora Bond Investor Information Form
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 18px;
+      }
+      body {
+        font-family: "Times New Roman", serif;
+        color: #000;
+        background: #fff;
+        line-height: 1.15;
+      }
+      @page {
+        size: A4;
+        margin: 8mm 10mm;
+      }
+      .page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .text-right {
+        text-align: right;
+      }
+      .text-left {
+        text-align: left;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .small {
+        font-size: 13px;
+      }
+      .large {
+        font-size: 20px;
+      }
+      .mt5 {
+        margin-top: 5px;
+      }
+      .mt10 {
+        margin-top: 10px;
+      }
+      .mt15 {
+        margin-top: 15px;
+      }
+      .mt20 {
+        margin-top: 20px;
+      }
+      .mt25 {
+        margin-top: 25px;
+      }
+      .mb5 {
+        margin-bottom: 5px;
+      }
+      .mb10 {
+        margin-bottom: 10px;
+      }
+      .mb15 {
+        margin-bottom: 15px;
+      }
+      .mb20 {
+        margin-bottom: 20px;
+      }
+      .ml20 {
+        margin-left: 20px;
+      }
+      .ml30 {
+        margin-left: 30px;
+      }
+      .indent {
+        margin-left: 28px;
+      }
+      p {
+        text-align: justify;
+        margin-bottom: 6px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        vertical-align: top;
+        padding: 5px;
+      }
+      .dotted {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 120px;
+        text-align: center;
+      }
+      .dotted-small {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 80px;
+        text-align: center;
+      }
+      .dotted-medium {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 200px;
+        text-align: center;
+      }
+      .dotted-large {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 350px;
+        text-align: center;
+      }
+      .header-table td,
+      .sl-table td {
+        border: none;
+      }
+      .header-table h5 {
+        color: #5b9bd5;
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+      .sl-table {
+        margin-top: 8px;
+      }
+      .bond-particulars-table,
+      .bond-issued-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-family: "Times New Roman", serif;
+        font-size: 15px;
+      }
+      .bond-particulars-table th,
+      .bond-particulars-table td,
+      .bond-issued-table th,
+      .bond-issued-table td {
+        border: 1px solid #000;
+        padding: 4px 6px;
+        vertical-align: top;
+      }
+      .bond-particulars-table th,
+      .bond-issued-table th {
+        text-align: center;
+        font-weight: normal;
+      }
+      .signature-table {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+        margin-bottom: 12px;
+      }
+      .signature-table td {
+        border: none;
+        vertical-align: top;
+      }
+      .signature-table .left {
+        width: 48%;
+      }
+      .signature-table .right {
+        width: 52%;
+        font-size: 17px;
+      }
+      .signature-info {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .signature-info td {
+        border: none;
+        padding: 2px 4px;
+        font-size: 15px;
+        vertical-align: top;
+      }
+      .signature {
+        width: 250px;
+        margin-left: auto;
+        text-align: center;
+      }
+      .signature p {
+        text-align: center;
+      }
+      hr {
+        border: none;
+        border-top: 1px dashed #000;
+        margin: 18px 0;
+      }
+
+      /* ===== Diaspora PDF pages ===== */
+      .diaspora-page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+        font-family: "Times New Roman", serif;
+        font-size: 15px;
+        line-height: 1.15;
+      }
+      .diaspora-title {
+        color: #0070c0;
+        text-decoration: underline;
+        text-align: center;
+        font-size: 21px;
+        margin: 3mm 0 6mm;
+      }
+      .diaspora-top {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 3mm;
+      }
+      .diaspora-top td {
+        border: none;
+        padding: 1px 8px;
+        vertical-align: top;
+      }
+      .diaspora-check {
+        font-size: 16px;
+        line-height: 1.15;
+      }
+      .cb {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        vertical-align: -1px;
+      }
+      .cb.selected {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        vertical-align: middle;
+        position: relative;
+      }
+
+      .cb.selected::after {
+        content: "✓";
+        position: absolute;
+        left: 1px;
+        top: -5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .fill-line {
+        display: inline-block;
+        border-bottom: 1px solid #777;
+        min-width: 185px;
+        height: 18px;
+        vertical-align: bottom;
+        text-align: center;
+      }
+      .pdf-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin: 0 0 3mm;
+        font-size: 15px;
+      }
+      .pdf-table th,
+      .pdf-table td {
+        border: 1px solid #999;
+        padding: 5px 7px;
+        vertical-align: top;
+        font-weight: normal;
+      }
+      .pdf-table .section {
+        background: #d9d9d9;
+        padding: 1px 3px;
+        height: 20px;
+      }
+      .pdf-table .h42 {
+        height: 36px;
+      }
+      .pdf-table .h50 {
+        height: 44px;
+      }
+      .pdf-table .h56 {
+        height: 50px;
+      }
+      .pdf-table .h65 {
+        height: 59px;
+      }
+      .pdf-table .h80 {
+        height: 74px;
+      }
+      .pdf-table .h95 {
+        height: 89px;
+      }
+      .pdf-table .center {
+        text-align: center;
+      }
+      .pdf-table .middle {
+        vertical-align: middle;
+      }
+      .pdf-table .value {
+        display: block;
+        margin-top: 4px;
+        font-weight: normal;
+      }
+      .diaspora-footer {
+        position: absolute;
+        bottom: 1mm;
+        left: 0;
+        font-size: 13px;
+      }
+      .issue-title {
+        background: #d9d9d9;
+        text-align: center;
+        border: 1px solid #999;
+        border-bottom: none;
+        padding: 2px;
+      }
+      .sig-space {
+        height: 60px;
+      }
+      @media print {
+        body {
+          margin: 0;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        table,
+        tr,
+        img {
+          page-break-inside: avoid;
+        }
+      }
+
+      /* ===== Angikarnama (অঙ্গীকারনামা) page ===== */
+      .angikarnama-page {
+        width: 190mm;
+        min-height: 277mm;
+        margin: auto;
+        position: relative;
+        font-family: "Times New Roman", serif;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #000;
+      }
+
+      .angikarnama-title {
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 18px;
+        margin-top: 5mm;
+        margin-bottom: 11mm;
+      }
+
+      .angikarnama-intro {
+        text-align: center;
+        margin: 0 auto 5mm;
+        line-height: 1.25;
+      }
+
+      .angikarnama-fill {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 170px;
+        text-align: center;
+        line-height: 1.1;
+        vertical-align: baseline;
+      }
+
+      .angikarnama-fill-short {
+        display: inline-block;
+        border-bottom: 1px dotted #000;
+        min-width: 95px;
+        text-align: center;
+      }
+
+      .angikarnama-table {
+        width: 92%;
+        margin: 3mm auto 6mm;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 15px;
+      }
+
+      .angikarnama-table th,
+      .angikarnama-table td {
+        border: 1px solid #000;
+        padding: 4px 7px;
+        vertical-align: middle;
+        height: 22px;
+      }
+
+      .angikarnama-table th {
+        text-align: center;
+        font-weight: normal;
+      }
+
+      .angikarnama-table td:first-child {
+        width: 62%;
+      }
+
+      .angikarnama-table td:last-child {
+        width: 38%;
+        text-align: center;
+      }
+
+      .angikarnama-body {
+        text-align: justify;
+        margin: 0 7mm;
+      }
+
+      .angikarnama-body p {
+        margin-bottom: 7mm;
+        text-align: justify;
+      }
+
+      .angikarnama-number {
+        margin-right: 5px;
+      }
+
+      .angikarnama-signature {
+        width: 100%;
+        margin-top: 17mm;
+        border-collapse: collapse;
+      }
+
+      .angikarnama-signature td {
+        border: none;
+        vertical-align: top;
+        padding: 0;
+      }
+
+      .angikarnama-sign-left {
+        width: 50%;
+        text-align: left;
+        padding-left: 7mm !important;
+      }
+
+      .angikarnama-sign-right {
+        width: 50%;
+        text-align: left;
+        padding-left: 20mm !important;
+        line-height: 2;
+      }
+
+      .angikarnama-page-number {
+        position: absolute;
+        left: 8mm;
+        bottom: 2mm;
+        font-size: 16px;
+      }
+
+      @media print {
+        .angikarnama-page {
+          page-break-inside: avoid;
+        }
+
+        .angikarnama-page-number {
+          position: absolute;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- =========================================================
+     YOUR EXISTING WAGE-EARNERS DEVELOPMENT BOND PAGES
+     Keep your current page-16 and page-17 HTML here unchanged.
+     ========================================================= -->
+
+    <div class="page">
+      <table class="header-table">
+        <tr>
+          <td class="text-center"><h5>ANNEXURE</h5></td>
+        </tr>
+        <tr>
+          <td>FORM NO. DB-I</td>
+        </tr>
+        <tr>
+          <td>APPLICATION FOR PURCHASE OF WAGE-EARNERS DEVELOPMENT BOND</td>
+        </tr>
+      </table>
+
+      <table class="sl-table">
+        <tr>
+          <td>Sl. No.</td>
+          <td class="text-right">Dated : {{ today }}</td>
+        </tr>
+      </table>
+
+      <p class="mt15">The Manager</p>
+      <p>
+        <span class="dotted-small"
+          >{{ application.name_of_paying_office }}</span
+        >
+      </p>
+      <p>
+        <span class="dotted-small"
+          >{{ application.address_of_paying_office }}</span
+        >
+      </p>
+      <p>Dear Sir,</p>
+
+      <p>
+        I,
+        <span class="dotted-large" style="font-size: 16px"
+          >{{ application.applicant_name|upper }}</span
+        >
+        tender herewith
+        <span class="dotted-medium"
+          >{{ application.currency }} {{ application.denomination }}</span
+        ><br />
+        <span>&emsp;&emsp;&emsp;&emsp;&emsp;(Name in Block Capital)</span>
+        &emsp;&emsp;&emsp;&emsp;
+        <span>(Amount in currency)</span><br />
+        with intent to purchase 5-Year Wage-Earner Development Bond to the face
+        value of Tk
+        <span class="dotted-medium">{{ applicationdenomination }}</span> (Taka
+        <span class="dotted-medium" style="font-size: 16px"
+          >{{ applicationdenomination_words|upper }}</span
+        >) only. The denominational break-up of the Bonds, the name(s) and
+        address(es) of the holder(s) and that of the nominee(s) in respect of
+        the Bond(s) and the bank branch (paying office) wherefrom the amounts
+        becoming due against the Bond(s) as interest, redemption value and
+        death-risk-benefit (if admissible) will be drawn shall be as under :-
+      </p>
+
+      <table class="bond-particulars-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width: 16%">Denomination</th>
+            <th rowspan="2" style="width: 16%">No. of pieces</th>
+            <th rowspan="2" style="width: 16%">Value</th>
+            <th colspan="2" style="width: 34%">Name and address of-</th>
+            <th rowspan="2" style="width: 18%">Name of<br />Paying Office.</th>
+          </tr>
+          <tr>
+            <th>Bond-Holder</th>
+            <th>Bond-Nominee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="height: 100px">
+            <td>{{ application.denomination }}</td>
+            <td>1</td>
+            <td>{{ application.denomination }}</td>
+            <td style="font-size: 12px">
+              {{ application.applicant_name }}<br />{{
+              application.applicant_address }}
+            </td>
+            <td style="font-size: 12px">
+              {% if application.is_minor %} {{ application.minor_nominee_name
+              }}<br />{{ application.minor_nominee_address }} {% else %} {{
+              application.nominee_name }}<br />{{ application.nominee_address }}
+              {% endif %}
+            </td>
+            <td>{{ application.name_of_paying_office }}</td>
+          </tr>
+          <tr>
+            <td><b>Total</b></td>
+            <td>1</td>
+            <td>{{ application.denomination }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        2.&emsp;&emsp;I accept the under noted conversion rate applied by you.
+      </p>
+      <p>3.&emsp;&emsp;I declare that-</p>
+      <div class="indent">
+        <p>
+          &emsp;*(a) I am a wage-earner entitled to wage-earners rate of
+          exchange and
+        </p>
+        <p>
+          &emsp;I maintain F.C. Account No
+          <span class="dotted-medium">{{ application.FC_account_no }}</span>
+          with
+          <span class="dotted-medium">{{ application.FC_account_office }}</span
+          ><br />
+          &emsp;I earn my wage/income as
+          <span class="dotted-small">{{ application.service }}</span>
+          in
+          <span class="dotted-medium">{{ application.service_address }}</span>
+        </p>
+        <p class="text-right">
+          .........................................................<br />
+          (Name and address of the concern)<br />
+          &emsp;*(b) I am a beneficiary of wage-earners remittance sent by Mr.
+          <span class="dotted-medium">{{ application.reference_name }}</span>
+        </p>
+        <p class="text-right">(Name of the Wage-Earner)</p>
+        <p>
+          &emsp;Who is employed as
+          <span class="dotted-medium">{{ application.reference_service }}</span>
+          in
+          <span class="dotted-medium"
+            >{{ application.reference_service_address }}</span
+          >
+        </p>
+      </div>
+      <p class="text-center">16</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="page">
+      <div class="text-center">
+        <p>
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Status)
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; (Name and address of the concern)
+        </p>
+      </div>
+
+      <p>4.&emsp;&emsp;I solemnly affirm that-</p>
+      <div class="indent">
+        <p>
+          &emsp;*(a) The statements made above are true and the funds tendered
+          for purchase of the Bond(s) represent savings out of my income as a
+          wage-earner abroad which have not been received from Bangladeshi
+          services.
+        </p>
+        <p>
+          &emsp;(b) The statements made above are true to the best of my
+          knowledge and belief.
+        </p>
+      </div>
+      <hr style="margin: 0" />
+      <p>* Please delete if inapplicable.</p>
+      <br />
+      <p style="font-size: 16px">
+        5.&emsp;&emsp;(In case of purchase of Bond abroad); I
+        select...................................................branch of your
+        Bank as the Paying Office.
+      </p>
+      <p>
+        6.&emsp;&emsp;I hereby agree to abide by the Wage-Earner Development
+        Bond Rules, 1981.
+      </p>
+
+      <p class="text-center">
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Yours faithfully,
+      </p>
+      <table class="signature-table">
+        <tr>
+          <td class="left">
+            <p>Address :</p>
+            <p>(a) Abroad</p>
+            <p>(b) In Bangladesh.</p>
+          </td>
+          <td class="right">
+            <p>Signature of Applicant<br />Wage-Earner/Beneficiary.</p>
+            <table class="signature-info">
+              <tr>
+                <td>
+                  Name in Block letters {{ application.applicant_name|upper }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Pass Port No
+                  <span class="dotted-small"
+                    >{{ application.passport_no }}</span
+                  >
+                  &nbsp;&nbsp; Dated
+                  <span class="dotted-small"
+                    >{{ application.date_of_issue|date:"d/m/Y" }}</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Place of Issue
+                  <span class="dotted-small"
+                    >{{ application.place_of_issue }}</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  F.C. Account No.
+                  <span class="dotted-small"
+                    >{{ application.FC_account_no }}</span
+                  >
+                  &nbsp; with
+                  <span class="dotted-small"
+                    >{{ application.FC_account_office }}</span
+                  >
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <p>7.&emsp;&emsp;Particulars of the Bond(s) issued:</p>
+      <table class="bond-issued-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width: 20%">Bond Sl. No.</th>
+            <th rowspan="2" style="width: 20%">Denomination</th>
+            <th colspan="2" style="width: 40%">Name and address of -</th>
+            <th rowspan="2" style="width: 20%">Name of Paying Office</th>
+          </tr>
+          <tr>
+            <th>Holder.</th>
+            <th>Nominee.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="height: 90px">
+            <td></td>
+            <td>{{ application.denomination }}</td>
+            <td style="font-size: 12px">
+              {{ application.applicant_name }}<br />{{
+              application.applicant_address }}
+            </td>
+            <td style="font-size: 12px">
+              {{ application.nominee_name }}<br />{{ application.nominee_address
+              }}
+            </td>
+            <td>{{ application.name_of_paying_office }}</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>{{ application.denomination }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The Bond(s) as detailed above has/have been issued.</p>
+      <table style="width: 100%; border: none">
+        <tr>
+          <td style="border: none; text-align: left">
+            Authorized Officer {{ application.approved_by }}
+          </td>
+          <td style="border: none; text-align: right">Authorized Officer</td>
+        </tr>
+      </table>
+
+      <p>
+        Received the Bond(s) detailed above of the face value of Tk
+        <span class="dotted-small">{{ applicationdenomination }}</span><br />
+        (Taka
+        <span class="dotted-medium">{{ applicationdenomination_words }}</span>)
+        Which conform to my specification.
+      </p>
+      <div class="signature">Applicant,</div>
+      <br />
+      <div class="signature">
+        By order of the President<br />
+        G. M. CHOWDHURY<br />
+        Secretary<br />
+        Ministry of Finance,<br />
+        Banking and Investment Division.
+      </div>
+      <p class="text-center">17</p>
+    </div>
+
+    <!-- =========================================================
+     APPENDED FROM THE UPLOADED "Diaspora Bond Investor Information Form"
+     ========================================================= -->
+    <div class="page-break"></div>
+
+    <div class="diaspora-page">
+      <div class="diaspora-title">Diaspora Bond Investor Information Form</div>
+
+      <table class="diaspora-top">
+        <tr>
+          <td style="width: 52%" class="diaspora-check">
+            <div><span class="cb selected"></span>Wage Earner Bond</div>
+            <div><span class="cb"></span>US Dollar Premium Bond</div>
+            <div><span class="cb"></span>US Doller Investment Bond</div>
+          </td>
+          <td style="width: 48%; padding-top: 2px">
+            <div style="margin-bottom: 14px">
+              Investment Amount:
+              <span class="fill-line">{{ application.denomination }}</span>
+            </div>
+            <div>
+              Interest Cycle: <span class="cb"></span>Half-yearly&nbsp;&nbsp;
+              <span class="cb"></span>End of Period
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            1. Diaspora Information:
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.nid_number }}</td>
+          <td colspan="2">DOB:{{ application.date_of_birth|date:"d/m/Y" }}</td>
+          <td colspan="2">Gender:{{ application.gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla): {{ application.applicant_name_bn }}
+          </td>
+          <td colspan="3">Name (English): {{ application.applicant_name }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address: {{ application.applicant_address_abroad }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address: {{ application.applicant_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Father’s Name: {{ application.father_name }}</td>
+          <td colspan="3">Mother’s Name: {{ application.mother_name }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Spouse’s Name: {{ application.spouse_name }}</td>
+          <td colspan="3">Email:{{ application.email }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">Phone (Bangladesh): {{ application.mobile_no }}</td>
+          <td colspan="3">Phone (Abroad): {{ application.phone_abroad }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Passport #{{ application.passport_no }}</td>
+          <td colspan="2">
+            Expiry Date: {{ application.date_of_expiry|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">Issue Country: {{ application.place_of_issue }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Date of arrival in Bangladesh (If returned from abroad permanently):
+            {{ application.return_date|date:"d/m/Y" }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            2. Beneficiary (If applicable):
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.nominee_nid_number }}</td>
+          <td colspan="2">DOB: {{ application.nominee_dob|date:"d/m/Y" }}</td>
+          <td colspan="2">Gender: {{ application.beneficiary_gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla): {{ application.beneficiary_name_bn }}
+          </td>
+          <td colspan="3">
+            Name (English): {{ application.beneficiary_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address: {{ application.beneficiary_present_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address: {{ application.beneficiary_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Father’s Name: {{ application.beneficiary_father_name }}
+          </td>
+          <td colspan="3">
+            Mother’s Name:{{ application.beneficiary_mother_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Spouse’s Name:{{ application.beneficiary_spouse_name }}
+          </td>
+          <td colspan="3">Email:{{ application.beneficiary_email }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Phone (Abroad):{{ application.beneficiary_phone_abroad }}
+          </td>
+          <td colspan="3">
+            Phone (Bangladesh):{{ application.beneficiary_phone_bangladesh }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            3. Remittance Information:
+          </th>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Source Country:{{ application.source_country }}</td>
+          <td colspan="2">Diaspora Occupation:{{ application.service }}</td>
+          <td colspan="2">
+            Relationship with holder:{{ application.relationship_with_holder }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">Visa Type:{{ application.visa_type }}</td>
+          <td colspan="2">
+            Visa Start Date:{{ application.visa_start_date|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">
+            Visa End Date:{{ application.visa_end_date|date:"d/m/Y" }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table" style="font-size: 12px">
+        <tr class="section">
+          <th style="width: 20%">Remittance Channel</th>
+          <th style="width: 28%">Bank/ Exchange House</th>
+          <th style="width: 15%">Acc./Ref #</th>
+          <th style="width: 10%">Date</th>
+          <th style="width: 10%">Currency</th>
+          <th style="width: 17%">Remittance Amount</th>
+        </tr>
+        <tr class="h50">
+          <td>{{ application.remittance_channel }}</td>
+          <td>{{ application.remittance_bank }}</td>
+          <td>{{ application.remittance_reference }}</td>
+          <td>{{ application.remittance_date|date:"d/m/Y" }}</td>
+          <td>{{ application.currency }}</td>
+          <td></td>
+        </tr>
+        <tr class="h50">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="h50">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+
+      <div class="diaspora-footer">Page 1 of 2</div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="diaspora-page">
+      <div class="diaspora-title">Diaspora Bond Investor Information Form</div>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="3" class="section text-left">
+            4. Bank Related information:
+          </th>
+        </tr>
+        <tr>
+          <td>Pay-in Account:</td>
+          <td>Principal Payment Account</td>
+          <td>Interest Payment Account</td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account Title:{{ application.payin_account_title }}
+          </td>
+          <td>
+            Account Title:{{ application.principal_account_title }}
+          </td>
+          <td>
+            Account Title:{{ application.interest_account_title }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account No:{{ application.payin_account_no }}
+          </td>
+          <td>
+            Account No:{{ application.principal_account_no }}
+          </td>
+          <td>
+            Account No:{{ application.interest_account_no }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td>Bank:{{ application.payin_bank }}</td>
+          <td>Bank:{{ application.principal_bank }}</td>
+          <td>Bank:{{ application.interest_bank }}</td>
+        </tr>
+        <tr class="h42">
+          <td>Branch:{{ application.payin_branch }}</td>
+          <td>Branch:{{ application.principal_branch }}</td>
+          <td>Branch:{{ application.interest_branch }}</td>
+        </tr>
+        <tr class="h42">
+          <td>
+            Account Type:{{ application.payin_account_type }}
+          </td>
+          <td>
+            Account Type:{{ application.principal_account_type }}
+          </td>
+          <td>
+            Account Type:{{ application.interest_account_type }}
+          </td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr>
+          <th colspan="6" class="section text-left">
+            5. Nominee information (If the nominee is a minor, an identifier's
+            NID &amp; DOB will be required):
+          </th>
+        </tr>
+        <tr class="h65">
+          <td colspan="1" rowspan="2" style="width: 18%">
+            <span class="cb"></span>Nominee is minor<br />
+            <div class="text-center">(If applicable):</div>
+          </td>
+          <td colspan="5">
+            Minor Nominee Name:{{ application.minor_nominee_name }}
+          </td>
+        </tr>
+        <tr class="h50">
+          <td colspan="5">
+            Minor Nominee Address:{{ application.minor_nominee_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">NID:{{ application.nominee_nid }}</td>
+          <td colspan="2">
+            DOB:{{ application.nominee_dob|date:"d/m/Y" }}
+          </td>
+          <td colspan="2">Gender:{{ application.nominee_gender }}</td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Name (Bangla):{{ application.nominee_name_bn }}
+          </td>
+          <td colspan="3">
+            Name (English):{{ application.nominee_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Present Address:{{ application.nominee_present_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="6">
+            Permanent Address:{{ application.nominee_address }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="3">
+            Father Name:{{ application.nominee_father_name }}
+          </td>
+          <td colspan="3">
+            Mother Name:{{ application.nominee_mother_name }}
+          </td>
+        </tr>
+        <tr class="h42">
+          <td colspan="2">
+            Relation with holder:{{ application.nominee_relation }}
+          </td>
+          <td colspan="2">Phone:{{ application.nominee_mobile }}</td>
+          <td colspan="2">Email:{{ application.nominee_email }}</td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr class="sig-space">
+          <td style="width: 33.33%"></td>
+          <td style="width: 33.33%"></td>
+          <td style="width: 33.33%"></td>
+        </tr>
+        <tr>
+          <td class="center">
+            Date &amp; Signature of Nominee<br />(Optional)
+          </td>
+          <td class="center">
+            Date &amp; Signature of Beneficiary<br />(If applicable)
+          </td>
+          <td class="center">Date &amp; Signature of Diaspora</td>
+        </tr>
+      </table>
+
+      <div class="issue-title">To be filled by the issue office</div>
+      <table class="pdf-table">
+        <tr>
+          <th class="center">Registration Number</th>
+          <th class="center">Issue Date</th>
+          <th class="center">Issued Amount</th>
+        </tr>
+        <tr class="h65">
+          <td>{{ application.registration_number }}</td>
+          <td>{{ application.issue_date|date:"d/m/Y" }}</td>
+          <td>{{ application.issued_amount }}</td>
+        </tr>
+      </table>
+
+      <table class="pdf-table">
+        <tr style="height: 60px">
+          <td style="width: 50%"></td>
+          <td style="width: 50%"></td>
+        </tr>
+        <tr>
+          <td class="center">Date &amp; Signature of Authorized Officer</td>
+          <td class="center">Date &amp; Signature of Authorized Officer</td>
+        </tr>
+      </table>
+
+      <div class="diaspora-footer">Page 2 of 2</div>
+    </div>
+    <div class="page-break"></div>
+
+    <!-- ============================================================
+     ORIGINAL DB-1 FORM — FROM DB-1(1).PDF
+     3 additional A4 pages
+     ============================================================ -->
+    <style>
+            .db1-page {
+              width: 190mm;
+              min-height: 277mm;
+              margin: auto;
+              position: relative;
+              font-family:
+                "Noto Serif Bengali", "SolaimanLipi", "Siyam Rupali",
+                "Times New Roman", serif;
+              font-size: 14px;
+              line-height: 1.25;
+              color: #000;
+            }
+            .db1-page.en {
+              font-family: "Times New Roman", serif;
+              font-size: 13px;
+              line-height: 1.25;
+            }
+            .db1-break {
+              page-break-before: always;
+            }
+            .db1-head {
+              position: relative;
+              text-align: center;
+              margin-bottom: 3mm;
+            }
+            .db1-head .formno {
+              position: absolute;
+              left: 0;
+              top: 0;
+              font-weight: bold;
+              text-decoration: underline;
+              font-size: 17px;
+            }
+            .db1-head .title {
+              font-weight: bold;
+              font-size: 18px;
+              margin-top: 4mm;
+            }
+            .db1-line {
+              border-bottom: 1px dotted #000;
+              display: inline-block;
+              height: 1.2em;
+              vertical-align: bottom;
+            }
+            .db1-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+            }
+            .db1-p {
+              text-align: justify;
+              margin: 5px 0;
+            }
+            .db1-indent {
+              margin-left: 12mm;
+            }
+            .db1-table {
+              width: 100%;
+              border-collapse: collapse;
+              table-layout: fixed;
+            }
+            .db1-table th,
+            .db1-table td {
+              border: 1px solid #555;
+              {% comment %} padding: 4px 5px; {% endcomment %}
+              vertical-align: top;
+            }
+            .db1-table th {
+              text-align: center;
+              font-weight: normal;
+            }
+            .db1-bigrow td {
+              height: 100px;
+            }
+            .db1-total td {
+              height: 7mm;
+              vertical-align: middle;
+            }
+            .db1-sign {
+              display: flex;
+              justify-content: flex-end;
+              margin-top: 10mm;
+            }
+            .db1-signbox {
+              width: 48%;
+              text-align: center;
+            }
+            .db1-signbox.left {
+              text-align: left;
+            }
+            .db1-signbox.right {
+              text-align: right;
+            }
+            .db1-signline {
+              border-top: 1px solid #000;
+              margin-top: 14mm;
+              padding-top: 2px;
+            }
+            .db1-two-col {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              column-gap: 12mm;
+            }
+            .db1-right {
+              text-align: right;
+            }
+            .db1-page3 p {
+              margin: 7px 0;
+            }
+            .db1-page3 .subject {
+              text-align: left;
+              margin-left: 16mm;
+            }
+            .db1-page3 .auction {
+              margin-top: 10mm;
+            }
+            .db1-page3 .signature {
+              width: 48%;
+              margin-left: auto;
+              margin-top: 10mm;
+            }
+            .db1-check {
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+              border: 1px solid #000;
+              margin: 0 4px;
             }
-
-            .sl-table td {
-                border: none;
-                padding: 2px 0;
-            }
-
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            td,
-            th {
-                vertical-align: top;
-                padding: 5px;
-            }
-
-            .dotted {
-                display: inline-block;
-                border-bottom: 1px dotted #000;
-                min-width: 120px;
-                text-align: center;
-            }
-
-            .dotted-small {
-                display: inline-block;
-                border-bottom: 1px dotted #000;
-                min-width: 80px;
-                text-align: center;
-            }
-
-            .dotted-medium {
-                display: inline-block;
-                border-bottom: 1px dotted #000;
-                min-width: 200px;
-                text-align: center;
-            }
-
-            .dotted-large {
-                display: inline-block;
-                border-bottom: 1px dotted #000;
-                min-width: 350px;
-                text-align: center;
-            }
-
-            .application-table {
-                width: 100%;
-                border: 1px solid #000;
-                margin-top: 12px;
-                table-layout: fixed;
-            }
-
-            .application-table th {
-                border: 1px solid #000;
-                text-align: center;
-                font-size: 14px;
-                padding: 6px;
-            }
-
-            .application-table td {
-                border: 1px solid #000;
-                height: 120px;
-                padding: 8px;
-                vertical-align: top;
-            }
-
-            .application-table td p {
-                margin-bottom: 4px;
-            }
-
-            .section-title {
-                font-weight: bold;
-                margin-top: 10px;
-                margin-bottom: 6px;
-            }
-
-            .signature {
-                width: 250px;
-                margin-left: auto;
-                text-align: center;
-            }
-
-            .signature p {
-                text-align: center;
-            }
-
-            .address-table {
-                width: auto;
-                margin-left: auto;
-                border: none;
-                border-collapse: collapse;
-            }
-
-            .address-table td {
-                border: none;
-                padding: 3px 2px;
-            }
-
-            .address-table td:first-child {
-                width: 170px;
-            }
-
-            .address-table td:nth-child(2) {
-                width: 15px;
-                text-align: center;
-            }
-
-            .address-table td:last-child {
-                width: 260px;
-            }
-
-            .office-table {
-                width: 100%;
-                border-collapse: collapse;
-                table-layout: fixed;
-            }
-
-            .office-table th,
-            .office-table td {
-                border: 1px solid #000;
-                padding: 6px;
-            }
-
-            .office-table th {
-                text-align: center;
-                font-weight: bold;
-            }
-
-            .officer-sign {
-                width: 100%;
-                margin-top: 18px;
-            }
-
-            .officer-sign td {
-                border: none;
-                text-align: center;
-            }
-
-            hr {
-                border: none;
-                border-top: 1px dashed #000;
-                margin: 18px 0;
-            }
-            .bond-particulars-table{
-                width:100%;
-                border-collapse:collapse;
-                table-layout:fixed;
-                font-family:"Times New Roman", serif;
-                font-size:16px;
-            }
-
-            .bond-particulars-table th,
-            .bond-particulars-table td{
-                border:1px solid #000;
-                padding:4px 6px;
-                vertical-align:top;
-            }
-
-            .bond-particulars-table th{
-                text-align:center;
-                font-weight:normal;
-            }
-
-            .bond-particulars-table tbody tr:first-child td{
-                height:100px;
-            }
-
-            .bond-particulars-table td{
-                line-height:1.2;
-            }
-
-            .bond-particulars-table tbody tr:last-child td{
-                vertical-align:middle;
-                height:24px;
-            }
-
-            .bond-particulars-table tbody tr:last-child td:first-child{
-                font-weight:bold;
-            }
-
             @media print {
+        .db1-page {
+          page-break-after: always;
+        }
 
-                body {
-                    margin: 0;
-                    -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
-                }
+        /* শেষ DB-1 পৃষ্ঠার পর আরেকটি পৃষ্ঠা শুরু করবে না */
+        .db1-page:last-of-type {
+          page-break-after: auto;
+        }
 
-                table {
-                    page-break-inside: avoid;
-                }
+        .angikarnama-page {
+          page-break-before: always;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
 
-                tr {
-                    page-break-inside: avoid;
-                }
+    <div class="db1-page">
+      <div class="db1-head">
+        <div class="formno"><u>ফরম সংখ্যা ডি বি-১</u></div>
+        <br />
+        <div class="title">ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড ক্রয়ের দরখাস্ত ফরম</div>
+      </div>
 
-                img {
-                    display: block;
-                }
-                .signature-table{
-                    width:100%;
-                    border:none;
-                    border-collapse:collapse;
-                    margin-bottom:12px;
-                }
+      <div class="db1-row">
+        <div>ক্রমিক সংখ্যা................................</div>
+        <div>তারিখ ................................</div>
+      </div>
+      <p class="db1-p">ম্যানেজার,</p>
+      <p class="db1-p db1-indent">
+        ............................................................<br />
+        ............................................................
+      </p>
+      <p class="db1-p">জনাব,</p>
+      <p class="db1-p db1-indent">
+        আমি...............................................................মোট......................................................টাকা
+      </p>
+      <p class="db1-p db1-indent">(স্পষ্ট অক্ষরে নাম)</p>
+      <p class="db1-p">
+        মূল্যের ৫ বছর মেয়াদী ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড ক্রয় করার জন্য
+        এতদসংগে............................................................<br />
+        ............................................................প্রদান
+        করিলাম। কত মূল্যমান অনুযায়ী বন্ডের সংখ্যা ও মূল্য, ধারক ও তাহার
+        মনোনীতকের নাম ও ঠিকানা এবং যে ব্যাংক হইতে সুদ, পরিশোধ মূল্য,
+        মৃত্যু-ঝুঁকির সুবিধা (প্রাপ্য হইলে) সহ বন্ড ভাঙানো যাইবে—তাহার বিবরণ
+        নিম্নে দেওয়া গেলঃ
+      </p>
 
-                .signature-table td{
-                    border:none;
-                    vertical-align:top;
-                }
+      <table class="db1-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width: 20%">মূল্যমান</th>
+            <th rowspan="2" style="width: 16%">সংখ্যা</th>
+            <th colspan="2" style="width: 44%">নাম ও ঠিকানা</th>
+            <th rowspan="2" style="width: 20%">
+              যে ব্যাংক হইতে বন্ড<br />ভাঙানো যাইবে
+            </th>
+          </tr>
+          <tr>
+            {% comment %}
+            <th></th>
+            <th></th>
+            {% endcomment %}
+            <th>বন্ড ধারক</th>
+            <th>বন্ড মনোনীতক</th>
+            {% comment %}
+            <th></th>
+            {% endcomment %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="db1-bigrow">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="db1-total">
+            <td>মোট</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-                .signature-table .left{
-                    width:48%;
-                }
+      <p class="db1-p">
+        ২।&emsp;আপনার প্রদত্ত নিম্নবর্ণিত বিনিময় হার আমি গ্রহণ করিতে সম্মত
+        হইলাম।
+      </p>
+      <p class="db1-p">৩।&emsp;আমি ঘোষণা করিতেছি যে--</p>
+      <div class="db1-indent">
+        <p class="db1-p">
+          (ক) ওয়েজ আর্নার বিনিময় হারের সুবিধা পাওয়ার যোগ্য আমি একজন ওয়েজ আর্নার।
+          (ব্যাংকের নাম) ........................................ ব্যাংকে আমার
+          বৈদেশিক মুদ্রা হিসাব (এফ,সি একাউন্ট)
+          সংখ্যা..................................... আছে।
+        </p>
+        <p class="db1-p">
+          আমি একজন...............................................হিসাবে
+          ...............................................বৈদেশিক মুদ্রা উপার্জন
+          করি।
+        </p>
+        <div class="db1-row">
+          <span
+            >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(পদবী)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(প্রতিষ্ঠানের
+            নাম ও ঠিকানা)</span
+          >
+        </div>
+        <p class="db1-p">
+          (খ)
+          জনাব......................................................................যিনি........................................................
+        </p>
+        <div class="db1-row">
+          <span
+            >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(ওয়েজ আর্নারের
+            নাম)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(পদবী)</span
+          >
+        </div>
+        <p class="db1-p">
+          হিসাবে........................................................................................এ
+          নিয়োজিত আছেন, ওয়েজ আর্নার হিসাবে
+        </p>
+        <div class="db1-row">
+          <span
+            >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(প্রতিষ্ঠানের নাম ও
+            ঠিকানা)</span
+          ><span></span>
+        </div>
+        <p class="db1-p">
+          তাঁহার প্রেরিত বৈদেশিক মুদ্রার মনোনীতক হিসাবে আমি একজন স্বত্বভোগী।
+        </p>
+        <br />
+      </div>
+      <p class="db1-p">৪।&emsp;আমি অঙ্গীকার করিয়া বলিতেছি যে--</p>
+      <div class="db1-indent">
+        <p class="db1-p">
+          (ক) উপরে বর্ণিত বিবৃতি সত্য এবং ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড ক্রয় করার
+          জন্য যে মুদ্রা প্রদান করা হইয়াছে তাহা ওয়েজ আর্নার হিসাবে আমার বিদেশে
+          অর্জিত আয় হইতে সঞ্চয় করা হইয়াছে।
+        </p>
+        <p class="db1-p">(খ) উপরে বর্ণিত বিবৃতি আমার বিশ্বাস ও জানামতে সত্য।</p>
+      </div>
+    </div>
 
-                .signature-table .right{
-                    width:52%;
-                    font-size: 17px;
-                }
+    <div class="db1-page db1-break">
+      <p class="db1-p">
+        ৫।&emsp;(বিদেশে বন্ড ক্রয় করার ক্ষেত্রে) : আমি
+        আপনার........................................................শাখাকে
+      </p>
+      <p class="db1-p db1-indent">
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(ব্যাংকের
+        নাম)<br />প্রদানকারী ব্যাংক হিসাবে মনোনয়ন করিলাম।
+      </p>
+      <p class="db1-p">
+        ৬।&emsp;আমি এতদ্বারা ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড রুল, ১৯৮১ মানিতে সম্মত
+        হইলাম।
+      </p>
 
-                .signature-info{
-                    width:100%;
-                    border:none;
-                    border-collapse:collapse;
-                    margin-top:10px;
-                }
+      <div class="db1-sign">
+        <div class="db1-signbox">
+          <p>&emsp;&emsp;&emsp;আপনার বিশ্বস্ত</p>
+          <p>ওয়েজ আর্নার/স্বত্বভোগীর স্বাক্ষর</p>
+        </div>
+      </div>
 
-                .signature-info td{
-                    border:none;
-                    padding:2px 4px;
-                    font-size:15px;
-                    vertical-align:top;
-                }
+      <div class="db1-two-col" style="margin-top: 9mm">
+        <div>
+          <p>ঠিকানা :</p>
+          <p>(ক)</p>
+          <p>
+            বিদেশের ........................................................
+          </p>
+          <p>(খ)</p>
+          <p>
+            বাংলাদেশের ......................................................
+          </p>
+        </div>
+        <div>
+          <p>
+            স্পষ্টাক্ষরে
+            নাম............................................................
+          </p>
+          <p>
+            পাসপোর্ট
+            নং......................................তারিখ....................
+          </p>
+          <p>
+            যেখান হইতে ইস্যু করা হইয়াছে........................................
+          </p>
+          <p>
+            বৈদেশিক মুদ্রা হিসাব
+            সংখ্যা.............................................
+          </p>
+          <p>
+            ব্যাংকের
+            নাম...............................................................
+          </p>
+        </div>
+      </div>
 
-                .section-title{
-                    margin:8px 0 2px 8px;
-                    font-size:18px;
-                }
+      <p class="db1-p" style="margin-top: 8mm">
+        ৭।&emsp;ইস্যুকৃত বন্ডের বিবরণ :
+      </p>
+      <table class="db1-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width: 20%">বন্ডের ক্রমিক সংখ্যা</th>
+            <th rowspan="2" style="width: 16%">মূল্যমান</th>
+            <th colspan="2" style="width: 44%">এর নাম ও ঠিকানা</th>
+            <th rowspan="2" style="width: 20%">
+              যে ব্যাংক হইতে বন্ড<br />ভাঙানো যাইবে
+            </th>
+          </tr>
+          <tr>
+            <th>ধারক</th>
+            <th>মনোনীতক</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="db1-bigrow">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="db1-total">
+            <td>মোট</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <p class="db1-p">&emsp;&emsp;উপরে বর্ণিত বন্ড(গুলি) প্রদান করা হইল।</p>
 
-                .bond-issued-table{
-                    width:100%;
-                    border-collapse:collapse;
-                    table-layout:fixed;
-                    font-size:15px;
-                    font-family:"Times New Roman", serif;
-                }
+      <div class="db1-row" style="margin-top: 4mm">
+        <div class="db1-signbox" style="width: 40%">
+          <div class="db1-signline">অনুমোদিত অফিসার</div>
+        </div>
+        <div class="db1-signbox" style="width: 40%">
+          <div class="db1-signline">অনুমোদিত অফিসার</div>
+        </div>
+      </div>
 
-                .bond-issued-table th,
-                .bond-issued-table td{
-                    border:1px solid #000;
-                }
+      <p class="db1-p" style="margin-top: 10mm">
+        ৮।&emsp;উপরে বর্ণিত
+        টাকা...................................(..............................................টাকা)
+        মূল্যমানের বন্ড বুঝিয়া পাইলাম।
+      </p>
+      <p class="db1-p">এই বন্ডসমূহ আমার বর্ণনার সঙ্গে সংগতিপূর্ণ।</p>
+      <div class="db1-sign" style="margin-top: 12mm">
+        <div class="db1-signbox" style="text-align: right">
+          <p>&emsp;&emsp;দরখাস্তকারীর স্বাক্ষর</p>
+          <br />
+          <p>নাম................................................</p>
+          <p>তারিখ.............................................</p>
+        </div>
+      </div>
+    </div>
 
-                .bond-issued-table th{
-                    text-align:left;
-                    font-weight:normal;
-                }
+    <div class="db1-page page-break-after en" style="font-size: 17px">
+      <div style="text-align: center; font-size: 20px">SONALI BANK LIMITED</div>
+      <div style="text-align: center; font-size: 18px">
+        ............................................................BRANCH
+      </div>
+      <div style="text-align: center">
+        ................................................................................
+      </div>
 
-                .bond-issued-table td{
-                    vertical-align:top;
-                }
+      <p style="margin-top: 12mm">
+        The Deputy General Manager<br />Sonali Bank Limited<br />............................................Branch
+      </p>
+      <p>Dear Sir,</p>
+      <p class="subject">
+        Sub:&nbsp; Sale of fund by Auction from
+        FCAP/FCAD/FCEURO/.............................................<br />
+      </p>
+      <p class="subject">
+        &emsp;&emsp;&nbsp;&nbsp;of
+        Mr./Mrs./Miss.........................................................................................................
+      </p>
 
-                .text-center{
-                    text-align:center;
-                }
+      <p class="auction">
+        I do hereby request and authorise you to sell through auction an amount
+        of US$/£/EURO/........ ............................(US Dollar/Pound
+        Sterling/Euro.......................................................................
+        ....................................) only from account no.
+        FCAP/FCAD/FCEURO..................................................... of
+        which I am the authorised Nominee Account holder and dispose of the sale
+        proceeds in the manner described in the column marked with "X"
+        hereunder.
+      </p>
 
-            }
-        </style>
+      <p>
+        Remit to (Name) of Bank ("X"
+        Branch).......................................................................................................
+        for credit to SR/Current A/C
+        No.....................................................................................
+        in the name/Names of
+        .....................................................................................................(&emsp;&emsp;&emsp;&emsp;)
+      </p>
 
-    </head>
+      <p>
+        Issued Fixed Deposit Receipts(Application &amp; Signature Card enclosed
+        for Tk.................................
+        (Taka...................................................................................................)
+        only for a<br />
+        period of ....................................... months in the
+        name/names of
+        ................................................................ and
+        credit the balance amount to SB/Current account
+        No.............................................................................
+        in the name/names of
+        .....................................................................................................................
+        maintained with name of Bank &amp;
+        Branch......................................................................................
+        ..........................................................................................................................................................................
+      </p>
 
-    <body>
+      <p style="font-size: 18px">
+        (Issue Wage Earners Development Bond (S) (Application Form DB-1 &amp;
+        Passport Photocopy enclosed) for Tk..................................
+        for a period of 5(five) years in the<br />
+        name/names of
+        .....................................................................................................................................<br />
+        and credit the balance amount to SB/Current account
+        No................................................................... in
+        the name of .........................................maintained with
+        (Name of Bank &amp; Branch....................
+        ........................................................................................................................................................
+      </p>
 
-        <div class="page">
+      <div class="db1-sign" style="margin-top: 0mm !important">
+        <p style="margin-top: 10mm; text-align: left">
+          Yours faithfully,<br /><br /><br />
+          Signature, Name &amp; Address<br />
+          Name:<br />
+          Address:<br />
+          Telephone:
+        </p>
+      </div>
+    </div>
 
-        <table class="header-table">
-            <tr>
-                <td class="text-center">
+    <!-- =========================================================
+         APPENDED: অঙ্গীকারনামা (Angikarnama)
+         Source: Angikarnama(2).pdf
+         ========================================================= -->
 
-                    <h5>ANNEXURE</h5>
-                    <p></p>
-                </td>
-            </tr>
-            <tr>
-                <td class="info-table th">FORM NO. DB-I</td>
-            </tr>
-            <tr>
-                <td class="text-left">
-                    APPLICATION FOR PURCHASE OF WAGE-EARNERS DEVELOPMENT BOND
-                </td>
+    <div class="angikarnama-page">
+      <div class="angikarnama-title">অঙ্গীকারনামা</div>
 
-            </tr>
-        </table>
+      <div class="angikarnama-intro">
+        আমি,
+        <span class="angikarnama-fill"
+          >{{ application.applicant_name_bn }}</span
+        >
+        পিতা/মাতা
+        <span class="angikarnama-fill-short">{{ application.father_name }}</span
+        ><br />
+        এই মর্মে অঙ্গীকার করছি যে, ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড ও সঞ্চয়পত্রে মোট
+        মূল্যমান টাকা:
+      </div>
 
-            <table class="sl-table">
-                <tr>
-                    <td class="text-left">
-                        Sl. No.
-                    </td>
-                    <td class="text-right">
-                        Dated :
-                        {{ today }}
-                    </td>
-                </tr>
-            </table>
-            <p class="mt15">
-                The Manager
-            </p>
-            <p class="dotted-small">
-                {{ application.name_of_paying_office }}
-            </p>
-            <br>
-            <p class="dotted-small">
-                {{ application.address_of_paying_office }}
-            </p>
-            <p>
-                Dear Sir,
-            </p>
-            <p>
-                I,
-                <span class="dotted-large" style="font-size: 16px;">
-                    {{ application.applicant_name|upper }}
-                </span>
-                tender herewith
-                <span class="dotted-medium">
-                    {{ application.currency }} {{ application.total_amount }}
-                </span> <br>
-                <span>&emsp;&emsp;&emsp;&emsp;&emsp;(Name in Block Capital)</span>
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Amount in currency)</span>
-                <br>
-                with intent to purchase 5-Year Wage-Earner Development Bond to the face value of <br>
-                Tk
-                <span class="dotted-medium">
-                    {{ application.face_value }}
-                </span>
-                (Taka
-                <span class="dotted-medium" style="font-size: 16px;">
-                    {{ application.face_value_words|upper }}
-                </span>
-                ) only.
-                The denominational
-                break-up of the Bonds, the name(s) and address(es) of the holder(s) and that of the nominee(s) in
-                respect of the Bond(s) and the bank branch ( paying office) wherefrom the amounts becoming due 
-                against the Bond(s) as interest, redemption value and death-risk-benefit(if admissible)will be drawn 
-                shall be as under :-
-            </p>
-            <table class="bond-particulars-table">
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="width:16%;">
-                            Denomination
-                        </th>
-                        <th rowspan="2" style="width:16%;">
-                            No. of pieces
-                        </th>
-                        <th rowspan="2" style="width:16%;">
-                            Value
-                        </th>
-                        <th colspan="2" style="width:34%;">
-                            Name and address of-
-                        </th>
-                        <th rowspan="2" style="width:18%;">
-                            Name of<br>
-                            Paying Office.
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Bond-Holder</th>
-                        <th>Bond-Nominee</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            {{ application.denomination }}
-                        </td>
-                        <td>
-                            {{ application.total_no_of_bonds }}
-                        </td>
-                        <td>
-                            {{ application.face_value }} * {{ application.total_no_of_bonds }}
-                        </td>
-                        <td style="font-size: 14px;">
-                            {{ application.applicant_name }}<br>
-                            {{ application.applicant_address }}
-                        </td>
-                        <td style="font-size: 14px;">
-                            {{ application.nominee_name }}<br>
-                            {{ application.nominee_address }}
-                        </td>
-                        <td>
-                            {{ application.name_of_paying_office }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Total
-                        </td>
-                        <td>
-                            {{ application.quantity }}
-                        </td>
-                        <td>
-                            {{ application.total_amount }}
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>
-                2.&emsp;&emsp;I accept the under noted conversion rate applied by you.
-            </p>
-            <p>
-                3.&emsp;&emsp;I declare that-
-            </p>
-            <div class="indent">
-                <p>&emsp;*(a) I am a wage-earner entitled to wage-earners rate of exchange and 
-                </p>
-                <p>&emsp;I maintain F.C. Account No
-                    <span class="dotted-medium">
-                        {{ application.FC_account_no }}
-                    </span>
-                    with
-                    <span class="dotted-medium">
-                        {{ application.FC_account_office }}
-                    </span><br>
-                &emsp;I earn my wage/income as
-                    <span class="dotted-small">
-                        {{ application.service }}
-                    </span>
-                     in
-                    <span class="dotted-medium">
-                        {{ application.service_address }}
-                    </span>
-                    <br>
-                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Status)
-                </p>
-                <p class="text-right">
-                    .........................................................<br>
-                    (Name and address of the concern)<br>
-                &emsp;*(b) I am a beneficiary of wage-earners remittance sent by Mr. 
-                    <span class="dotted-medium">
-                        {{ application.reference_name }}
-                    </span>
-                </p>
-                <p class="text-right">
-                    (Name of the Wage-Earner)
-                </p>
-                <p>&emsp;Who is employed as
-                    <span class="dotted-medium">
-                        {{ application.reference_service }}
-                    </span>
-                    in
-                    <span class="dotted-medium">
-                        {{ application.reference_service_address }}
-                    </span>
-                </p>
-            </div>
-            <p class="text-center">
-                16
-            </p>
-            <div class="page-break"></div>
-            <div class="page">
-                <div class="text-center">
-                    <p>
-                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Status) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        (Name and address of the concern)
-                    </p>
-                </div>
-                <p class="section-title"></p>
-                    4.&emsp;&emsp;I solemnly affirm that-
-                </p>
-                <div class="indent">
-                    <p>
-                        &emsp;*(a) The statements made above are true and the funds tendered for purchase of the Bond(s)
-                        represent savings out of my income as a wage-earner abroad which have not been received from
-                        Bangladeshi services.
-                    </p>
-                    <p>
-                        &emsp;(b) The statements made above are true to the best of my knowledge and belief.
-                    </p>
-                </div>
-                <hr style="margin: 0px;">
-                <p>
-                    * Please delete if inapplicable.
-                </p>
-                <br>
-                <p style="font-size: 16px;">5.&emsp;&emsp;(In case of purchase of Bond abroad); I select...................................................branch of your Bank as the Paying Office.</p>
-                <p>6.&emsp;&emsp;I hereby agree to abide by the Wage-Earner Development Bond Rules, 1981.</p>
-                <!-- ================= Signature Section ================= -->
-                 
-                <p class="text-center">
-                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Yours faithfully,
-                </p>
-                <table class="signature-table">
-                    <tr>
-                        <!-- Left Side -->
-                        <td class="left">
-                            <p>Address :</p>
-                            <p>(a) Abroad</p>
-                            <p>(b) In Bangladesh.</p>
-                        </td>
-                        <!-- Right Side -->
-                        <td class="right">
-                            <p>
-                                Signature of Applicant<br>
-                                Wage-Earner/Beneficiary.
-                            </p>
-                            <table class="signature-info">
-                                <tr>
-                                    <td>Name in Block letters {{ application.applicant_name|upper }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="white-space:nowrap; padding:2px;">
-                                        Pass Port No
-                                        <span style="display:inline-block;border-bottom:1px dotted #000;min-width:90px;text-align:center;">
-                                            {{ application.passport_no }}
-                                        </span>
+      <table class="angikarnama-table">
+        <thead>
+          <tr>
+            <th>বন্ডের নাম</th>
+            <th>টাকা/ডলারে এর পরিমাণ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>পূর্বের ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>সঞ্চয়পত্র</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>বর্তমান ওয়েজ আর্নার ডেভেলপমেন্ট বন্ড</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-                                        &nbsp;&nbsp;&nbsp;
+      <div class="angikarnama-body">
+        <p>
+          উক্ত তথ্য (১) . স্লাব বিতরণ সূদ হার নির্ধারণ করার জন্য প্রয়োজন হবে।
+        </p>
 
-                                        Dated
-                                        <span style="display:inline-block;border-bottom:1px dotted #000;min-width:90px;text-align:center;">
-                                            {{ application.date_of_issue|date:"d/m/Y" }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Place of Issue
-                                        <span style="
-                                            border-bottom:1px dotted #000;
-                                            min-width:40px;
-                                            text-align:center;
-                                            line-height:1.2;
-                                        ">
-                                            {{ application.place_of_issue }}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="white-space:nowrap; padding:2px;">
-                                        F.C. Account No.
-                                        <span style="display:inline-block;border-bottom:1px dotted #000;min-width:100px;text-align:center;">
-                                            {{ application.FC_account_no }}
-                                        </span>
+        <p>
+          <span class="angikarnama-number">১।</span>
+          ২১.০৯.২০২১ ইং তারিখের প্রজ্ঞাপন ০৮.০৪.০০০০০.১২.৩১.০০৫.১৪.-১৭২৪ মোতাবেক
+          স্লাব ভিত্তিক সরল সুদ হার প্রযোজ্য হবে
+        </p>
 
-                                        &nbsp;&nbsp;
+        <p>
+          <b>এমতাবস্থায়,</b> প্রদত্ত অঙ্গীকারনামার ভিত্তিতে ওয়েজ আর্নার্স
+          কর্পোরেট শাখা কর্তৃক প্রস্তাবিত এই বন্ড ইস্যু / পুনঃবিনিয়োগ করার
+          ক্ষেত্রে কোন প্রকার ভুল তথ্য প্রদানের কারণে যদি ভবিষ্যতে ব্যাংক
+          স্বার্থ ক্ষুন্নকর কোনোরূপ পরিস্থিতি সৃষ্টি হয় বা কোন কর্তৃপক্ষ কর্তৃক
+          কোন প্রকার অভিযোগ উত্থাপিত হয় তবে ওয়েজ আর্নার্স কর্পোরেট শাখার কোন
+          কর্মকর্তা/কর্মচারীর উপর এতদসংক্রান্ত কোন দায় বর্তাবে না।
+        </p>
+      </div>
 
-                                        with
-                                        <span style="display:inline-block;border-bottom:1px dotted #000;min-width:90px;text-align:center;">
-                                            {{ application.FC_account_office }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <p>7.&emsp;&emsp;Particulars of the Bond(s) issued:</p>
-                <table class="bond-issued-table">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" style="width:20%;">
-                                Bond Sl. No.
-                            </th>
-                            <th rowspan="2" style="width:20%;">
-                                Denomination
-                            </th>
-                            <th colspan="2" style="width:40%;">
-                                Name and address of -
-                            </th>
-                            <th rowspan="2" style="width:20%;">
-                                Name of Paying Office
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>Holder.</th>
-                            <th>Nominee.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td>{{ application.face_value }} * {{ application.total_no_of_bonds }} </td>
-                            <td style="font-size: 14px;">
-                                {{ application.applicant_name }}<br>
-                                {{ application.applicant_address }}
-                            </td>
-                            <td style="font-size: 14px;">
-                                {{ application.nominee_name }}<br>
-                                {{ application.nominee_address }}
-                            </td>
-                            <td>
-                                {{ application.name_of_paying_office }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td>{{ application.total_amount }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>The Bond(s) as detailed above has/have been issued.</p>
-                <table style="width:100%; border:none;">
-                    <tr>
-                        <td style="border:none; text-align:left;">
-                            Authorized Officer{{ application.approved_by }}
-                        </td>
-                        <td style="border:none; text-align:right;">
-                            Authorized Officer
-                        </td>
-                    </tr>
-                </table>
-                <p>
-                    Received the Bond(s) detailed above of the face value of Tk
-                    <span class="dotted-small">
-                        {{ application.face_value }}
-                    </span>
-                    <br>
-                    (Taka
-                    <span class="dotted-medium">
-                        {{ application.face_value_words }}
-                    </span>
-                    )
-                    Which conform to my specification.
-                </p>
-                <div class="signature">
-                        Applicant,
-                </div>
-                <br>
-                <div class="signature">
-                    By order of the President<br>
-                    G. M. CHOWDHURY<br>
-                    Secretary<br>
-                    Ministry of Finance,<br>
-                    Banking and Investment Division.
-                </div>
-                <p class="text-center">
-                    17
-                </p>
-            </div>
-    </body>
+      <table class="angikarnama-signature">
+        <tr>
+          <td class="angikarnama-sign-left">
+            তাংঃ........................<br /><br />
+            গ্রাহক আমাদের সম্মুখে এই অঙ্গীকারনামায় সহি স্বাক্ষর করেছেন।<br />
+            <br />
+            ১|<br /><br /><br /><br /><br /><br /><br /><br />
+            ২|
+          </td>
+          <td class="angikarnama-sign-left"></td>
+          <br />
+          {% comment %}
+          <div class="angikarnama-page-number">১।</div>
+          <div class="angikarnama-page-number">২।</div>
+          {% endcomment %}
+          <td class="angikarnama-sign-right">
+            স্বাক্ষরঃ<br />
+            নামঃ {{ application.applicant_name_bn }}<br />
+            ঠিকানাঃ {{
+            application.applicant_address_abroad|default:application.applicant_address
+            }}<br />
+            এন আই ডি নম্বরঃ {{ application.nid_number }}<br />
+            পাসপোর্ট নম্বরঃ {{ application.passport_no }}<br />
+            মোবাইল নম্বরঃ {{ application.phone_abroad }}<br />
+            ই মেইলঃ {{ application.email }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>

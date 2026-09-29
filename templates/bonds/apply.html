@@ -1,679 +1,1251 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}হিসাব খোলার আবেদন - সোনালী ব্যাংক{% endblock %}
-
-{% block extra_css %}
+{% extends 'base.html' %} {% load static %} {% block title %}হিসাব খোলার আবেদন -
+সোনালী ব্যাংক{% endblock %} {% block extra_css %}
 <style>
-    .preview-image {
-        max-width: 200px;
-        max-height: 200px;
-        margin-top: 10px;
-        display: none;
-        border: 2px solid var(--gold);
-        border-radius: 6px;
-    }
+  .preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+    display: none;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+  }
 
-    .form-step {
-        display: none;
-    }
+  .form-step {
+    display: none;
+  }
 
-    .form-step.active {
-        display: block;
-    }
+  .form-step.active {
+    display: block;
+  }
 
-    .step-indicator {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-        position: relative;
-    }
+  .step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+  }
 
-    .step-indicator::before {
-        content: '';
-        position: absolute;
-        top: 20px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: #d4b860;
-        z-index: 0;
-    }
+  .step-indicator::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #d4b860;
+    z-index: 0;
+  }
 
-    .step {
-        background: var(--white);
-        border: 2px solid #d4b860;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        position: relative;
-        z-index: 1;
-        color: #999;
-    }
+  .step {
+    background: var(--white);
+    border: 2px solid #d4b860;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    color: #999;
+  }
 
-    .step.active {
-        background: linear-gradient(135deg, #c8960c, #f0c430);
-        border-color: var(--gold);
-        color: var(--dark);
-    }
+  .step.active {
+    background: linear-gradient(135deg, #c8960c, #f0c430);
+    border-color: var(--gold);
+    color: var(--dark);
+  }
 
-    .step.completed {
-        background: var(--success);
-        border-color: var(--success);
-        color: white;
-    }
+  .step.completed {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+  }
 
-    .file-upload-box {
-        border: 2px dashed var(--gold);
-        border-radius: 6px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s;
-        background: var(--gold-pale);
-    }
+  .file-upload-box {
+    border: 2px dashed var(--gold);
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--gold-pale);
+  }
 
-    .file-upload-box:hover {
-        background: #fff8e1;
-        border-color: var(--gold-light);
-    }
+  .file-upload-box:hover {
+    background: #fff8e1;
+    border-color: var(--gold-light);
+  }
 
-    .file-upload-box i {
-        font-size: 2rem;
-        color: var(--gold);
-        margin-bottom: 10px;
-    }
+  .file-upload-box i {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="row">
-    <div class="col-md-12">
-        <div class="card border-gold shadow-gold">
-            <div class="card-header">
-                <h4 class="mb-0">
-                    <i class="bi bi-file-earmark-text"></i> Applicatoin for Wage Earners Development Bond
-                </h4>
-            </div>
-            <div class="card-body">
-                <p class="text-muted bn-text">অনুগ্রহ করে সকল তথ্য সাবধানে পূরণ করুন</p>
+  <div class="col-md-12">
+    <div class="card border-gold shadow-gold">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="bi bi-file-earmark-text"></i> Applicatoin for Wage Earners
+          Development Bond
+        </h4>
+      </div>
+      <div class="card-body">
+        <p class="text-muted bn-text">অনুগ্রহ করে সকল তথ্য সাবধানে পূরণ করুন</p>
 
-                <!-- Step Indicator -->
-                <div class="step-indicator">
-                    <div class="step active" data-step="1">১</div>
-                    <div class="step" data-step="2">২</div>
-                    <div class="step" data-step="3">৩</div>
-                    <div class="step" data-step="4">৪</div>
-                </div>
-
-                <div id="messageContainer"></div>
-
-                <form id="bondForm" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <!-- Step 1: Personal Information -->
-                    <div class="form-step active" id="step1">
-                        <div class="section-title">Personal Info</div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="applicant_name" class="form-label">
-                                    FULL NAME IN ENGLISH(BLOCK LETTER) <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" required
-                                    placeholder="Write full name in English (BLOCK LETTERS)" 
-                                    style="text-transform: uppercase;" 
-                                    oninput="this.value = this.value.toUpperCase();">
-                            </div>
-                            <div class="col-md-6 mb-3 bn-text">
-                                <label for="applicant_name_bn" class="form-label bn-text">
-                                    পূর্ণ নাম (বাংলা) <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="applicant_name_bn" name="applicant_name_bn" required
-                                    placeholder="বাংলা অক্ষরে পূর্ণ নাম লিখুন">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="applicant_address" class="form-label">
-                                    Address in Bangladesh <span class="text-danger">*</span>
-                                </label>
-                                <textarea class="form-control" id="applicant_address" name="applicant_address" required></textarea>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="applicant_address_abroad" class="form-label">
-                                    Address in Abroad <span class="text-danger">*</span>
-                                </label>
-                                <textarea class="form-control" id="applicant_address_abroad" name="applicant_address_abroad" required></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nominee_name" class="form-label">
-                                    Nominee Name <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="nominee_name" name="nominee_name" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="nominee_address" class="form-label">
-                                    Nominee Address <span class="text-danger">*</span>
-                                </label>
-                                <textarea class="form-control" id="nominee_address" name="nominee_address" required></textarea>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(2)">
-                                পরবর্তী <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Address Information -->
-                    <div class="form-step" id="step2">
-                        <div class="section-title">Bond Buying Details</div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name_of_paying_office" class="form-label">
-                                    Branch Name from Where You Want to Buy Your WAGE EARNER BOND <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select" id="currency" name="currency" required>
-                                    <option value="Wage Earners Corp br. Dhaka">Wage Earners Corp br. Dhaka</option>
-                                    <option value="Dhaka Cant.Corp br. Dhaka">Dhaka Cant.Corp br. Dhaka</option>
-                                    <option value="Wage Earners Corp br. Chattogram">Wage Earners Corp br. Chattogram</option>
-                                    <option value="Khulna Corp. br. Khulna">Khulna Corp. br. Khulna</option>
-                                    <option value="Dargagate Corp. br. Sylhet">Dargagate Corp. br. Sylhet</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="currency" class="form-label">
-                                    Currency <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" id="currency" name="currency" class="form-control bond-count" value="BDT" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <label for="denomination" class="form-label">
-                                    Denomination <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" id="denomination" name="denomination" class="form-control bond-count" inputmode="numeric" pattern="[0-9]*">
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between gap-2">
-                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(1)">
-                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
-                            </button>
-                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(3)">
-                                পরবর্তী <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Account & Documents -->
-                    <div class="form-step" id="step3">
-                        <div class="section-title">Your Banking Details</div>
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <label for="Bank_name" class="form-label">
-                                    Bank Name <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="Bank_name" name="Bank_name" required
-                                    placeholder="Bank Name">
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="Bank_account_branch" class="form-label">
-                                    Bank Account Branch Name <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="Bank_account_branch" name="Bank_account_branch" required
-                                    placeholder="Bank Account Branch Name">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="Bank_account_no" class="form-label">
-                                    Bank Account No <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="Bank_account_no" name="Bank_account_no" required
-                                    placeholder="Bank Account No">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="service" class="form-label">
-                                    Your Profession <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="service" name="service" required
-                                    placeholder="Your Profession">
-                            </div>
-                            <div class="col-md-8 mb-3">
-                                <label for="service_address" class="form-label">
-                                    Professional Address <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="service_address" name="service_address" required
-                                    placeholder="Your Professional Address Details">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="reference_name" class="form-label">
-                                    Who Are You Sent By
-                                </label>
-                                <input type="text" class="form-control" id="reference_name" name="reference_name"
-                                    placeholder="Name of the Wage-Earner">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="reference_service" class="form-label">
-                                    Referred Person Service
-                                </label>
-                                <input type="text" class="form-control" id="reference_service" name="reference_service"
-                                    placeholder="Service Name of Your Reference Individual">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 mb-3">
-                                <label for="reference_service_address" class="form-label">
-                                    Service Address of Your Reference
-                                </label>
-                                <input type="text" class="form-control" id="reference_service_address" name="reference_service_address"
-                                    placeholder="Service Address of Your Reference Individual">
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between gap-2">
-                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(2)">
-                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
-                            </button>
-                            <button type="button" class="btn btn-primary bn-text" onclick="nextStep(4)">
-                                পরবর্তী <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Nominee Information -->
-                    <div class="form-step" id="step4">
-                        <div class="section-title">Other Details</div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="nid_number" class="form-label bn-text">
-                                    NID Number <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="nid_number" name="nid_number" required placeholder="NID Number">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="passport_no" class="form-label">
-                                    Your Passport No <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="passport_no" name="passport_no" required
-                                    placeholder="Passport Number">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="place_of_issue" class="form-label">
-                                    Place of Passport Issue <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="place_of_issue" name="place_of_issue" required
-                                    placeholder="Place of Passport Issue">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="date_of_issue" class="form-label">
-                                    Date of Issue <span class="text-danger">*</span>
-                                </label>
-                                <input type="date" class="form-control" id="date_of_issue" name="date_of_issue">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="mobile_no" class="form-label">
-                                    Your Mobile Number <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="mobile_no" name="mobile_no" required
-                                    placeholder="Mobile Number">
-                            </div>
-                        </div>
-
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="terms_accepted" required>
-                            <label class="form-check-label" for="terms_accepted">
-                                I declare that all the information provided is true and correct. I agree to abide by all the rules and regulations of Sonali Bank.
-                            </label>
-                        </div>
-
-                        <div class="d-flex justify-content-between gap-2">
-                            <button type="button" class="btn btn-secondary bn-text" onclick="prevStep(3)">
-                                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
-                            </button>
-                            <button type="submit" class="btn btn-primary btn-lg bn-text" id="submitBtn">
-                                <i class="bi bi-send"></i> আবেদন জমা দিন
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step active" data-step="1">১</div>
+          <div class="step" data-step="2">২</div>
+          <div class="step" data-step="3">৩</div>
+          <div class="step" data-step="4">৪</div>
         </div>
+
+        <div id="messageContainer"></div>
+
+        <form id="bondForm" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <!-- Step 1: Personal Information -->
+          <div class="form-step active" id="step1">
+            <div class="section-title">Personal Info</div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="applicant_name" class="form-label">
+                  FULL NAME IN ENGLISH(BLOCK LETTER)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="applicant_name"
+                  name="applicant_name"
+                  required
+                  placeholder="Write full name in English (BLOCK LETTERS)"
+                  style="text-transform: uppercase"
+                  oninput="this.value = this.value.toUpperCase()"
+                />
+              </div>
+              <div class="col-md-6 mb-3 bn-text">
+                <label for="applicant_name_bn" class="form-label bn-text">
+                  পূর্ণ নাম (বাংলা) <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="applicant_name_bn"
+                  name="applicant_name_bn"
+                  required
+                  placeholder="বাংলা অক্ষরে পূর্ণ নাম লিখুন"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="dob" class="form-label">
+                  Date of Birth <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dob"
+                  name="dob"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="gender" class="form-label">
+                  Gender <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="gender" name="gender" required>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="email" class="form-label"> Email Address </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Email Address"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="phone" class="form-label">
+                  Mobile Number <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                  required
+                  placeholder="Mobile Number"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="phone_abroad" class="form-label">
+                  Mobile Number Abroad
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone_abroad"
+                  name="phone_abroad"
+                  placeholder="Mobile Number Abroad"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="nid_number" class="form-label"> NID No </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nid_number"
+                  name="nid_number"
+                  placeholder="NID No(10/17 digit)"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="applicant_address" class="form-label">
+                  Address in Bangladesh <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="applicant_address"
+                  name="applicant_address"
+                  required
+                ></textarea>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="applicant_address_abroad" class="form-label">
+                  Address in Abroad <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="applicant_address_abroad"
+                  name="applicant_address_abroad"
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="passport_no" class="form-label">
+                  Passport No <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="passport_no"
+                  name="passport_no"
+                  required
+                  placeholder="Passport Number"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="place_of_issue" class="form-label">
+                  Place of Passport Issue <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="place_of_issue"
+                  name="place_of_issue"
+                  required
+                  placeholder="Place of Passport Issue"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="date_of_issue" class="form-label">
+                  Date of Passport Issue <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="date_of_issue"
+                  name="date_of_issue"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="date_of_expiry" class="form-label">
+                  Date of Passport Expiry <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="date_of_expiry"
+                  name="date_of_expiry"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="visa_type" class="form-label">
+                  Visa Type <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="visa_type"
+                  name="visa_type"
+                  required
+                  placeholder="Visa Type"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="visa_start_date" class="form-label">
+                  Visa Start Date <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="visa_start_date"
+                  name="visa_start_date"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="visa_end_date" class="form-label">
+                  Visa End Date <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="visa_end_date"
+                  name="visa_end_date"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="return_date" class="form-label">
+                  Return Date (If returned from abroad permanently)
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="return_date"
+                  name="return_date"
+                />
+              </div>
+            </div>
+
+            {% comment %} minor nominee info {% endcomment %}
+            <div class="row">
+              <div class="col-md-6 mb-1">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="is_minor"
+                    name="is_minor"
+                  />
+                  <label class="form-check-label" for="is_minor">
+                    Is the nominee a minor?
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="minor_nominee_name" class="form-label">
+                  Minor Nominee Name (if applicable)
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="minor_nominee_name"
+                  name="minor_nominee_name"
+                  placeholder="Minor Nominee Name"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="minor_nominee_address" class="form-label">
+                  Minor Nominee Address (if applicable)
+                </label>
+                <textarea
+                  class="form-control"
+                  id="minor_nominee_address"
+                  name="minor_nominee_address"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="identifier_name" class="form-label">
+                  Identifier Name (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_name"
+                  name="identifier_name"
+                  placeholder="Identifier Name (if nominee is a minor)"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_name_bn" class="form-label bn-text">
+                  পরিচয়কারীর নাম (যদি মনোনীত ব্যক্তি একজন নাবালক হয়)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_name_bn"
+                  name="identifier_name_bn"
+                  placeholder="যদি মনোনীত ব্যক্তি একজন নাবালক হয় তবে পরিচয়কারীর নাম"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_nid" class="form-label">
+                  Identifier NID Number (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_nid"
+                  name="identifier_nid"
+                  placeholder="Identifier NID Number (if nominee is a minor)"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="identifier_pre_address" class="form-label">
+                  Identifier Present Address (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="identifier_pre_address"
+                  name="identifier_pre_address"
+                  placeholder="Identifier Present Address (if nominee is a minor)"
+                ></textarea>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="identifier_per_address" class="form-label">
+                  Identifier Permanent Address (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="identifier_per_address"
+                  name="identifier_per_address"
+                  placeholder="Identifier Permanent Address (if nominee is a minor)"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="relation_with_nominee" class="form-label">
+                  Relation with Nominee (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="relation_with_nominee"
+                  name="relation_with_nominee"
+                  placeholder="Relation with Nominee (if nominee is a minor)"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_father" class="form-label">
+                  Identifier Father's Name (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_father"
+                  name="identifier_father"
+                  placeholder="Identifier Father's Name (if nominee is a minor)"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_mother" class="form-label">
+                  Identifier Mother's Name (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_mother"
+                  name="identifier_mother"
+                  placeholder="Identifier Mother's Name (if nominee is a minor)"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="identifier_gender" class="form-label">
+                  Identifier Gender (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="form-select"
+                  id="identifier_gender"
+                  name="identifier_gender"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_dob" class="form-label">
+                  Identifier Date of Birth (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="identifier_dob"
+                  name="identifier_dob"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_phone" class="form-label">
+                  Identifier Phone Number (if nominee is a minor)
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier_phone"
+                  name="identifier_phone"
+                  placeholder="Identifier Phone Number (if nominee is a minor)"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="identifier_email" class="form-label">
+                  Identifier Email Address (if nominee is a minor)
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="identifier_email"
+                  name="identifier_email"
+                  placeholder="Identifier Email Address (if nominee is a minor)"
+                />
+              </div>
+            </div>
+            {% comment %} adult nominee info {% endcomment %}
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <label for="nominee_name" class="form-label">
+                  Nominee Name <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nominee_name"
+                  name="nominee_name"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="nominee_dob" class="form-label">
+                  Nominee Date of Birth <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="nominee_dob"
+                  name="nominee_dob"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label for="nominee_nid_number" class="form-label">
+                  Nominee NID Number
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nominee_nid_number"
+                  name="nominee_nid_number"
+                  placeholder="Nominee NID Number"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="nominee_address" class="form-label">
+                  Nominee Address <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="nominee_address"
+                  name="nominee_address"
+                  required
+                ></textarea>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="nominee_gender" class="form-label">
+                  Nominee Gender <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="form-select"
+                  id="nominee_gender"
+                  name="nominee_gender"
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+              <button
+                type="button"
+                class="btn btn-primary bn-text"
+                onclick="nextStep(2)"
+              >
+                পরবর্তী <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Address Information -->
+          <div class="form-step" id="step2">
+            <div class="section-title">Bond Buying Details</div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name_of_paying_office" class="form-label">
+                  Branch Name from Where You Want to Buy Your WAGE EARNER BOND
+                  <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="form-select"
+                  id="name_of_paying_office"
+                  name="name_of_paying_office"
+                  required
+                >
+                  <option value="Wage Earners Corp br. Dhaka">
+                    Wage Earners Corp br. Dhaka
+                  </option>
+                  <option value="Dhaka Cant.Corp br. Dhaka">
+                    Dhaka Cant.Corp br. Dhaka
+                  </option>
+                  <option value="Wage Earners Corp br. Chattogram">
+                    Wage Earners Corp br. Chattogram
+                  </option>
+                  <option value="Khulna Corp. br. Khulna">
+                    Khulna Corp. br. Khulna
+                  </option>
+                  <option value="Dargagate Corp. br. Sylhet">
+                    Dargagate Corp. br. Sylhet
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="currency" class="form-label">
+                  Currency <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="currency"
+                  name="currency"
+                  class="form-control bond-count"
+                  value="BDT"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="denomination" class="form-label">
+                  Denomination <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="denomination"
+                  name="denomination"
+                  class="form-control bond-count"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-between gap-2">
+              <button
+                type="button"
+                class="btn btn-secondary bn-text"
+                onclick="prevStep(1)"
+              >
+                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary bn-text"
+                onclick="nextStep(3)"
+              >
+                পরবর্তী <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Account & Documents -->
+          <div class="form-step" id="step3">
+            <div class="section-title">Your Banking Details</div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="Bank_name" class="form-label">
+                  Bank Name <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="Bank_name"
+                  name="Bank_name"
+                  required
+                  placeholder="Bank Name"
+                />
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="Bank_account_branch" class="form-label">
+                  Bank Account Branch Name <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="Bank_account_branch"
+                  name="Bank_account_branch"
+                  required
+                  placeholder="Bank Account Branch Name"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="Bank_account_no" class="form-label">
+                  Bank Account No <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="Bank_account_no"
+                  name="Bank_account_no"
+                  required
+                  placeholder="Bank Account No"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="service" class="form-label">
+                  Your Profession <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="service"
+                  name="service"
+                  required
+                  placeholder="Your Profession"
+                />
+              </div>
+              <div class="col-md-8 mb-3">
+                <label for="service_address" class="form-label">
+                  Professional Address <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="service_address"
+                  name="service_address"
+                  required
+                  placeholder="Your Professional Address Details"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="reference_name" class="form-label">
+                  Who Are You Sent By
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reference_name"
+                  name="reference_name"
+                  placeholder="Name of the Wage-Earner"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="reference_service" class="form-label">
+                  Referred Person Service
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reference_service"
+                  name="reference_service"
+                  placeholder="Service Name of Your Reference Individual"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <label for="reference_service_address" class="form-label">
+                  Service Address of Your Reference
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reference_service_address"
+                  name="reference_service_address"
+                  placeholder="Service Address of Your Reference Individual"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-between gap-2">
+              <button
+                type="button"
+                class="btn btn-secondary bn-text"
+                onclick="prevStep(2)"
+              >
+                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary bn-text"
+                onclick="nextStep(4)"
+              >
+                পরবর্তী <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Nominee Information -->
+          <div class="form-step" id="step4">
+            <div class="section-title">Other Details</div>
+
+            <div class="form-check mb-4">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="terms_accepted"
+                required
+              />
+              <label class="form-check-label" for="terms_accepted">
+                I declare that all the information provided is true and correct.
+                I agree to abide by all the rules and regulations of Sonali
+                Bank.
+              </label>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+              <button
+                type="button"
+                class="btn btn-secondary bn-text"
+                onclick="prevStep(3)"
+              >
+                <i class="bi bi-arrow-left"></i> পূর্ববর্তী
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg bn-text"
+                id="submitBtn"
+              >
+                <i class="bi bi-send"></i> আবেদন জমা দিন
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Autosave Indicator -->
 <div id="autosave-indicator" class="bn-text"></div>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script src="{% static 'js/api-handler.js' %}"></script>
 <script>
-    let currentStep = 1;
+      let currentStep = 1;
+      {% comment %} always hide minor nominee info and show adult nominee info. if nominee is minor then show minor nominee info and hide adult nominee info {% endcomment %}
+      document.getElementById('is_minor').addEventListener('change', function () {
+          const isMinor = this.checked;
+          const minorFields = [
+              'minor_nominee_name', 'minor_nominee_address',
+              'identifier_name', 'identifier_name_bn', 'identifier_nid',
+              'identifier_pre_address', 'identifier_per_address',
+              'relation_with_nominee', 'identifier_father', 'identifier_mother',
+              'identifier_gender', 'identifier_dob', 'identifier_phone', 'identifier_email'
+          ];
 
-    function nextStep(step) {
-        const currentForm = document.getElementById(`step${currentStep}`);
-        const inputs = currentForm.querySelectorAll('input[required], select[required], textarea[required]');
-        let valid = true;
+          minorFields.forEach(fieldId => {
+              const field = document.getElementById(fieldId);
+              if (field) {
+                  field.required = isMinor;
+                  field.closest('.mb-2, .mb-3').style.display = isMinor ? '' : 'none';
+              }
+          });
 
-        inputs.forEach(input => {
-            if (!input.checkValidity()) {
-                input.reportValidity();
-                valid = false;
-            }
-        });
-
-        if (!valid) return;
-
-        // Update step indicators
-        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
-        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
-
-        // Show/hide steps
-        document.getElementById(`step${currentStep}`).classList.remove('active');
-        document.getElementById(`step${step}`).classList.add('active');
-        currentStep = step;
-        window.scrollTo(0, 0);
-    }
-
-    function prevStep(step) {
-        // Update step indicators
-        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-        document.querySelector(`.step[data-step="${step}"]`).classList.remove('completed');
-        document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
-
-        // Show/hide steps
-        document.getElementById(`step${currentStep}`).classList.remove('active');
-        document.getElementById(`step${step}`).classList.add('active');
-        currentStep = step;
-        window.scrollTo(0, 0);
-    }
+          // Toggle adult nominee fields
+          const adultFields = ['nominee_name', 'nominee_dob', 'nominee_nid_number', 'nominee_address', 'nominee_gender'];
+          adultFields.forEach(fieldId => {
+              const field = document.getElementById(fieldId);
+              if (field) {
+                  field.required = !isMinor;
+                  field.closest('.mb-2, .mb-3').style.display = isMinor ? 'none' : '';
+              }
+          });
+      });
 
 
-    // Form submission with proper file handling
-    document.getElementById('bondForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
+      function nextStep(step) {
+          const currentForm = document.getElementById(`step${currentStep}`);
+          const inputs = currentForm.querySelectorAll('input[required], select[required], textarea[required]');
+          let valid = true;
 
-            const submitBtn = document.getElementById('submitBtn');
-            const messageContainer = document.getElementById('messageContainer');
+          inputs.forEach(input => {
+              if (!input.checkValidity()) {
+                  input.reportValidity();
+                  valid = false;
+              }
+          });
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> জমা হচ্ছে...';
+          if (!valid) return;
 
-            try {
-                // Create FormData object
-                const formData = new FormData(this);
-                console.log("WE Bond form data");
-                // Print all FormData
-                console.log("===== FormData Start =====");
-                for (const [key, value] of formData.entries()) {
-                    console.log(`${key}:`, value);
-                }
-                console.log("===== FormData End =====");
+          // Update step indicators
+          document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+          document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+          document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
 
-                // Wait for 1 minute
-                // console.log("Waiting 60 seconds before sending request...");
-                // await new Promise(resolve => setTimeout(resolve, 60000));
+          // Show/hide steps
+          document.getElementById(`step${currentStep}`).classList.remove('active');
+          document.getElementById(`step${step}`).classList.add('active');
+          currentStep = step;
+          window.scrollTo(0, 0);
+      }
 
-// WE Bond form data
-// ===== FormData Start =====
-// csrfmiddlewaretoken: wTI6vGWKyWRrIEYyHeaQJkGVUKVGSE8nfxzAWmpWhDxcq80upKV73ExgdYXz1pVk
-// applicant_name: Abu Sayeed Md Iqbal Majumder
-// nominee_name: Abu sayeed md ivan majumder
-// applicant_address: New York, Australia, bangladesh
-// nominee_address: Bihar, Malayshia
-// name_of_paying_office: Kushtia
-// address_of_paying_office: Kushtia, UK
-// face_value: 25000
-// total_no_of_bonds: 3
-// FC_account_no: 1234566789aa
-// FC_account_office: Norway
-// service: Allah'r Dan
-// service_address: Pothe Pothe
-// reference_name: Khaled Bin  Aziz
-// reference_service: Banker
-// reference_service_address: Allah'r Duniya
-// passport_no: A12345678901
-// currency: currency
-// mobile_no: mobile_no
-// place_of_issue: place_of_issue
-// date_of_issue: date_of_issue
-// ===== FormData End =====
-// Waiting 60 seconds before sending request...
+      function prevStep(step) {
+      // Hide current step
+      const currentForm = document.getElementById(`step${currentStep}`);
+      const targetForm = document.getElementById(`step${step}`);
+
+      if (!currentForm || !targetForm) {
+          console.error('Step not found:', currentStep, step);
+          return;
+      }
+
+      currentForm.classList.remove('active');
+      targetForm.classList.add('active');
+
+      // Update step indicators
+      document.querySelectorAll('.step').forEach(stepElement => {
+          const stepNumber = parseInt(stepElement.dataset.step);
+
+          stepElement.classList.remove('active', 'completed');
+
+          if (stepNumber === step) {
+              stepElement.classList.add('active');
+          } else if (stepNumber < step) {
+              stepElement.classList.add('completed');
+          }
+      });
+
+      // Update current step
+      currentStep = step;
+
+      // Scroll to top
+      window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+      });
+  }
 
 
-                // Submit using fetch with FormData
-                
-                // call createApplication api function from api-handler.js
-                const response = await api.createApplication_WEBond(formData);
+      // Form submission with proper file handling
+      document.getElementById('bondForm').addEventListener('submit', async function (e) {
+              e.preventDefault();
 
-                console.log(response);
+              const submitBtn = document.getElementById('submitBtn');
+              const messageContainer = document.getElementById('messageContainer');
 
-                showSuccess(
-                    messageContainer,
-                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর:
-                    <strong>${response.application_no}</strong>`
-                );
+              submitBtn.disabled = true;
+              submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> জমা হচ্ছে...';
 
-                this.reset();
+              try {
+                  // Create FormData object
+                  const formData = new FormData(this);
+                  console.log("WE Bond form data");
+                  // Print all FormData
+                  console.log("===== FormData Start =====");
+                  for (const [key, value] of formData.entries()) {
+                      console.log(`${key}:`, value);
+                  }
+                  console.log("===== FormData End =====");
 
-                setTimeout(() => {
-                    window.location.href = `/bonds/success/${response.application_no}/`;
-                }, 2000);
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
+                  // Wait for 1 minute
+                  // console.log("Waiting 60 seconds before sending request...");
+                  // await new Promise(resolve => setTimeout(resolve, 60000));
 
-                const contentType = response.headers.get("content-type");
+  // WE Bond form data
+  // ===== FormData Start =====
+  // csrfmiddlewaretoken: wTI6vGWKyWRrIEYyHeaQJkGVUKVGSE8nfxzAWmpWhDxcq80upKV73ExgdYXz1pVk
+  // applicant_name: Abu Sayeed Md Iqbal Majumder
+  // nominee_name: Abu sayeed md ivan majumder
+  // applicant_address: New York, Australia, bangladesh
+  // nominee_address: Bihar, Malayshia
+  // name_of_paying_office: Kushtia
+  // address_of_paying_office: Kushtia, UK
+  // face_value: 25000
+  // total_no_of_bonds: 3
+  // FC_account_no: 1234566789aa
+  // FC_account_office: Norway
+  // service: Allah'r Dan
+  // service_address: Pothe Pothe
+  // reference_name: Khaled Bin  Aziz
+  // reference_service: Banker
+  // reference_service_address: Allah'r Duniya
+  // passport_no: A12345678901
+  // currency: currency
+  // mobile_no: mobile_no
+  // place_of_issue: place_of_issue
+  // date_of_issue: date_of_issue
+  // ===== FormData End =====
+  // Waiting 60 seconds before sending request...
 
-                let data;
 
-                if (contentType && contentType.includes("application/json")) {
-                    data = await response.json();
-                } else {
-                    const html = await response.text();
-                    console.error(html);
-                    throw new Error("Server returned HTML instead of JSON.");
-                }
-                console.log('Response data:', JSON.stringify(data, null, 2));
+                  // Submit using fetch with FormData
 
-                if (!response.ok) {
-                    console.error('Error response:', data);
-                    throw { status: response.status, data };
-                }
+                  // call createApplication api function from api-handler.js
+                  const response = await api.createApplication_WEBond(formData);
 
-                // Check if plication_no exists
-                if (!data.application_no) {
-                    console.error('No application_no in response:', data);
-                    throw new Error('আবেদন নম্বর পাওয়া যায়নি');
-                }
+                  console.log(response);
 
-                // Show success message
-                showSuccess(messageContainer,
-                    `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর: <strong>${data.application_no}</strong>`
-                );
+                  showSuccess(
+                      messageContainer,
+                      `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর:
+                      <strong>${response.application_no}</strong>`
+                  );
 
-                // Reset form
-                this.reset();
-                // Redirect to success page after 2 seconds
-                setTimeout(() => {
-                    window.location.href = `/success/${data.application_no}/`;
-                }, 2000);
+                  this.reset();
 
-            } catch (error) {
-                console.error('Submission error:', error); // Debug log
+                  setTimeout(() => {
+                      window.location.href = `/bonds/success/${response.application_no}/`;
+                  }, 2000);
+                  console.log('Response status:', response.status);
+                  console.log('Response ok:', response.ok);
 
-                let errorMessage = 'আবেদন জমা দিতে সমস্যা হয়েছে।';
+                  const contentType = response.headers.get("content-type");
 
-                if (error.data) {
-                    if (typeof error.data === 'object') {
-                        errorMessage = Object.entries(error.data)
-                            .map(([key, value]) => {
-                                const banglaKey = getBanglaFieldName(key);
-                                const errorText = Array.isArray(value) ? value.join(', ') : value;
-                                console.log(banglaKey)
-                                console.log(errorText)
-                                return `${banglaKey}: ${errorText}`;
-                            })
-                            .join('<br>');
-                    } else if (error.data.detail) {
-                        errorMessage = error.data.detail;
-                    } else {
-                        errorMessage = error.data;
-                    }
-                } else if (error.message) {
-                    errorMessage = error.message;
-                }
+                  let data;
 
-                showError(messageContainer, errorMessage);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="bi bi-send"></i> আবেদন জমা দিন';
-                window.scrollTo(0, 0);
-            }
-        });
-    
-    // Helper function to get CSRF token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+                  if (contentType && contentType.includes("application/json")) {
+                      data = await response.json();
+                  } else {
+                      const html = await response.text();
+                      console.error(html);
+                      throw new Error("Server returned HTML instead of JSON.");
+                  }
+                  console.log('Response data:', JSON.stringify(data, null, 2));
 
-    // Helper function to translate field names to Bengali
-    function getBanglaFieldName(fieldName) {
-        const fieldMap = {
-            'applicant_name': 'applicant_name',
-            'nominee_name': 'nominee_name',
-            'applicant_address': 'applicant_address',
-            'nominee_address': 'nominee_address',
-            'name_of_paying_office': 'name_of_paying_office',
-            'denomination': 'denomination',
-            'bonds_25000': 'bonds_25000',
-            'bonds_50000': 'bonds_50000',
-            'bonds_100000': 'bonds_100000',
-            'bonds_200000': 'bonds_200000',
-            'bonds_500000': 'bonds_500000',
-            'bonds_1000000': 'bonds_1000000',
-            'bonds_5000000': 'bonds_5000000',
-            'FC_account_no': 'FC_account_no',
-            'FC_account_office': 'FC_account_office',
-            'service': 'service',
-            'service_address': 'service_address',
-            'reference_name': 'reference_name',
-            'reference_service': 'reference_service',
-            'reference_service_address': 'reference_service_address',
-            'passport_no': 'passport_no'
-        };
-        return fieldMap[fieldName] || fieldName;
-    }
+                  if (!response.ok) {
+                      console.error('Error response:', data);
+                      throw { status: response.status, data };
+                  }
 
-    // Auto-save functionality (modified to skip files)
-    class FormAutoSave {
-        constructor(formId, storageKey) {
-            this.form = document.getElementById(formId);
-            this.storageKey = storageKey;
-            this.init();
-        }
+                  // Check if plication_no exists
+                  if (!data.application_no) {
+                      console.error('No application_no in response:', data);
+                      throw new Error('আবেদন নম্বর পাওয়া যায়নি');
+                  }
 
-        init() {
-            if (!this.form) return;
+                  // Show success message
+                  showSuccess(messageContainer,
+                      `আবেদন সফলভাবে জমা হয়েছে! আপনার আবেদন নম্বর: <strong>${data.application_no}</strong>`
+                  );
 
-            this.loadFormData();
+                  // Reset form
+                  this.reset();
+                  // Redirect to success page after 2 seconds
+                  setTimeout(() => {
+                      window.location.href = `/success/${data.application_no}/`;
+                  }, 2000);
 
-            this.form.querySelectorAll('input, select, textarea').forEach(element => {
-                if (element.type !== 'file' && element.type !== 'password') {
-                    element.addEventListener('input', () => this.saveFormData());
-                }
-            });
-        }
+              } catch (error) {
+                  console.error('Submission error:', error); // Debug log
 
-        saveFormData() {
-            const formData = new FormData(this.form);
-            const data = {};
+                  let errorMessage = 'আবেদন জমা দিতে সমস্যা হয়েছে।';
 
-            for (let [key, value] of formData.entries()) {
-                if (value &&
-                    key !== 'csrfmiddlewaretoken' &&
-                    key !== 'terms_accepted') {
-                    data[key] = value;
-                }
-            }
+                  if (error.data) {
+                      if (typeof error.data === 'object') {
+                          errorMessage = Object.entries(error.data)
+                              .map(([key, value]) => {
+                                  const banglaKey = getBanglaFieldName(key);
+                                  const errorText = Array.isArray(value) ? value.join(', ') : value;
+                                  console.log(banglaKey)
+                                  console.log(errorText)
+                                  return `${banglaKey}: ${errorText}`;
+                              })
+                              .join('<br>');
+                      } else if (error.data.detail) {
+                          errorMessage = error.data.detail;
+                      } else {
+                          errorMessage = error.data;
+                      }
+                  } else if (error.message) {
+                      errorMessage = error.message;
+                  }
 
-            localStorage.setItem(this.storageKey, JSON.stringify(data));
-            this.showSaveIndicator();
-        }
+                  showError(messageContainer, errorMessage);
+              } finally {
+                  submitBtn.disabled = false;
+                  submitBtn.innerHTML = '<i class="bi bi-send"></i> আবেদন জমা দিন';
+                  window.scrollTo(0, 0);
+              }
+          });
 
-        loadFormData() {
-            const savedData = localStorage.getItem(this.storageKey);
+      // Helper function to get CSRF token
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
 
-            if (savedData) {
-                const data = JSON.parse(savedData);
+      // Helper function to translate field names to Bengali
+      function getBanglaFieldName(fieldName) {
+          const fieldMap = {
+              'applicant_name': 'applicant_name',
+              'nominee_name': 'nominee_name',
+              'applicant_address': 'applicant_address',
+              'nominee_address': 'nominee_address',
+              'name_of_paying_office': 'name_of_paying_office',
+              'denomination': 'denomination',
+              'bonds_25000': 'bonds_25000',
+              'bonds_50000': 'bonds_50000',
+              'bonds_100000': 'bonds_100000',
+              'bonds_200000': 'bonds_200000',
+              'bonds_500000': 'bonds_500000',
+              'bonds_1000000': 'bonds_1000000',
+              'bonds_5000000': 'bonds_5000000',
+              'FC_account_no': 'FC_account_no',
+              'FC_account_office': 'FC_account_office',
+              'service': 'service',
+              'service_address': 'service_address',
+              'reference_name': 'reference_name',
+              'reference_service': 'reference_service',
+              'reference_service_address': 'reference_service_address',
+              'passport_no': 'passport_no'
+          };
+          return fieldMap[fieldName] || fieldName;
+      }
 
-                Object.keys(data).forEach(key => {
-                    const element = this.form.elements[key];
-                    if (element && element.type !== 'file') {
-                        element.value = data[key];
-                    }
-                });
+      // Auto-save functionality (modified to skip files)
+      class FormAutoSave {
+          constructor(formId, storageKey) {
+              this.form = document.getElementById(formId);
+              this.storageKey = storageKey;
+              this.init();
+          }
 
-                this.showRestoreNotification();
-            }
-        }
+          init() {
+              if (!this.form) return;
 
-        showSaveIndicator() {
-            let indicator = document.getElementById('autosave-indicator');
+              this.loadFormData();
 
-            if (!indicator) {
-                indicator = document.createElement('div');
-                indicator.id = 'autosave-indicator';
-                indicator.className = 'bn-text';
-                document.body.appendChild(indicator);
-            }
+              this.form.querySelectorAll('input, select, textarea').forEach(element => {
+                  if (element.type !== 'file' && element.type !== 'password') {
+                      element.addEventListener('input', () => this.saveFormData());
+                  }
+              });
+          }
 
-            indicator.textContent = 'সংরক্ষিত ✓';
-            indicator.style.opacity = '1';
+          saveFormData() {
+              const formData = new FormData(this.form);
+              const data = {};
 
-            setTimeout(() => {
-                indicator.style.opacity = '0';
-            }, 2000);
-        }
+              for (let [key, value] of formData.entries()) {
+                  if (value &&
+                      key !== 'csrfmiddlewaretoken' &&
+                      key !== 'terms_accepted') {
+                      data[key] = value;
+                  }
+              }
 
-        showRestoreNotification() {
-            const message = 'সংরক্ষিত তথ্য পাওয়া গেছে। এটি পুনরুদ্ধার করতে চান?';
+              localStorage.setItem(this.storageKey, JSON.stringify(data));
+              this.showSaveIndicator();
+          }
 
-            if (confirm(message)) {
-                showSuccess(document.getElementById('messageContainer'),
-                    'সংরক্ষিত তথ্য পুনরুদ্ধার করা হয়েছে');
-            } else {
-                localStorage.removeItem(this.storageKey);
-                location.reload();
-            }
-        }
-    }
+          loadFormData() {
+              const savedData = localStorage.getItem(this.storageKey);
 
-    // Initialize auto-save
-    new FormAutoSave('bondForm', 'sonali_bank_application');
+              if (savedData) {
+                  const data = JSON.parse(savedData);
+
+                  Object.keys(data).forEach(key => {
+                      const element = this.form.elements[key];
+                      if (element && element.type !== 'file') {
+                          element.value = data[key];
+                      }
+                  });
+
+                  this.showRestoreNotification();
+              }
+          }
+
+          showSaveIndicator() {
+              let indicator = document.getElementById('autosave-indicator');
+
+              if (!indicator) {
+                  indicator = document.createElement('div');
+                  indicator.id = 'autosave-indicator';
+                  indicator.className = 'bn-text';
+                  document.body.appendChild(indicator);
+              }
+
+              indicator.textContent = 'সংরক্ষিত ✓';
+              indicator.style.opacity = '1';
+
+              setTimeout(() => {
+                  indicator.style.opacity = '0';
+              }, 2000);
+          }
+
+          showRestoreNotification() {
+              const message = 'সংরক্ষিত তথ্য পাওয়া গেছে। এটি পুনরুদ্ধার করতে চান?';
+
+              if (confirm(message)) {
+                  showSuccess(document.getElementById('messageContainer'),
+                      'সংরক্ষিত তথ্য পুনরুদ্ধার করা হয়েছে');
+              } else {
+                  localStorage.removeItem(this.storageKey);
+                  location.reload();
+              }
+          }
+      }
+
+      // Initialize auto-save
+      new FormAutoSave('bondForm', 'sonali_bank_application');
 </script>
 {% endblock %}

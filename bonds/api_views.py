@@ -189,12 +189,15 @@ class USDBondViewSet(viewsets.ModelViewSet):
     
 
     def create(self, request, *args, **kwargs):
+        print("Received data for new bond application:", request.data)
         try:
             serializer=self.get_serializer(data=request.data)
             # data = request.data.copy()
+            print("Received data for new bond application:", request.data)
 
             # serializer = WageEarnersBondListSerializer(data=data)
             serializer.is_valid(raise_exception=True)
+            print("Serializer is valid, saving bond...")
             bond = serializer.save()
             return Response(
                 {
