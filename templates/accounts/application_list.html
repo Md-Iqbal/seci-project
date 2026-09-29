@@ -1,215 +1,268 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block title %}{{ page_title }}{% endblock %}
-
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}
+{{ page_title }}
+{%endblock %} 
 {% block content %}
+<style>
+  /* Responsive table wrapper */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Keep the actions column visible while scrolling horizontally */
+  .table-responsive .table th:last-child,
+  .table-responsive .table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    min-width: 160px;
+    white-space: nowrap;
+    background: #fff;
+    box-shadow: -4px 0 6px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header should remain above table body cells */
+  .table-responsive .table thead th:last-child {
+    z-index: 3;
+    background: #f8f9fa;
+  }
+
+  /* Make action buttons compact on small screens */
+  @media (max-width: 767.98px) {
+    .table-responsive .table th:last-child,
+    .table-responsive .table td:last-child {
+      min-width: 120px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+
+    .table-responsive .table td:last-child .btn {
+      padding: 0.25rem 0.4rem;
+      margin: 1px;
+    }
+  }
+  .action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 767.98px) {
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}
+</style>
 <h2 class="bn-text mb-4">
-    <i class="bi bi-list-ul text-gold"></i> {{ page_title }}
+  <i class="bi bi-list-ul text-gold"></i> {{ page_title }}
 </h2>
 
 <!-- Search -->
 <div class="card mb-4 border-gold">
-    <div class="card-body">
-        <form method="get" class="row g-3">
+  <div class="card-body">
+    <form method="get" class="row g-3">
+      <input type="hidden" name="type" value="{{ status_filter }}" />
 
-            <input type="hidden" name="type" value="{{ status_filter }}">
+      <div class="col-md-6">
+        <input
+          type="text"
+          name="search"
+          class="form-control"
+          placeholder="Search..."
+          value="{{ search_query }}"
+        />
+      </div>
 
-            <div class="col-md-6">
-                <input
-                    type="text"
-                    name="search"
-                    class="form-control"
-                    placeholder="Search..."
-                    value="{{ search_query }}">
-            </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
 
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
-
-            <div class="col-md-2">
-                <a href="?type={{ status_filter }}" class="btn btn-secondary w-100">
-                    Reset
-                </a>
-            </div>
-
-        </form>
-    </div>
+      <div class="col-md-2">
+        <a href="?type={{ status_filter }}" class="btn btn-secondary w-100">
+          Reset
+        </a>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="card border-gold shadow-gold">
-    <div class="card-body">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            {% if app.app_type == "Account" %}
+            <th>আবেদন নং</th>
+            <th>নাম</th>
+            <th>এনআইডি</th>
+            <th>মোবাইল</th>
+            <th>হিসাবের ধরন</th>
+            <th>তারিখ</th>
+            <th>অবস্থা</th>
+            {% else %}
+            <th>Application No</th>
+            <th>Name</th>
+            <th>Passport</th>
+            <th>Mobile</th>
+            <th>Bond Type</th>
+            <th>Date</th>
+            <th>Status</th>
+            {% endif %}
 
-        <div class="table-responsive">
-            <table class="table table-hover">
+            {% comment %} <th>
+                কার্যক্রম
+            </th> {% endcomment %}
+            <th width="160">কার্যক্রম</th>
+          </tr>
+        </thead>
 
-                <thead>
-                <tr>
+        <tbody>
+          {% for app in page_obj %}
 
-                    {% if app.app_type == "Account" %}
-                        <th>আবেদন নং</th>
-                        <th>নাম</th>
-                        <th>এনআইডি</th>
-                        <th>মোবাইল</th>
-                        <th>হিসাবের ধরন</th>
-                        <th>তারিখ</th>
-                        <th>অবস্থা</th>
-                    {% else %}
-                        <th>Application No</th>
-                        <th>Name</th>
-                        <th>Passport</th>
-                        <th>Mobile</th>
-                        <th>Bond Type</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    {% endif %}
+          <tr>
+            {% if app.app_type == "Account" %}
 
-                    <th width="160">কার্যক্রম</th>
+            <td>{{ app.application_number }}</td>
+            <td>{{ app.full_name }}</td>
+            <td>{{ app.nid_number }}</td>
+            <td>{{ app.mobile_number }}</td>
+            <td>{{ app.account_type }}</td>
+            <td>{{ app.application_date|date:"d M Y" }}</td>
+            <td>
+              <span
+                class="badge bg-{% if app.status == 'APPROVED' %}success{% elif app.status == 'REJECTED' %}danger{% else %}warning{% endif %}"
+              >
+                {% if app.status == "PENDING" %} অপেক্ষমাণ {% elif app.status ==
+                "APPROVED" %} অনুমোদিত {% else %} প্রত্যাখ্যাত {% endif %}
+              </span>
+            </td>
 
-                </tr>
-                </thead>
+            {% else %}
 
-                <tbody>
+            <td>{{ app.application_no }}</td>
+            <td>{{ app.applicant_name }}</td>
+            <td>{{ app.passport_no }}</td>
+            {% if app.bond_type %}
+            <td>{{ app.applicant_contact }}</td>
+            <td>{{ app.bond_type }}</td>
+            {% else %}
+            <td>{{ app.mobile_no }}</td>
+            <td>Wage Earners Development Bond</td>
+            {% endif %}
+            <td>{{ app.application_date|date:"d M Y" }}</td>
+            <td>
+              <span
+                class="badge bg-{% if app.status == 'APPROVED' %}success{% elif app.status == 'REJECTED' %}danger{% else %}warning{% endif %}"
+              >
+                {{ app.status }}
+              </span>
+            </td>
 
-                {% for app in page_obj %}
+            {% endif %}
 
-                    <tr>
+            <td class="actions-cell">
+                <div class="action-buttons">
+              {% if app.app_type == "Account" %}
 
-                        {% if app.app_type == "Account" %}
+              <a
+                href="{% url 'application_detail' app.application_number %}"
+                class="btn btn-sm btn-primary"
+              >
+                <i class="bi bi-eye"></i>
+              </a>
 
-                            <td>{{ app.application_number }}</td>
-                            <td>{{ app.full_name }}</td>
-                            <td>{{ app.nid_number }}</td>
-                            <td>{{ app.mobile_number }}</td>
-                            <td>{{ app.account_type }}</td>
-                            <td>{{ app.application_date|date:"d M Y" }}</td>
-                            <td>
-                                <span class="badge bg-{% if app.status == 'APPROVED' %}success{% elif app.status == 'REJECTED' %}danger{% else %}warning{% endif %}">
-                                    {% if app.status == "PENDING" %}
-                                        অপেক্ষমাণ
-                                    {% elif app.status == "APPROVED" %}
-                                        অনুমোদিত
-                                    {% else %}
-                                        প্রত্যাখ্যাত
-                                    {% endif %}
-                                </span>
-                            </td>
+              {% if app.status == 'PENDING' %}
+              <a
+                href="{% url 'process_application' app.application_number %}"
+                class="btn btn-sm btn-success"
+              >
+                <i class="bi bi-check-circle"></i>
+              </a>
+              {% endif %}
 
-                        {% else %}
+              <a
+                href="{% url 'print_application' app.application_number %}"
+                target="_blank"
+                class="btn btn-sm btn-info"
+              >
+                <i class="bi bi-printer"></i>
+              </a>
 
-                            <td>{{ app.application_no }}</td>
-                            <td>{{ app.applicant_name }}</td>
-                            <td>{{ app.passport_no }}</td>
-                            {% if app.bond_type %}
-                            <td>{{ app.applicant_contact }}</td>
-                            <td>{{ app.bond_type }}</td>
-                            {% else %}
-                            <td>{{ app.mobile_no }}</td>
-                            <td>Wage Earners Development Bond</td>
-                            {% endif %}
-                            <td>{{ app.application_date|date:"d M Y" }}</td>
-                            <td>
-                                <span class="badge bg-{% if app.status == 'APPROVED' %}success{% elif app.status == 'REJECTED' %}danger{% else %}warning{% endif %}">
-                                    {{ app.status }}
-                                </span>
-                            </td>
+              {% else %}
 
-                        {% endif %}
+              <a
+                href="{% url 'application_detail_public' app.application_no %}"
+                class="btn btn-sm btn-primary"
+              >
+                <i class="bi bi-eye"></i>
+              </a>
 
-                        <td>
+              {% if app.status == 'PENDING' %}
+              <a
+                href="{% url 'process_applicationBond' app.application_no %}"
+                class="btn btn-sm btn-success"
+              >
+                <i class="bi bi-check-circle"></i>
+              </a>
+              {% endif %}
 
-                            {% if app.app_type == "Account" %}
+              <a
+                href="{% url 'print_application_html' app.application_no %}"
+                target="_blank"
+                class="btn btn-sm btn-info"
+              >
+                <i class="bi bi-printer"></i>
+              </a>
 
-                            <a href="{% url 'application_detail' app.application_number %}"
-                            class="btn btn-sm btn-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
+              {% endif %}
+                </div>
+            </td>
+          </tr>
 
-                            {% if app.status == 'PENDING' %}
-                            <a href="{% url 'process_application' app.application_number %}"
-                            class="btn btn-sm btn-success">
-                                <i class="bi bi-check-circle"></i>
-                            </a>
-                            {% endif %}
+          {% empty %}
 
-                            <a href="{% url 'print_application' app.application_number %}"
-                            target="_blank"
-                            class="btn btn-sm btn-info">
-                                <i class="bi bi-printer"></i>
-                            </a>
+          <tr>
+            <td colspan="8" class="text-center py-4">
+              কোন তথ্য পাওয়া যায়নি।
+            </td>
+          </tr>
 
-                            {% else %}
-
-                            <a href="{% url 'application_detail_public' app.application_no %}"
-                            class="btn btn-sm btn-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-
-                            {% if app.status == 'PENDING' %}
-                            <a href="{% url 'process_applicationBond' app.application_no %}"
-                            class="btn btn-sm btn-success">
-                                <i class="bi bi-check-circle"></i>
-                            </a>
-                            {% endif %}
-
-                            <a href="{% url 'print_application_html' app.application_no %}"
-                            target="_blank"
-                            class="btn btn-sm btn-info">
-                                <i class="bi bi-printer"></i>
-                            </a>
-
-                            {% endif %}
-
-                        </td>
-
-                    </tr>
-
-                {% empty %}
-
-                    <tr>
-                        <td colspan="8" class="text-center py-4">
-                            কোন তথ্য পাওয়া যায়নি।
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-                </tbody>
-
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <nav class="mt-4">
-
-            <ul class="pagination justify-content-center">
-
-                {% if page_obj.has_previous %}
-                    <a class="page-link"
-                    href="?type={{ status_filter }}&search={{ search_query }}&page={{ page_obj.previous_page_number }}">
-                        Previous
-                    </a>
-                {% endif %}
-
-                    <span class="page-link active">
-                        {{ page_obj.number }}
-                    </span>
-
-                {% if page_obj.has_next %}
-                    <a class="page-link"
-                    href="?type={{ status_filter }}&search={{ search_query }}&page={{ page_obj.next_page_number }}">
-                        Next
-                    </a>
-                {% endif %}
-
-            </ul>
-
-        </nav>
-
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <a
+          class="page-link"
+          href="?type={{ status_filter }}&search={{ search_query }}&page={{ page_obj.previous_page_number }}"
+        >
+          Previous
+        </a>
+        {% endif %}
+
+        <span class="page-link active"> {{ page_obj.number }} </span>
+
+        {% if page_obj.has_next %}
+        <a
+          class="page-link"
+          href="?type={{ status_filter }}&search={{ search_query }}&page={{ page_obj.next_page_number }}"
+        >
+          Next
+        </a>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
 </div>
 
 {% endblock %}
